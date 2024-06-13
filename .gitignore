@@ -1,5 +1,6 @@
 docs/
 experimental/
+chat-history-*.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

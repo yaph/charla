@@ -1,1 +1,2 @@
 ollama
+prompt_toolkit
