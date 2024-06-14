@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+from operator import itemgetter
 from pathlib import Path
 from time import time
 
@@ -9,12 +10,19 @@ import ollama
 
 
 t_prompt = 'PROMPT: '
-t_response = 'RESPONSE: '
+t_response = 'RESPONSE:'
 
+models = None
+if model_list := ollama.list()['models']:
+    # Available models sorted by size
+    models = [m for m in sorted(model_list, key=itemgetter('size'))]
+else:
+    print('No ollama models available.')
+    quit()
 
-#model = 'codegemma:latest' # TODO: Store as user config
-model = 'phi3:latest' # TODO: Store as user config
-context_length = 4096
+#model = 'codegemma:latest'  # TODO: Store as user config
+model = models[0]['name']  # TODO: Store as user config
+context_length = 4096  # TODO: Derive this from model data when available
 
 def generate(prompt, context, output):
     stream = ollama.generate(
@@ -48,7 +56,7 @@ def main():
 
         output.append(f'{t_prompt}{user_input}\n')
 
-        print()
+        print(f'\n{t_response}\n')
         context = generate(user_input, context, output)
         print('\n')
 
