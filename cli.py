@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 from operator import itemgetter
 from pathlib import Path
-from time import time
+from datetime import datetime
 
+from platformdirs import user_config_dir
 from prompt_toolkit import PromptSession
 from rich import print
 
 import ollama
 
 
+appname = 'charla'  # TODO: Put this somewhere else
 t_prompt = 'PROMPT: '
 t_response = 'RESPONSE:'
 
@@ -19,6 +21,9 @@ if model_list := ollama.list()['models']:
 else:
     print('No ollama models available.')
     quit()
+
+
+config_dir = user_config_dir(appname=appname, ensure_exists=True)
 
 #model = 'codegemma:latest'  # TODO: Store as user config
 model = models[0]['name']  # TODO: Store as user config
@@ -51,7 +56,8 @@ def main():
 
         if not user_input:
             if output:
-                Path(f'chat-history-{int(time())}.txt').write_text('\n'.join(output))
+                now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
+                Path(f'chat-history-{now}.txt').write_text('\n'.join(output))
             exit('No prompt entered, exit program.')
 
         output.append(f'{t_prompt}{user_input}\n')
