@@ -1,4 +1,0 @@
-ollama
-platformdirs
-prompt_toolkit
-rich
