@@ -2,9 +2,9 @@
 from prompt_toolkit import PromptSession
 from rich import print
 
-import argparse
+from charla import util
 
-import util
+import argparse
 
 
 def main():
