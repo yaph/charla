@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 from prompt_toolkit import PromptSession
-from rich import print
 
 from charla import util
 
 import argparse
+import sys
 
 
 def main():
     if (models := util.available_models()) is None:
-        print('No language models available.')
-        quit()
+        sys.exit('No language models available.')
     model_names = [m['name'] for m in models]
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
@@ -18,24 +17,28 @@ def main():
                         help='Language model to chat with.')
     argv = parser.parse_args()
 
-    context = [] # the context stores a conversation history to make the model context aware
-    output = []
+    context = [] # Store conversation history to make the model context aware
+    output = []  # List to store output text
 
-    print(f'Starting chat with: {argv.model}\n')
+    print(f'Starting chat with: {argv.model}. To exit hit CTRL-C or CTRL-D.\n')
     session = PromptSession()
 
     while True:
-        user_input = session.prompt(util.t_prompt)
+        try:
+            user_input = session.prompt(util.t_prompt)
+            if not user_input:
+                continue
+            output.append(f'{util.t_prompt}{user_input}\n')
+            print(f'\n{util.t_response}\n')
+            context = util.generate(argv.model, user_input, context, output)
+            print('\n')
+        # Exit program on CTRL-C and CTRL-D
+        except (KeyboardInterrupt, EOFError):
+            break
 
-        if not user_input:
-            util.save_chat(output)
-            exit('No prompt entered, exit program.')
-
-        output.append(f'{util.t_prompt}{user_input}\n')
-
-        print(f'\n{util.t_response}\n')
-        context = util.generate(argv.model, user_input, context, output)
-        print('\n')
+    util.save_chat(output)
+    print('Exiting program.')
+    sys.exit()
 
 
 if __name__ == '__main__':

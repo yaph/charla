@@ -13,10 +13,18 @@ pipx install charla
 
 ## Features
 
-* Chat with local language model.
+* Chat with local language models in a context aware manner.
 * Navigate previously entered prompts using the up-arrow key on your keyboard.
 
-## ollama API
+## Development
+
+Run the CLI without installing the package:
+
+```console
+python -m charla.cli
+```
+
+### ollama API
 
 Installed models:
 

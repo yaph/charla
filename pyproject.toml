@@ -27,8 +27,7 @@ classifiers = [
 dependencies = [
   "ollama",
   "platformdirs",
-  "prompt_toolkit",
-  "rich"
+  "prompt_toolkit"
 ]
 
 [project.scripts]
