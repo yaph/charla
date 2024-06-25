@@ -14,7 +14,8 @@ pipx install charla
 ## Features
 
 * Chat with local language models in a context aware manner.
-* Navigate previously entered prompts using the up-arrow key on your keyboard.
+* Switch between single and multi line mode.
+* Use previously entered prompts via up-arrow and down-arrow keys.
 
 ## Development
 

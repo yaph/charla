@@ -37,12 +37,7 @@ def generate(model: str, prompt: str, context: list, output: list) -> list[int]:
     if len(context) > context_length:
         context = context[len(context)-context_length:]
 
-    stream = ollama.generate(
-        model=model,
-        prompt=prompt,
-        context=context,
-        stream=True,
-    )
+    stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True)
 
     text = ''
     for chunk in stream:
@@ -74,5 +69,3 @@ def save_chat(output: list[str]) -> None:
     if output:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
         Path(f'chat-history-{now}.txt').write_text('\n'.join(output))
-
-
