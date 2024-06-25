@@ -13,8 +13,6 @@ import ollama
 
 
 config_dir = user_config_dir(appname='charla', ensure_exists=True)
-context_length = 4096  # TODO: Derive this from model data when available
-
 p_history = Path(config_dir) / 'prompt-history.txt'
 
 # UI text
@@ -36,10 +34,6 @@ def available_models() -> Union[None, list[str]]:
 
 
 def generate(model: str, prompt: str, context: list, output: list) -> list[int]:
-    # Make sure the context doesn't get too long
-    if len(context) > context_length:
-        context = context[len(context)-context_length:]
-
     stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True)
 
     text = ''
