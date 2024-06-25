@@ -14,7 +14,9 @@ def main():
     model_names = [m['name'] for m in models]
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
-    parser.add_argument('--model', '-m', choices=model_names, default=model_names[0],
+    parser.add_argument('--model', '-m',
+                        choices=model_names,
+                        default=model_names[0],
                         help='Language model to chat with.')
     argv = parser.parse_args()
 

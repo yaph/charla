@@ -11,9 +11,14 @@
 pipx install charla
 ```
 
+## Usage
+
+Type `charla` to start the chat console or view available command line options with `charla -h`.
+
 ## Features
 
-* Chat with local language models in a context aware manner.
+* Terminal based chat with local language models in a context aware manner.
+* Save chat history to a file.
 * Switch between single and multi line mode.
 * Use previously entered prompts via up-arrow and down-arrow keys.
 
