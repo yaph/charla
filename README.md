@@ -1,11 +1,13 @@
-# Charla
+# Charla: Terminal-Based Chat Application with Ollama Backend Integration
 
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
 
-**charla** is a chat applications that uses `ollama` as a backend for serving language models. `ollama` must be running and you need to have at least one language model installed.
+**Charla** is a terminal based chat application that seamlessly integrates with `ollama`, a powerful backend designed to serve advanced language models. To use Charla, ensure that the `ollama` server is running and at least one language model is installed.
 
 ## Installation
+
+Install Charla using `pipx`:
 
 ```console
 pipx install charla
@@ -13,18 +15,19 @@ pipx install charla
 
 ## Usage
 
-Type `charla` to start the chat console or view available command line options with `charla -h`.
+Launch the chat console by typing `charla` in your terminal, or view all available command line options with `charla -h`.
 
 ## Features
 
-* Terminal based chat with local language models in a context aware manner.
-* Save chat history to a file.
-* Switch between single and multi line mode.
-* Use previously entered prompts via up-arrow and down-arrow keys.
+* Terminal-based chat system that supports context aware conversations using local language models.
+* Chat history is saved to a file in the current working directory.
+* Prompt history is saved and previously entered prompts are auto-suggested.
+* Mode switching between single-line and multi-line input without interruption to your chat session.
+
 
 ## Development
 
-Run the CLI without installing the package:
+Run the command-line interface directly from the project source without installing the package:
 
 ```console
 python -m charla.cli

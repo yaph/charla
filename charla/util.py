@@ -5,6 +5,7 @@ from typing import Union
 
 from platformdirs import user_config_dir
 from prompt_toolkit import PromptSession
+from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
@@ -23,6 +24,8 @@ t_response = 'RESPONSE:'
 t_help = '''Press CTRL-C or CTRL-D to exit.
 Press ALT+M to switch between single and multi line mode.
 Press ALT+RETURN to send prompt in multi line mode.
+Press ↑ and ↓ to navigate previously entered prompts.
+Press → to complete an auto suggested prompt.
 '''
 
 def available_models() -> Union[None, list[str]]:
@@ -50,7 +53,9 @@ def generate(model: str, prompt: str, context: list, output: list) -> list[int]:
 
 
 def get_session() -> PromptSession:
-    session = PromptSession(message=t_prompt, history=FileHistory(p_history))
+    session = PromptSession(message=t_prompt,
+                            history=FileHistory(p_history),
+                            auto_suggest=AutoSuggestFromHistory())
     print(t_help)
 
     bindings = KeyBindings()

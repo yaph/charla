@@ -31,6 +31,7 @@ def main():
             user_input = session.prompt()
             if not user_input:
                 continue
+
             output.append(f'{util.t_prompt}{user_input}\n')
             print(f'\n{util.t_response}\n')
             context = util.generate(argv.model, user_input, context, output)
