@@ -1,6 +1,6 @@
-from pathlib import Path
 from datetime import datetime
 from operator import itemgetter
+from pathlib import Path
 from typing import Any, Union
 
 from platformdirs import user_config_dir
@@ -19,7 +19,8 @@ p_history = Path(config_dir) / 'prompt-history.txt'
 t_prompt = 'PROMPT: '
 t_prompt_ml = 'PROMPT \N{LATIN SUBSCRIPT SMALL LETTER M}\N{LATIN SUBSCRIPT SMALL LETTER L}: '
 t_response = 'RESPONSE:'
-t_help = '''Press CTRL-C or CTRL-D to exit.
+t_help = '''
+Press CTRL-C or CTRL-D to exit chat.
 Press ALT+M to switch between single and multi line mode.
 Press ALT+RETURN to send prompt in multi line mode.
 Press ↑ and ↓ to navigate previously entered prompts.
@@ -46,10 +47,11 @@ def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
     return chunk['context']
 
 
-def get_session() -> PromptSession:
+def prompt_session() -> PromptSession:
     session = PromptSession(message=t_prompt,
                             history=FileHistory(p_history),
                             auto_suggest=AutoSuggestFromHistory())
+
     print(t_help)
 
     bindings = KeyBindings()
@@ -65,6 +67,8 @@ def get_session() -> PromptSession:
 
 
 def save_chat(output: list[str]) -> None:
-    if output:
+    if len(output) > 1:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
-        Path(f'chat-history-{now}.txt').write_text('\n'.join(output))
+        p = Path('chat-history')
+        p.mkdir(exist_ok=True)
+        p.joinpath(f'{now}.md').write_text('\n'.join(output))

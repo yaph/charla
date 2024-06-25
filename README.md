@@ -20,10 +20,9 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 ## Features
 
 * Terminal-based chat system that supports context aware conversations using local language models.
-* Chat history is saved to a file in the current working directory.
+* Chat sessions are saved as markdown files in the chat-history directory when ending a chat.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Mode switching between single-line and multi-line input without interruption to your chat session.
-
 
 ## Development
 
@@ -49,4 +48,4 @@ curl http://localhost:11434/api/show -d '{"name": "phi3"}'
 
 ## License
 
-`charla` is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.
+Charla is distributed under the terms of the [MIT](https://spdx.org/licenses/MIT.html) license.

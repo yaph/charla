@@ -38,6 +38,9 @@ Documentation = "https://github.com/yaph/charla#readme"
 Issues = "https://github.com/yaph/charla/issues"
 Source = "https://github.com/yaph/charla"
 
+[project.optional-dependencies]
+dev = ["ipdb"]
+
 [tool.hatch.version]
 path = "charla/__about__.py"
 

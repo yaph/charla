@@ -1,11 +1,10 @@
 #!/usr/bin/env python
-from prompt_toolkit import HTML
-from prompt_toolkit import print_formatted_text as print
-
-from charla import util
-
 import argparse
 import sys
+
+from prompt_toolkit import HTML, print_formatted_text as print_fmt
+
+from charla import util
 
 
 def main():
@@ -21,10 +20,10 @@ def main():
     argv = parser.parse_args()
 
     context = [] # Store conversation history to make the model context aware
-    output = []  # List to store output text
+    output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    print('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
-    session = util.get_session()
+    session = util.prompt_session()
+    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
     while True:
         try:
@@ -41,7 +40,7 @@ def main():
             break
 
     util.save_chat(output)
-    print(HTML('<b>Exiting program.</b>'))
+    print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()
 
 
