@@ -3,7 +3,7 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
 
-**Charla** is a terminal based chat application that seamlessly integrates with `ollama`, a powerful backend designed to serve advanced language models. To use Charla, ensure that the `ollama` server is running and at least one language model is installed.
+**Charla** is a terminal based chat application that integrates with [Ollama](https://ollama.com/), a backend designed to serve language models. To use Charla, ensure that the `ollama` server is running and at least one language model is installed.
 
 ## Installation
 

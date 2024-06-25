@@ -43,7 +43,7 @@ def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
             text += chunk['response']
             print(chunk['response'], end='', flush=True)
 
-    output.append(f'{t_response}\n{text}\n')
+    output.append(f'{t_response}\n\n{text}\n')
     return chunk['context']
 
 
@@ -66,7 +66,7 @@ def prompt_session() -> PromptSession:
     return session
 
 
-def save_chat(output: list[str]) -> None:
+def save(output: list[str]) -> None:
     if len(output) > 1:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
         p = Path('chat-history')

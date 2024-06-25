@@ -4,11 +4,11 @@ import sys
 
 from prompt_toolkit import HTML, print_formatted_text as print_fmt
 
-from charla import util
+from charla import chat
 
 
 def main():
-    if (models := util.available_models()) is None:
+    if (models := chat.available_models()) is None:
         sys.exit('No language models available.')
     model_names = [m['name'] for m in models]
 
@@ -22,7 +22,7 @@ def main():
     context = [] # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    session = util.prompt_session()
+    session = chat.prompt_session()
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
     while True:
@@ -31,15 +31,15 @@ def main():
             if not user_input:
                 continue
 
-            output.append(f'{util.t_prompt}{user_input}\n')
-            print(f'\n{util.t_response}\n')
-            context = util.generate(argv.model, user_input, context, output)
+            output.append(f'{chat.t_prompt}{user_input}\n')
+            print(f'\n{chat.t_response}\n')
+            context = chat.generate(argv.model, user_input, context, output)
             print('\n')
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
 
-    util.save_chat(output)
+    chat.save(output)
     print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()
 
