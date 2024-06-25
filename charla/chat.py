@@ -3,7 +3,7 @@ from operator import itemgetter
 from pathlib import Path
 from typing import Any, Union
 
-from platformdirs import user_config_dir
+from platformdirs import user_cache_path
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.history import FileHistory
@@ -12,8 +12,7 @@ from prompt_toolkit.key_binding import KeyBindings
 import ollama
 
 
-config_dir = user_config_dir(appname='charla', ensure_exists=True)
-p_history = Path(config_dir) / 'prompt-history.txt'
+prompt_history = user_cache_path(appname='charla', ensure_exists=True) / 'prompt-history.txt'
 
 # UI text
 t_prompt = 'PROMPT: '
@@ -49,7 +48,7 @@ def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
 
 def prompt_session() -> PromptSession:
     session = PromptSession(message=t_prompt,
-                            history=FileHistory(p_history),
+                            history=FileHistory(prompt_history),
                             auto_suggest=AutoSuggestFromHistory())
 
     print(t_help)
