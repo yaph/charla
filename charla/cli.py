@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-from prompt_toolkit import PromptSession
+from prompt_toolkit import HTML
+from prompt_toolkit import print_formatted_text as print
 
 from charla import util
 
@@ -20,12 +21,12 @@ def main():
     context = [] # Store conversation history to make the model context aware
     output = []  # List to store output text
 
-    print(f'Starting chat with: {argv.model}. To exit hit CTRL-C or CTRL-D.\n')
-    session = PromptSession()
+    print('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
+    session = util.get_session()
 
     while True:
         try:
-            user_input = session.prompt(util.t_prompt)
+            user_input = session.prompt()
             if not user_input:
                 continue
             output.append(f'{util.t_prompt}{user_input}\n')
@@ -37,7 +38,7 @@ def main():
             break
 
     util.save_chat(output)
-    print('Exiting program.')
+    print(HTML('<b>Exiting program.</b>'))
     sys.exit()
 
 
