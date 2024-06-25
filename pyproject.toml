@@ -41,12 +41,12 @@ Source = "https://github.com/yaph/charla"
 [tool.hatch.version]
 path = "charla/__about__.py"
 
-[tool.hatch.envs.types]
-extra-dependencies = [
-  "mypy>=1.0.0",
-]
-[tool.hatch.envs.types.scripts]
-check = "mypy --install-types --non-interactive {args:charla tests}"
+[tool.hatch.envs.qa]
+extra-dependencies = ["flake8", "mypy>=1.0.0"]
+
+[tool.hatch.envs.qa.scripts]
+lint = "flake8 {args:charla tests}"
+type_check = "mypy --install-types --non-interactive {args:charla tests}"
 
 [tool.coverage.run]
 source_pkgs = ["charla", "tests"]

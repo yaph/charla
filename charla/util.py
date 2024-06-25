@@ -1,7 +1,7 @@
 from pathlib import Path
 from datetime import datetime
 from operator import itemgetter
-from typing import Union
+from typing import Any, Union
 
 from platformdirs import user_config_dir
 from prompt_toolkit import PromptSession
@@ -33,7 +33,7 @@ def available_models() -> Union[None, list[str]]:
         return [m for m in sorted(model_list, key=itemgetter('size'))]
 
 
-def generate(model: str, prompt: str, context: list, output: list) -> list[int]:
+def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
     stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True)
 
     text = ''
