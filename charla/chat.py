@@ -1,8 +1,8 @@
 from datetime import datetime
 from operator import itemgetter
+from pathlib import Path
 from typing import Any, Union
 
-from platformdirs import user_cache_path, user_documents_path
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.history import FileHistory
@@ -12,10 +12,6 @@ import re
 
 import ollama
 
-
-chat_history = user_documents_path() / 'charla' / 'chats'
-chat_history.mkdir(exist_ok=True, parents=True)
-prompt_history = user_cache_path(appname='charla', ensure_exists=True) / 'prompt-history.txt'
 
 # UI text
 t_prompt = 'PROMPT: '
@@ -49,9 +45,9 @@ def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
     return chunk['context']
 
 
-def prompt_session() -> PromptSession:
+def prompt_session(history: Path) -> PromptSession:
     session = PromptSession(message=t_prompt,
-                            history=FileHistory(prompt_history),
+                            history=FileHistory(history),
                             auto_suggest=AutoSuggestFromHistory())
 
     print(t_help)
@@ -68,10 +64,11 @@ def prompt_session() -> PromptSession:
     return session
 
 
-def save(output: list[str], model_name: str) -> None:
+def save(chats_path: Path, output: list[str], model_name: str) -> None:
     if len(output) > 1:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
         slug = re.sub(r'\W', '-', model_name)
-        file = chat_history / f'{now}-{slug}.md'
+        file = chats_path / f'{now}-{slug}.md'
+
         print(f'Saving chat in: {file}')
         file.write_text('\n'.join(output))

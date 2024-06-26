@@ -25,6 +25,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
+  "ipdb",
   "ollama",
   "platformdirs",
   "prompt_toolkit"
@@ -38,9 +39,6 @@ Documentation = "https://github.com/yaph/charla#readme"
 Issues = "https://github.com/yaph/charla/issues"
 Source = "https://github.com/yaph/charla"
 
-[project.optional-dependencies]
-dev = ["ipdb"]
-
 [tool.hatch.version]
 path = "charla/__about__.py"
 
@@ -48,8 +46,15 @@ path = "charla/__about__.py"
 extra-dependencies = ["flake8", "mypy>=1.0.0"]
 
 [tool.hatch.envs.qa.scripts]
-lint = "flake8 {args:charla tests}"
 type_check = "mypy --install-types --non-interactive {args:charla tests}"
+
+[tool.hatch.envs.pub.scripts]
+release = [
+  "hatch test",
+  "hatch build --clean",
+  "echo hatch publish",
+  "echo git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
+]
 
 [tool.coverage.run]
 source_pkgs = ["charla", "tests"]

@@ -2,9 +2,11 @@
 import argparse
 import sys
 
+from pathlib import Path
+
 from prompt_toolkit import HTML, print_formatted_text as print_fmt
 
-from charla import chat
+from charla import chat, config
 
 
 def main():
@@ -15,15 +17,21 @@ def main():
     parser = argparse.ArgumentParser(description='Chat with local language models.')
     parser.add_argument('--model', '-m',
                         choices=model_names,
-                        default=model_names[0],
                         help='Language model to chat with.')
     argv = parser.parse_args()
 
-    context = [] # Store conversation history to make the model context aware
-    output = [f'# Chat with: {argv.model}\n']  # List to store output text
+    # Determine model
+    if (model := config.setting('model', argv.model)) is None:
+        model = model_names[0]
 
-    session = chat.prompt_session()
-    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
+    context = [] # Store conversation history to make the model context aware
+    output = [f'# Chat with: {model}\n']  # List to store output text
+
+    history = Path(config.setting('prompt_history'))
+    history.parent.mkdir(exist_ok=True, parents=True)
+    session = chat.prompt_session(history)
+
+    print_fmt('Chat with:', HTML(f'<ansigreen>{model}</ansigreen>'), '\n')
 
     while True:
         try:
@@ -33,13 +41,16 @@ def main():
 
             output.append(f'{chat.t_prompt}{user_input}\n')
             print(f'\n{chat.t_response}\n')
-            context = chat.generate(argv.model, user_input, context, output)
+            context = chat.generate(model, user_input, context, output)
             print('\n')
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
 
-    chat.save(output, argv.model)
+    chats_path = Path(config.setting('chats_path'))
+    chats_path.mkdir(exist_ok=True, parents=True)
+    chat.save(chats_path, output, model)
+
     print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()
 
