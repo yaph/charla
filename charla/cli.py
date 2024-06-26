@@ -39,7 +39,7 @@ def main():
         except (KeyboardInterrupt, EOFError):
             break
 
-    chat.save(output)
+    chat.save(output, argv.model)
     print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()
 

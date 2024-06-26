@@ -3,15 +3,19 @@ from operator import itemgetter
 from pathlib import Path
 from typing import Any, Union
 
-from platformdirs import user_cache_path
+from platformdirs import user_cache_path, user_documents_path
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
+import re
+
 import ollama
 
 
+chat_history = user_documents_path() / 'charla' / 'chats'
+chat_history.mkdir(exist_ok=True, parents=True)
 prompt_history = user_cache_path(appname='charla', ensure_exists=True) / 'prompt-history.txt'
 
 # UI text
@@ -65,9 +69,10 @@ def prompt_session() -> PromptSession:
     return session
 
 
-def save(output: list[str]) -> None:
+def save(output: list[str], model_name: str) -> None:
     if len(output) > 1:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
-        p = Path('chat-history')
-        p.mkdir(exist_ok=True)
-        p.joinpath(f'{now}.md').write_text('\n'.join(output))
+        slug = re.sub(r'\W', '-', model_name)
+        file = chat_history / f'{now}-{slug}.md'
+        print(f'Saving chat in: {file}')
+        file.write_text('\n'.join(output))

@@ -20,7 +20,7 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 ## Features
 
 * Terminal-based chat system that supports context aware conversations using local language models.
-* Chat sessions are saved as markdown files in the chat-history directory when ending a chat.
+* Chat sessions are saved as markdown files in the user's documents directory when ending a chat.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Mode switching between single-line and multi-line input without interruption to your chat session.
 
