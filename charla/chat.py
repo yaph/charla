@@ -1,6 +1,5 @@
 from datetime import datetime
 from operator import itemgetter
-from pathlib import Path
 from typing import Any, Union
 
 from platformdirs import user_cache_path, user_documents_path
