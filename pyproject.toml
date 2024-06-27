@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "charla"
 dynamic = ["version"]
-description = 'A chat application that uses local language models.'
+description = 'A terminal based chat application that works with local language models.'
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-keywords = []
+keywords = [chat-client, cli, llm, chatbot, ollama, terminal]
 authors = [
   { name = "Ramiro Gómez", email = "code@ramiro.org" },
 ]
@@ -49,8 +49,9 @@ type_check = "mypy --install-types --non-interactive {args:charla tests}"
 release = [
   "hatch test",
   "hatch build --clean",
-  "echo hatch publish",
-  "echo git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
+  "hatch publish",
+  "git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
+  "git push --tags"
 ]
 
 [tool.coverage.run]
