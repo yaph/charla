@@ -21,7 +21,7 @@ def main():
     argv = parser.parse_args()
 
     # Determine model
-    if (model := config.setting('model', argv.model)) is None:
+    if (model := config.setting('model', argv.model)) == '':
         model = model_names[0]
 
     context = [] # Store conversation history to make the model context aware
