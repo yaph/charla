@@ -1,17 +1,14 @@
+import re
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 from typing import Any
 
+import ollama
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
-
-import re
-
-import ollama
-
 
 # UI text
 t_prompt = 'PROMPT: '

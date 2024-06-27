@@ -1,6 +1,5 @@
 from platformdirs import user_cache_dir, user_documents_dir
 
-
 name = 'charla'
 
 default_settings = {

@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import argparse
 import sys
-
 from pathlib import Path
 
-from prompt_toolkit import HTML, print_formatted_text as print_fmt
+from prompt_toolkit import HTML
+from prompt_toolkit import print_formatted_text as print_fmt
 
 from charla import chat, config
 
