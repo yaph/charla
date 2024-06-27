@@ -1,7 +1,7 @@
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
-from typing import Any, Union
+from typing import Any
 
 from prompt_toolkit import PromptSession
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
@@ -25,7 +25,7 @@ Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
 
-def available_models() -> Union[None, list[str]]:
+def available_models() -> None | list[str]:
     """Return available models sorted by size."""
 
     if model_list := ollama.list()['models']:
