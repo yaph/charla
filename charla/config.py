@@ -1,9 +1,7 @@
 from platformdirs import user_cache_dir, user_documents_dir
 
-from charla import __about__
 
-
-name = __about__.__name__
+name = 'charla'
 
 default_settings = {
     'model': '',
@@ -12,6 +10,6 @@ default_settings = {
 }
 
 
-def setting(key: str, value: str = None) -> str:
-    return value if value else default_settings.get(key)
+def setting(key: str, value: str | None = None) -> str:
+    return value if value else default_settings[key]
 

@@ -29,7 +29,7 @@ def available_models() -> None | list[str]:
     """Return available models sorted by size."""
 
     if model_list := ollama.list()['models']:
-        return [m for m in sorted(model_list, key=itemgetter('size'))]
+        return sorted(model_list, key=itemgetter('size'))
 
 
 def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
