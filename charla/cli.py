@@ -15,16 +15,14 @@ def main():
     model_names = [m['name'] for m in models]
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
-    parser.add_argument('--model', '-m',
-                        choices=model_names,
-                        help='Language model to chat with.')
+    parser.add_argument('--model', '-m', choices=model_names, help='Language model to chat with.')
     argv = parser.parse_args()
 
     # Determine model
     if (model := config.setting('model', argv.model)) == '':
         model = model_names[0]
 
-    context = [] # Store conversation history to make the model context aware
+    context = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {model}\n']  # List to store output text
 
     history = Path(config.setting('prompt_history'))
