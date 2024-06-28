@@ -18,7 +18,6 @@ jobs:
   run:
     name: Python ${{ matrix.python-version }} on ${{ startsWith(matrix.os, 'macos-') && 'macOS' || startsWith(matrix.os, 'windows-') && 'Windows' || 'Linux' }}
     runs-on: ${{ matrix.os }}
-    shell: bash
     strategy:
       fail-fast: false
       matrix:
@@ -39,5 +38,12 @@ jobs:
     - name: Run static analysis
       run: hatch fmt --linter
 
-    - name: Run tests
+    - name: Run tests non-Windows
+      if: runner.os != 'Windows'
       run: hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1
+
+    - name: Run tests Windows
+      if: runner.os == 'Windows'
+      shell: cmd
+      run: |
+        python -c "import os; os.system('hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1')"
