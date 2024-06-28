@@ -2,7 +2,7 @@ import re
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
-from typing import Any
+from typing import Mapping
 
 import ollama
 from prompt_toolkit import PromptSession
@@ -35,14 +35,14 @@ def generate(model: str, prompt: str, context: list, output: list) -> list:
 
     text = ''
     for chunk in stream:
-        if not isinstance(chunk, dict):
+        if not isinstance(chunk, Mapping):
             continue
         if not chunk['done']:
             text += chunk['response']
             print(chunk['response'], end='', flush=True)
 
     output.append(f'{t_response}\n\n{text}\n')
-    return chunk['context'] if isinstance(chunk, dict) else []
+    return chunk['context'] if isinstance(chunk, Mapping) else []
 
 
 def prompt_session(history: Path) -> PromptSession:
