@@ -44,6 +44,6 @@ jobs:
 
     - name: Run tests Windows
       if: runner.os == 'Windows'
-      shell: bash
+      shell: cmd.exe
       run: |
         python -c "import os; os.system('hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1')"
