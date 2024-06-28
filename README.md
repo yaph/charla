@@ -5,6 +5,8 @@
 
 **Charla** is a terminal based chat application that integrates with [Ollama](https://ollama.com/), a backend designed to serve language models. To use Charla, ensure that the `ollama` server is running and at least one language model is installed.
 
+![preview](https://repository-images.githubusercontent.com/821132128/9b8c0c11-baaf-46ce-8681-de62d648281e)
+
 ## Installation
 
 Install Charla using `pipx`:
