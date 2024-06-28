@@ -1,4 +1,4 @@
-# Charla: Terminal-Based Chat Application with Ollama Backend Integration
+# Charla: Chat with Language Models in a Terminal
 
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
