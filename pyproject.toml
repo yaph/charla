@@ -75,3 +75,7 @@ exclude_lines = [
 
 [tool.ruff.lint]
 ignore = ["T201", "DTZ005"]
+
+[tool.ruff.format]
+quote-style = "preserve"
+skip-magic-trailing-comma = true
