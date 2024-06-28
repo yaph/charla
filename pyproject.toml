@@ -39,13 +39,11 @@ Source = "https://github.com/yaph/charla"
 [tool.hatch.version]
 path = "charla/__about__.py"
 
-[tool.hatch.envs.dev]
+[tool.hatch.envs.charla-dev]
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0"]
 
-[tool.hatch.envs.dev.scripts]
+[tool.hatch.envs.charla-dev.scripts]
 type_check = "mypy --install-types --non-interactive {args:charla tests}"
-
-[tool.hatch.envs.pub.scripts]
 release = [
   "hatch test",
   "hatch build --clean",

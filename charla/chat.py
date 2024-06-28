@@ -27,24 +27,26 @@ def available_models() -> None | list[str]:
 
     if model_list := ollama.list()['models']:
         return sorted(model_list, key=itemgetter('size'))
-    return
+    return None
 
 
-def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
+def generate(model: str, prompt: str, context: list, output: list) -> list:
     stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True)
 
     text = ''
     for chunk in stream:
+        if not isinstance(chunk, dict):
+            continue
         if not chunk['done']:
             text += chunk['response']
             print(chunk['response'], end='', flush=True)
 
     output.append(f'{t_response}\n\n{text}\n')
-    return chunk['context']
+    return chunk['context'] if isinstance(chunk, dict) else []
 
 
 def prompt_session(history: Path) -> PromptSession:
-    session = PromptSession(message=t_prompt,
+    session: PromptSession = PromptSession(message=t_prompt,
                             history=FileHistory(history),
                             auto_suggest=AutoSuggestFromHistory())
 
