@@ -27,6 +27,7 @@ def available_models() -> None | list[str]:
 
     if model_list := ollama.list()['models']:
         return sorted(model_list, key=itemgetter('size'))
+    return
 
 
 def generate(model: str, prompt: str, context: list, output: list) -> str | Any:
@@ -52,7 +53,7 @@ def prompt_session(history: Path) -> PromptSession:
     bindings = KeyBindings()
 
     @bindings.add('escape', 'm')
-    def switch_multiline(event):
+    def switch_multiline(_event):
         session.multiline = not session.multiline
         session.message = t_prompt if session.multiline is False else t_prompt_ml
 

@@ -74,4 +74,4 @@ exclude_lines = [
 ]
 
 [tool.ruff.lint]
-ignore = ["T201"]
+ignore = ["T201", "DTZ005"]
