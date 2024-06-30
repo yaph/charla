@@ -19,8 +19,11 @@ def main():
     argv = parser.parse_args()
 
     # Determine model
-    if (model := config.setting('model', argv.model)) == '':
+    model = config.setting('model', argv.model)
+    if not model:
         model = model_names[0]
+    elif model not in model_names:
+        sys.exit(f'Model {model} is not installed.')
 
     context = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {model}\n']  # List to store output text
