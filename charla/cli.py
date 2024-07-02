@@ -14,25 +14,27 @@ def main():
         sys.exit('No language models available.')
     model_names = [m['name'] for m in models]
 
+    user_settings = config.settings(config.load())
+    user_settings['model'] = user_settings.get('model', model_names[0])
+
     parser = argparse.ArgumentParser(description='Chat with local language models.')
     parser.add_argument('--model', '-m', choices=model_names, help='Language model to chat with.')
+    parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
+    parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
+    parser.set_defaults(**user_settings)
     argv = parser.parse_args()
 
     # Determine model
-    model = config.setting('model', argv.model)
-    if not model:
-        model = model_names[0]
-    elif model not in model_names:
-        sys.exit(f'Model {model} is not installed.')
+    if argv.model not in model_names:
+        sys.exit(f'Model {argv.model} is not installed.')
 
     context = []  # Store conversation history to make the model context aware
-    output = [f'# Chat with: {model}\n']  # List to store output text
+    output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    history = Path(config.setting('prompt_history'))
-    history.parent.mkdir(exist_ok=True, parents=True)
+    history = Path(config.get(user_settings, 'prompt_history'))
+    config.mkdir(history.parent, exist_ok=True, parents=True)
     session = chat.prompt_session(history)
-
-    print_fmt('Chat with:', HTML(f'<ansigreen>{model}</ansigreen>'), '\n')
+    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
     while True:
         try:
@@ -42,15 +44,15 @@ def main():
 
             output.append(f'{chat.t_prompt}{user_input}\n')
             print(f'\n{chat.t_response}\n')
-            context = chat.generate(model, user_input, context, output)
+            context = chat.generate(argv.model, user_input, context, output)
             print('\n')
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
 
-    chats_path = Path(config.setting('chats_path'))
-    chats_path.mkdir(exist_ok=True, parents=True)
-    chat.save(chats_path, output, model)
+    chats_path = Path(config.get(user_settings, 'chats_path'))
+    config.mkdir(chats_path, exist_ok=True, parents=True)
+    chat.save(chats_path, output, argv.model)
 
     print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()

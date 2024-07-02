@@ -26,6 +26,14 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Mode switching between single-line and multi-line input without interruption to your chat session.
 
+## Configuration
+
+{
+    "model": "llama",
+    "chats_path": "./chats",
+    "prompt_history": "./prompt-history.txt"
+}
+
 ## Development
 
 Run the command-line interface directly from the project source without installing the package:

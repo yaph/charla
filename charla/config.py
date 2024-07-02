@@ -1,6 +1,5 @@
 import json
-
-from functools import lru_cache
+import sys
 
 from platformdirs import user_cache_dir, user_config_path, user_documents_dir
 
@@ -8,27 +7,31 @@ from platformdirs import user_cache_dir, user_config_path, user_documents_dir
 name = 'charla'
 
 default_settings = {
-    'model': '',
     'chats_path': user_documents_dir() + f'/{name}/chats',
     'prompt_history': user_cache_dir(appname=name) + '/prompt-history.txt'
 }
 
-@lru_cache
-def load() -> dict | None:
+def load() -> dict[str, str]:
     p_settings = user_config_path('charla').joinpath('settings.json')
     if p_settings.exists():
-        return json.loads(p_settings.read_text())
-    return None
+        try:
+            return json.loads(p_settings.read_text())
+        except json.decoder.JSONDecodeError as err:
+            print(f'Settings could not be read. {err}')
+    return {}
 
 
-def manage(**argv):
-    print('Hi')
-    #breakpoint()
-    #pass
+def get(user_settings: dict[str, str], key: str, value: str | None = None) -> str:
+    return value if value else user_settings.get(key, '')
 
 
-def setting(key: str, value: str | None = None) -> str:
-    user_settings = load()
-    return value if value else user_settings.get(key, default_settings[key])
+def mkdir(path, **kwds):
+    try:
+        path.mkdir(**kwds)
+    except PermissionError as err:
+        sys.exit(err)
 
 
+def settings(user_settings: dict[str, str]) -> dict[str, str]:
+    default_settings.update(user_settings)
+    return default_settings
