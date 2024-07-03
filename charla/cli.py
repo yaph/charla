@@ -31,7 +31,7 @@ def main():
     context = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    history = Path(config.get(user_settings, 'prompt_history'))
+    history = Path(config.get(user_settings, 'prompt_history', argv.prompt_history))
     config.mkdir(history.parent, exist_ok=True, parents=True)
     session = chat.prompt_session(history)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
@@ -50,7 +50,7 @@ def main():
         except (KeyboardInterrupt, EOFError):
             break
 
-    chats_path = Path(config.get(user_settings, 'chats_path'))
+    chats_path = Path(config.get(user_settings, 'chats_path', argv.chats_path))
     config.mkdir(chats_path, exist_ok=True, parents=True)
     chat.save(chats_path, output, argv.model)
 
