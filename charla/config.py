@@ -7,6 +7,7 @@ from platformdirs import user_cache_dir, user_config_path, user_documents_dir
 name = 'charla'
 
 default_settings = {
+    'model': '',
     'chats_path': user_documents_dir() + f'/{name}/chats',
     'prompt_history': user_cache_dir(appname=name) + '/prompt-history.txt'
 }
@@ -21,10 +22,6 @@ def load() -> dict[str, str]:
     return {}
 
 
-def get(user_settings: dict[str, str], key: str, value: str | None = None) -> str:
-    return value if value else user_settings.get(key, '')
-
-
 def mkdir(path, **kwds):
     try:
         path.mkdir(**kwds)
@@ -35,3 +32,10 @@ def mkdir(path, **kwds):
 def settings(user_settings: dict[str, str]) -> dict[str, str]:
     default_settings.update(user_settings)
     return default_settings
+
+
+def manage(argv):
+    if argv.show:
+        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
+        print(json.dumps(user_settings, indent=4))
+    sys.exit()

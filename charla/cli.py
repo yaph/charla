@@ -15,23 +15,31 @@ def main():
     model_names = [m['name'] for m in models]
 
     user_settings = config.settings(config.load())
-    user_settings['model'] = user_settings.get('model', model_names[0])
+    user_settings['model'] = user_settings['model'] or model_names[0]
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
     parser.add_argument('--model', '-m', choices=model_names, help='Language model to chat with.')
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
     parser.set_defaults(**user_settings)
+
+    subparsers = parser.add_subparsers(help='Sub Commands')
+    parser_settings = subparsers.add_parser('settings', help='Manage Charla settings')
+    parser_settings.add_argument('--show', action='store_true', help='Show user settings.')
+    parser_settings.set_defaults(func=config.manage)
+
     argv = parser.parse_args()
 
-    # Determine model
+    # Make sure model is installed
     if argv.model not in model_names:
         sys.exit(f'Model {argv.model} is not installed.')
+
+    argv.func(argv)
 
     context = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    history = Path(config.get(user_settings, 'prompt_history', argv.prompt_history))
+    history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
     session = chat.prompt_session(history)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
@@ -50,9 +58,8 @@ def main():
         except (KeyboardInterrupt, EOFError):
             break
 
-    chats_path = Path(config.get(user_settings, 'chats_path', argv.chats_path))
-    config.mkdir(chats_path, exist_ok=True, parents=True)
-    chat.save(chats_path, output, argv.model)
+    config.mkdir(argv.chats_path, exist_ok=True, parents=True)
+    chat.save(argv.chats_path, output, argv.model)
 
     print_fmt(HTML('<b>Exiting program.</b>'))
     sys.exit()
