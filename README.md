@@ -28,11 +28,13 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 
 ## Configuration
 
+```json
 {
-    "model": "llama",
+    "model": "llama3:latest",
     "chats_path": "./chats",
     "prompt_history": "./prompt-history.txt"
 }
+```
 
 ## Development
 
