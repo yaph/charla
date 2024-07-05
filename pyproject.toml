@@ -44,12 +44,20 @@ extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0"]
 
 [tool.hatch.envs.charla-dev.scripts]
 type_check = "mypy --install-types --non-interactive {args:charla tests}"
+qa = [
+  "hatch run type_check",
+  "hatch test"
+]
 release = [
-  "hatch test",
+  "hatch run qa",
   "hatch build --clean",
   "hatch publish",
   "git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
   "git push --tags"
+]
+test_release = [
+  "hatch run qa",
+  "hatch build --clean"
 ]
 
 [tool.coverage.run]
