@@ -52,7 +52,7 @@ def generate(model: str, prompt: str, context: list, output: list) -> list:
 
 
 def prompt_session(argv) -> PromptSession:
-    session: PromptSession = PromptSession(message=t_prompt,
+    session: PromptSession = PromptSession(message=t_prompt_ml if argv.multiline else t_prompt,
                             history=FileHistory(argv.prompt_history),
                             auto_suggest=AutoSuggestFromHistory(),
                             multiline=argv.multiline)
@@ -64,7 +64,7 @@ def prompt_session(argv) -> PromptSession:
     @bindings.add('escape', 'm')
     def switch_multiline(_event):
         session.multiline = not session.multiline
-        session.message = t_prompt if session.multiline is False else t_prompt_ml
+        session.message = t_prompt_ml if session.multiline else t_prompt
 
     session.key_bindings = bindings
 
