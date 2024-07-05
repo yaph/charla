@@ -19,7 +19,7 @@ def main():
         sys.exit('No language models available.')
     model_names = [m['name'] for m in models]
 
-    user_settings = config.settings()
+    user_settings = config.settings(config.load())
     user_settings['model'] = user_settings['model'] or model_names[0]
 
     parent = argparse.ArgumentParser(add_help=False)
@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--model', '-m', nargs=1, metavar='MODEL', choices=model_names, action='store', help='Name of language model to chat with.')
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
+    parser.add_argument('--multiline', action='store_true', help='User multiline mode.')
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.set_defaults(**user_settings, func=chat.run)
 

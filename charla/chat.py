@@ -51,10 +51,11 @@ def generate(model: str, prompt: str, context: list, output: list) -> list:
     return chunk['context'] if isinstance(chunk, Mapping) else []
 
 
-def prompt_session(history: Path) -> PromptSession:
+def prompt_session(argv) -> PromptSession:
     session: PromptSession = PromptSession(message=t_prompt,
-                            history=FileHistory(history),
-                            auto_suggest=AutoSuggestFromHistory())
+                            history=FileHistory(argv.prompt_history),
+                            auto_suggest=AutoSuggestFromHistory(),
+                            multiline=argv.multiline)
 
     print(t_help)
 
@@ -76,7 +77,7 @@ def run(argv: argparse.Namespace) -> None:
 
     history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
-    session = prompt_session(history)
+    session = prompt_session(argv)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
     while True:

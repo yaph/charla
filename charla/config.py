@@ -7,18 +7,19 @@ from pathlib import Path
 from platformdirs import user_cache_dir, user_config_path, user_documents_dir
 
 
-name = 'charla'
+NAME = 'charla'
 
-default_settings = {
+default_settings: dict = {
     'model': '',
-    'chats_path': user_documents_dir() + f'/{name}/chats',
-    'prompt_history': user_cache_dir(appname=name) + '/prompt-history.txt'
+    'chats_path': user_documents_dir() + f'/{NAME}/chats',
+    'prompt_history': user_cache_dir(appname=NAME) + '/prompt-history.txt',
+    'multiline': False
 }
+path_settings = user_config_path(NAME).joinpath('settings.json')
 
-path_settings = user_config_path(name).joinpath('settings.json')
 
-
-def load() -> dict[str, str]:
+def load() -> dict:
+    """Return settings from settings file, if it exists."""
     if path_settings.exists():
         try:
             return json.loads(path_settings.read_text())
@@ -34,8 +35,8 @@ def mkdir(path: Path, **kwds):
         sys.exit(str(err))
 
 
-def settings() -> dict[str, str]:
-    default_settings.update(load())
+def settings(user_settings: dict) -> dict:
+    default_settings.update(user_settings)
     return default_settings
 
 
