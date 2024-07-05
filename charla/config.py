@@ -40,9 +40,8 @@ def settings() -> dict[str, str]:
 
 
 def manage(argv: argparse.Namespace) -> None:
-    if argv.show:
-        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
-        print(json.dumps(user_settings, indent=4))
     if argv.location:
         print(path_settings)
-    sys.exit()
+    else:
+        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
+        print(json.dumps(user_settings, indent=4))

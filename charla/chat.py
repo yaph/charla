@@ -96,9 +96,7 @@ def run(argv: argparse.Namespace) -> None:
     chats_path = Path(argv.chats_path)
     config.mkdir(chats_path, exist_ok=True, parents=True)
     save(chats_path, output, argv.model)
-
     print_fmt(HTML('<b>Exiting program.</b>'))
-    sys.exit()
 
 
 def save(chats_path: Path, output: list[str], model_name: str) -> None:
