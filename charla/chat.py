@@ -1,6 +1,5 @@
 import argparse
 import re
-import sys
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
