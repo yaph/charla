@@ -1,0 +1,48 @@
+# Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+<!-- insertion marker -->
+## Unreleased
+
+<small>[Compare with latest](https://github.com/yaph/charla/compare/1.0.0...HEAD)</small>
+
+### Added
+
+- Add hatch scripts ([4341099](https://github.com/yaph/charla/commit/4341099c1c7f63ca53e322250c515b63e8c104c0) by Ramiro Gómez).
+- Add multiline setting Less restrictive type annotations Add test_configy.py ([f26a30e](https://github.com/yaph/charla/commit/f26a30e46214a1a81ec0e1319333d747cba4e903) by Ramiro Gómez).
+- Add models sub command to show info about models. Simplify settings sub command. ([1b68bd4](https://github.com/yaph/charla/commit/1b68bd46ec711d4531b9de7e7b8bac22f2d19baa) by Ramiro Gómez).
+
+### Fixed
+
+- Fix typing issues Rename env ([b09b5b0](https://github.com/yaph/charla/commit/b09b5b0df5aff716af8c9b4cc3340671db468d16) by Ramiro Gómez).
+- Fix and ignore linting errors ([5af18a3](https://github.com/yaph/charla/commit/5af18a34462b6ddc868fa55dcb4f2c9dc6411801) by Ramiro Gómez).
+
+### Removed
+
+- Remove todo ([f5edef7](https://github.com/yaph/charla/commit/f5edef75b6499ac4a7232885c6f979a735f50e48) by Ramiro Gómez).
+- Remove repeated settings processing. Add settings sub command. ([dc34e4d](https://github.com/yaph/charla/commit/dc34e4d2f3718c0f63b3f3a6cfeb03eeccd64ae3) by Ramiro Gómez).
+- Remove todo and add more info ([9aec9ff](https://github.com/yaph/charla/commit/9aec9fff0595af7e84afa41304b689caf19fbae3) by Ramiro Gómez).
+- Remove __name__ attribute Improve code ([4c78ae9](https://github.com/yaph/charla/commit/4c78ae93e11b7c715acc649b7a31c064e5fc0295) by Ramiro Gómez).
+
+<!-- insertion marker -->
+## [1.0.0](https://github.com/yaph/charla/releases/tag/1.0.0) - 2024-06-27
+
+<small>[Compare with first commit](https://github.com/yaph/charla/compare/b7f1493840aab4b017d49cb55749fe4b50156275...1.0.0)</small>
+
+### Added
+
+- Add development documentation. Handle keyboard interrupt. Remove rich dependency. Add todo.md ([d18dc32](https://github.com/yaph/charla/commit/d18dc32c8392795073a7122a71e7b35cf0c1d225) by Ramiro Gómez).
+- Add files for PyPI project. Move logic to util.py ([01be6de](https://github.com/yaph/charla/commit/01be6de6d2c52c6cc0946eefea8b22fb7ba2387f) by Ramiro Gómez).
+- Add README ([b9fc3e7](https://github.com/yaph/charla/commit/b9fc3e70cbf5f80d1056b73f4186c27663a0c0bd) by Ramiro Gómez).
+
+### Fixed
+
+- Fix syntax ([1c683c3](https://github.com/yaph/charla/commit/1c683c3b6ba66f6707e2d24b53e42d1219cf6223) by Ramiro Gómez).
+- Fix model check after type change ([05808ed](https://github.com/yaph/charla/commit/05808ed893711dc8353324aaaa70fb1bbf676c5e) by Ramiro Gómez).
+- Fix test ([16d8664](https://github.com/yaph/charla/commit/16d8664682a055c4ed86ee3c3a0357728b189937) by Ramiro Gómez).
+- Fix import ([74af167](https://github.com/yaph/charla/commit/74af167b51787ae2f1591629ec7007ad2489172e) by Ramiro Gómez).
+
