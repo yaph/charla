@@ -35,8 +35,8 @@ def available_models() -> None | list[str]:
     return None
 
 
-def generate(model: str, prompt: str, context: list, output: list) -> list:
-    stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True)
+def generate(model: str, prompt: str, context: list, output: list, system=None) -> list:
+    stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True, system=system)
 
     text = ''
     for chunk in stream:
@@ -79,6 +79,8 @@ def run(argv: argparse.Namespace) -> None:
     session = prompt_session(argv)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
+    system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
+
     while True:
         try:
             user_input = session.prompt()
@@ -87,8 +89,9 @@ def run(argv: argparse.Namespace) -> None:
 
             output.append(f'{t_prompt}{user_input}\n')
             print(f'\n{t_response}\n')
-            context = generate(argv.model, user_input, context, output)
+            context = generate(argv.model, user_input, context, output, system=system_prompt)
             print('\n')
+            system_prompt = ''
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break

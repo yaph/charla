@@ -22,14 +22,23 @@ def main():
     user_settings = config.settings(config.load())
     user_settings['model'] = user_settings['model'] or model_names[0]
 
+    # Allow names without version spec, i.e. llama3:latest -> llama3
+    allowed_model_names = set(model_names) | {n.split(':')[0] for n in model_names}
+
     parent = argparse.ArgumentParser(add_help=False)
     parent.add_argument('--verbose', '-v', action='store_true', help='Verbose program output.')
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
-    parser.add_argument('--model', '-m', nargs=1, metavar='MODEL', choices=model_names, action='store', help='Name of language model to chat with.')
+    parser.add_argument('--model', '-m',
+                        metavar='MODEL',
+                        choices=allowed_model_names,
+                        help='Name of language model to chat with.')
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
     parser.add_argument('--multiline', action='store_true', help='User multiline mode.')
+    parser.add_argument('--system-prompt', '-sp',
+                        type=argparse.FileType(),
+                        help='File that contains system prompt to use.')
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.set_defaults(**user_settings, func=chat.run)
 
@@ -45,7 +54,7 @@ def main():
     argv = parser.parse_args()
 
     # Make sure model is installed
-    if argv.model not in model_names:
+    if argv.model not in allowed_model_names:
         sys.exit(f'Model {argv.model} is not installed.')
 
     argv.func(argv)

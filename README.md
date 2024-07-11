@@ -25,6 +25,8 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 * Chat sessions are saved as markdown files in the user's documents directory when ending a chat.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Mode switching between single-line and multi-line input without interruption to your chat session.
+* Store your default user preferences in a settings file.
+* Provide a system prompt for a chat session.
 
 ## Configuration
 
