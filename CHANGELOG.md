@@ -6,12 +6,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
-## Unreleased
+## [1.1.0](https://github.com/yaph/charla/releases/tag/1.1.0) - 2024-07-11
 
-<small>[Compare with latest](https://github.com/yaph/charla/compare/1.0.0...HEAD)</small>
+<small>[Compare with 1.0.0](https://github.com/yaph/charla/compare/1.0.0...1.1.0)</small>
 
 ### Added
 
+- Add CHANGELOG.md and generate it in publish task. Edit features. Bump version. ([57c8231](https://github.com/yaph/charla/commit/57c8231888f5a0747a05050c1dc8cbd7acda9626) by Ramiro Gómez).
 - Add hatch scripts ([4341099](https://github.com/yaph/charla/commit/4341099c1c7f63ca53e322250c515b63e8c104c0) by Ramiro Gómez).
 - Add multiline setting Less restrictive type annotations Add test_configy.py ([f26a30e](https://github.com/yaph/charla/commit/f26a30e46214a1a81ec0e1319333d747cba4e903) by Ramiro Gómez).
 - Add models sub command to show info about models. Simplify settings sub command. ([1b68bd4](https://github.com/yaph/charla/commit/1b68bd46ec711d4531b9de7e7b8bac22f2d19baa) by Ramiro Gómez).
@@ -28,7 +29,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove todo and add more info ([9aec9ff](https://github.com/yaph/charla/commit/9aec9fff0595af7e84afa41304b689caf19fbae3) by Ramiro Gómez).
 - Remove __name__ attribute Improve code ([4c78ae9](https://github.com/yaph/charla/commit/4c78ae93e11b7c715acc649b7a31c064e5fc0295) by Ramiro Gómez).
 
-<!-- insertion marker -->
 ## [1.0.0](https://github.com/yaph/charla/releases/tag/1.0.0) - 2024-06-27
 
 <small>[Compare with first commit](https://github.com/yaph/charla/compare/b7f1493840aab4b017d49cb55749fe4b50156275...1.0.0)</small>
