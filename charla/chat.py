@@ -80,6 +80,8 @@ def run(argv: argparse.Namespace) -> None:
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 
     system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
+    if system_prompt:
+        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
     while True:
         try:
