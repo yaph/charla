@@ -32,7 +32,8 @@ Press → to complete an auto suggested prompt.
 '''
 
 # Regular expressions
-extensions = '|'.join(['htm', 'html', 'md', 'markdown', 'txt'])
+supported_extensions = ['htm', 'html', 'md', 'markdown', 'txt']
+extensions = '|'.join(supported_extensions)
 re_filename = re.compile(rf'\S+\.(?:{extensions})\b', re.IGNORECASE)
 
 def available_models() -> None | list[str]:
@@ -112,8 +113,9 @@ def run(argv: argparse.Namespace) -> None:
                     user_input = user_input.replace(filename, Path(filename).read_text())
                     session.message = t_prompt_ml if session.multiline else t_prompt
                     session.completer = None
-                except Exception as err:
+                except FileNotFoundError as err:
                     print(err)
+                    continue
 
             print(f'\n{t_response}\n')
             context = generate(argv.model, user_input, context, output, system=system_prompt)
