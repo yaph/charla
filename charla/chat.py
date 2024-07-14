@@ -9,6 +9,7 @@ import ollama
 from prompt_toolkit import HTML, PromptSession
 from prompt_toolkit import print_formatted_text as print_fmt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
+from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
@@ -16,16 +17,24 @@ from charla import config
 
 
 # UI text
+t_open = 'OPEN: '
 t_prompt = 'PROMPT: '
 t_prompt_ml = 'PROMPT \N{LATIN SUBSCRIPT SMALL LETTER M}\N{LATIN SUBSCRIPT SMALL LETTER L}: '
 t_response = 'RESPONSE:'
 t_help = '''
 Press CTRL-C or CTRL-D to exit chat.
+Press RETURN to send prompt in single line mode.
 Press ALT+M to switch between single and multi line mode.
 Press ALT+RETURN to send prompt in multi line mode.
+Press CTRL-O to open file and send its content in the prompt.
+Press CTRL-R or CTRL-S to search prompt history.
 Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
+
+# Regular expressions
+extensions = '|'.join(['htm', 'html', 'md', 'markdown', 'txt'])
+re_filename = re.compile(rf'\S+\.(?:{extensions})\b', re.IGNORECASE)
 
 def available_models() -> None | list[str]:
     """Return available models sorted by size."""
@@ -65,6 +74,11 @@ def prompt_session(argv) -> PromptSession:
         session.multiline = not session.multiline
         session.message = t_prompt_ml if session.multiline else t_prompt
 
+    @bindings.add('c-o')
+    def fetch(_event):
+        session.message = t_open
+        session.completer = PathCompleter(only_directories=False, expanduser=True)
+
     session.key_bindings = bindings
 
     return session
@@ -89,7 +103,19 @@ def run(argv: argparse.Namespace) -> None:
             if not user_input:
                 continue
 
-            output.append(f'{t_prompt}{user_input}\n')
+            output.append(f'{session.message}{user_input}\n')
+
+            if session.message == t_open:
+                filename = user_input
+                if match := re.search(re_filename, user_input):
+                    filename = match.group(0)
+                try:
+                    user_input = user_input.replace(filename, Path(filename).read_text())
+                    session.message = t_prompt_ml if session.multiline else t_prompt
+                    session.completer = None
+                except Exception as err:
+                    print(err)
+
             print(f'\n{t_response}\n')
             context = generate(argv.model, user_input, context, output, system=system_prompt)
             print('\n')
