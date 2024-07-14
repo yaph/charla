@@ -1,9 +1,9 @@
 import argparse
 import re
+from collections.abc import Mapping
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
-from typing import Mapping
 
 import ollama
 from prompt_toolkit import HTML, PromptSession
@@ -14,7 +14,6 @@ from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
 from charla import config
-
 
 # UI text
 t_open = 'OPEN: '

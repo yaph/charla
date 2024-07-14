@@ -1,11 +1,9 @@
 import argparse
 import json
 import sys
-
 from pathlib import Path
 
 from platformdirs import user_cache_dir, user_config_path, user_documents_dir
-
 
 NAME = 'charla'
 
