@@ -14,7 +14,6 @@ default_settings: dict = {
     'multiline': False
 }
 path_settings = user_config_path(NAME).joinpath('settings.json')
-text_file_extensions = ['htm', 'html', 'md', 'markdown', 'txt']
 
 
 def load() -> dict:

@@ -84,10 +84,6 @@ def run(argv: argparse.Namespace) -> None:
     context: list[int] = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
-    # Regex for extracting file names from prompts
-    extensions = '|'.join(config.text_file_extensions)
-    re_filename = re.compile(rf'\S+\.(?:{extensions})\b', re.IGNORECASE)
-
     history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
 
@@ -107,15 +103,13 @@ def run(argv: argparse.Namespace) -> None:
             output.append(f'{session.message}{user_input}\n')
 
             if session.message == t_open:
-                filename = user_input
-                if match := re.search(re_filename, user_input):
-                    filename = match.group(0)
+                filename = user_input.strip()
                 try:
-                    user_input = user_input.replace(filename, Path(filename).read_text())
+                    user_input = Path(filename).read_text()
                     session.message = t_prompt_ml if session.multiline else t_prompt
                     session.completer = None
-                except FileNotFoundError as err:
-                    print(err)
+                except Exception as err:
+                    print(f'Enter name of an existing file.\n{err}\n')
                     continue
 
             print(f'\n{t_response}\n')
