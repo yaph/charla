@@ -31,10 +31,6 @@ Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
 
-# Regular expressions
-supported_extensions = ['htm', 'html', 'md', 'markdown', 'txt']
-extensions = '|'.join(supported_extensions)
-re_filename = re.compile(rf'\S+\.(?:{extensions})\b', re.IGNORECASE)
 
 def available_models() -> None | list[str]:
     """Return available models sorted by size."""
@@ -88,8 +84,13 @@ def run(argv: argparse.Namespace) -> None:
     context: list[int] = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
+    # Regex for extracting file names from prompts
+    extensions = '|'.join(config.text_file_extensions)
+    re_filename = re.compile(rf'\S+\.(?:{extensions})\b', re.IGNORECASE)
+
     history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
+
     session = prompt_session(argv)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
 

@@ -1,3 +1,3 @@
 # TODO
 
-* Load content from local and remote files via keyboard shortcut `c-o` that changes prompt text to `OPEN`.
+* Load content from remote files. Should the be a core feature or rather a plugin?
