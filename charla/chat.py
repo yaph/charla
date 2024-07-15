@@ -108,7 +108,7 @@ def run(argv: argparse.Namespace) -> None:
                     user_input = Path(filename).read_text()
                     session.message = t_prompt_ml if session.multiline else t_prompt
                     session.completer = None
-                except Exception as err:
+                except FileNotFoundError as err:
                     print(f'Enter name of an existing file.\n{err}\n')
                     continue
 
