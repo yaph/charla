@@ -25,7 +25,7 @@ Press CTRL-C or CTRL-D to exit chat.
 Press RETURN to send prompt in single line mode.
 Press ALT+M to switch between single and multi line mode.
 Press ALT+RETURN to send prompt in multi line mode.
-Press CTRL-O to open file and send its content in the prompt.
+Press CTRL-O to open file and send its content as the prompt.
 Press CTRL-R or CTRL-S to search prompt history.
 Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
@@ -41,6 +41,8 @@ def available_models() -> None | list[str]:
 
 
 def generate(model: str, prompt: str, context: list, output: list, system=None) -> list:
+    """Generate and print a response to the prompt and return the context."""
+
     stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True, system=system)
 
     text = ''
@@ -56,6 +58,8 @@ def generate(model: str, prompt: str, context: list, output: list, system=None) 
 
 
 def prompt_session(argv) -> PromptSession:
+    """Create and return a PromptSession object."""
+
     session: PromptSession = PromptSession(message=t_prompt_ml if argv.multiline else t_prompt,
                             history=FileHistory(argv.prompt_history),
                             auto_suggest=AutoSuggestFromHistory(),
@@ -81,6 +85,8 @@ def prompt_session(argv) -> PromptSession:
 
 
 def run(argv: argparse.Namespace) -> None:
+    """Run the chat session."""
+
     context: list[int] = []  # Store conversation history to make the model context aware
     output = [f'# Chat with: {argv.model}\n']  # List to store output text
 
@@ -127,6 +133,8 @@ def run(argv: argparse.Namespace) -> None:
 
 
 def save(chats_path: Path, output: list[str], model_name: str) -> None:
+    """Save the chat as a markdown file."""
+
     if len(output) > 1:
         now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
         slug = re.sub(r'\W', '-', model_name)

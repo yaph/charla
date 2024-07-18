@@ -18,6 +18,7 @@ path_settings = user_config_path(NAME).joinpath('settings.json')
 
 def load() -> dict:
     """Return settings from settings file, if it exists."""
+
     if path_settings.exists():
         try:
             return json.loads(path_settings.read_text())
@@ -27,6 +28,8 @@ def load() -> dict:
 
 
 def mkdir(path: Path, **kwds):
+    """Wrapper for pathlib's mkdir."""
+
     try:
         path.mkdir(**kwds)
     except PermissionError as err:
@@ -34,11 +37,15 @@ def mkdir(path: Path, **kwds):
 
 
 def settings(user_settings: dict) -> dict:
+    """Return settings based on user input."""
+
     default_settings.update(user_settings)
     return default_settings
 
 
 def manage(argv: argparse.Namespace) -> None:
+    """Handler for settings subcommand."""
+
     if argv.location:
         print(path_settings)
     else:

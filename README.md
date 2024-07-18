@@ -27,7 +27,7 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 * Switch between single-line and multi-line input modes without interrupting the chat session.
 * Store default user preferences in a settings file.
 * Provide a system prompt for a chat session.
-* Load content from local files to add to prompts.
+* Load content from local files to use them as prompts.
 
 ## Configuration
 

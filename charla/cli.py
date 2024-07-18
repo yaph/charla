@@ -8,6 +8,8 @@ from charla.__about__ import __version__
 
 
 def handle_models(argv):
+    """Handler for models subcommand."""
+
     if argv.verbose:
         print(json.dumps(argv.models, indent=4))
     else:
@@ -15,6 +17,8 @@ def handle_models(argv):
 
 
 def main():
+    """Create and execute command line interface."""
+
     if (models := chat.available_models()) is None:
         sys.exit('No language models available.')
     model_names = [m['name'] for m in models]
