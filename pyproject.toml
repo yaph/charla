@@ -24,6 +24,8 @@ classifiers = [
 ]
 dependencies = [
   "ollama",
+  "html2text",
+  "httpx",
   "platformdirs",
   "prompt_toolkit"
 ]

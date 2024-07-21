@@ -5,7 +5,9 @@ from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
 
+import httpx
 import ollama
+from html2text import html2text
 from prompt_toolkit import HTML, PromptSession
 from prompt_toolkit import print_formatted_text as print_fmt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
@@ -101,7 +103,7 @@ def run(argv: argparse.Namespace) -> None:
     if system_prompt:
         print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
-    open_filename = None
+    open_filename = ''
 
     while True:
         try:
@@ -111,14 +113,29 @@ def run(argv: argparse.Namespace) -> None:
             output.append(f'{session.message}{user_input}\n')
 
             if open_filename:
-                try:
-                    file_content = Path(open_filename).read_text()
-                except (FileNotFoundError, PermissionError) as err:
-                    print(f'Enter name of an existing file.\n{err}\n')
-                    open_filename = None
+                file_content = ''
+
+                if open_filename.startswith(('http://', 'https://')):
+                    try:
+                        resp = httpx.get(open_filename, follow_redirects=True)
+                        if 'text/html' == resp.headers['content-type']:
+                            file_content = html2text(resp.text, baseurl=open_filename)
+                        else:
+                            file_content = resp.text
+                    except httpx.ConnectError as err:
+                        print(f'Enter an existing URL.\n{err}\n')
+                else:
+                    try:
+                        file_content = Path(open_filename).read_text()
+                    except (FileNotFoundError, PermissionError) as err:
+                        print(f'Enter name of an existing file.\n{err}\n')
+
+                open_filename = ''
+
+                if file_content:
+                    user_input = user_input.strip() + '\n\n' + file_content
+                else:
                     continue
-                user_input = user_input + '\n\n' + file_content
-                open_filename = None
 
             if session.message == t_open:
                 open_filename = user_input.strip()
