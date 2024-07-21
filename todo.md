@@ -1,3 +1,3 @@
 # TODO
 
-* Load content from remote files. Should the be a core feature or rather a plugin?
+* Load content from remote files. Should this be a core feature or a plugin?

@@ -17,6 +17,7 @@ from charla import config
 
 # UI text
 t_open = 'OPEN: '
+t_open_toolbar = 'Add to prompt: '
 t_prompt = 'PROMPT: '
 t_prompt_ml = 'PROMPT \N{LATIN SUBSCRIPT SMALL LETTER M}\N{LATIN SUBSCRIPT SMALL LETTER L}: '
 t_response = 'RESPONSE:'
@@ -25,7 +26,7 @@ Press CTRL-C or CTRL-D to exit chat.
 Press RETURN to send prompt in single line mode.
 Press ALT+M to switch between single and multi line mode.
 Press ALT+RETURN to send prompt in multi line mode.
-Press CTRL-O to open file and send its content as the prompt.
+Press CTRL-O to open file and append its content to the prompt.
 Press CTRL-R or CTRL-S to search prompt history.
 Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
@@ -100,28 +101,39 @@ def run(argv: argparse.Namespace) -> None:
     if system_prompt:
         print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
+    open_filename = None
+
     while True:
         try:
-            user_input = session.prompt()
-            if not user_input:
+            if not (user_input := session.prompt()):
                 continue
 
             output.append(f'{session.message}{user_input}\n')
 
-            if session.message == t_open:
-                filename = user_input.strip()
+            if open_filename:
                 try:
-                    user_input = Path(filename).read_text()
-                    session.message = t_prompt_ml if session.multiline else t_prompt
-                    session.completer = None
-                except FileNotFoundError as err:
+                    file_content = Path(open_filename).read_text()
+                except (FileNotFoundError, PermissionError) as err:
                     print(f'Enter name of an existing file.\n{err}\n')
+                    open_filename = None
                     continue
+                user_input = user_input + '\n\n' + file_content
+                open_filename = None
+
+            if session.message == t_open:
+                open_filename = user_input.strip()
+                session.bottom_toolbar = t_open_toolbar + open_filename
+                session.message = t_prompt_ml if session.multiline else t_prompt
+                session.completer = None
+                continue
 
             print(f'\n{t_response}\n')
             context = generate(argv.model, user_input, context, output, system=system_prompt)
             print('\n')
+
             system_prompt = ''
+            session.bottom_toolbar = None
+
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
