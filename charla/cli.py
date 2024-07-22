@@ -7,7 +7,7 @@ from charla import chat, config
 from charla.__about__ import __version__
 
 
-def handle_models(argv):
+def handle_models(argv: argparse.Namespace):
     """Handler for models subcommand."""
 
     if argv.verbose:
