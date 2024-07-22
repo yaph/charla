@@ -60,7 +60,30 @@ def generate(model: str, prompt: str, context: list, output: list, system=None) 
     return chunk['context'] if isinstance(chunk, Mapping) else []
 
 
-def prompt_session(argv) -> PromptSession:
+def get_content(source: str) -> str:
+    """Return content of the given source or empty string."""
+
+    content = ''
+
+    if source.startswith(('http://', 'https://')):
+        try:
+            resp = httpx.get(source, follow_redirects=True)
+            if 'text/html' == resp.headers['content-type']:
+                content = html2text(resp.text, baseurl=source)
+            else:
+                content = resp.text
+        except httpx.ConnectError as err:
+            print(f'Enter an existing URL.\n{err}\n')
+    else:
+        try:
+            content = Path(source).read_text()
+        except (FileNotFoundError, PermissionError) as err:
+            print(f'Enter name of an existing file.\n{err}\n')
+
+    return content
+
+
+def prompt_session(argv: argparse.Namespace) -> PromptSession:
     """Create and return a PromptSession object."""
 
     session: PromptSession = PromptSession(message=t_prompt_ml if argv.multiline else t_prompt,
@@ -103,7 +126,7 @@ def run(argv: argparse.Namespace) -> None:
     if system_prompt:
         print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
-    open_filename = ''
+    open_source = ''
 
     while True:
         try:
@@ -112,37 +135,18 @@ def run(argv: argparse.Namespace) -> None:
 
             output.append(f'{session.message}{user_input}\n')
 
-            if open_filename:
-                file_content = ''
-
-                if open_filename.startswith(('http://', 'https://')):
-                    try:
-                        resp = httpx.get(open_filename, follow_redirects=True)
-                        if 'text/html' == resp.headers['content-type']:
-                            file_content = html2text(resp.text, baseurl=open_filename)
-                        else:
-                            file_content = resp.text
-                    except httpx.ConnectError as err:
-                        print(f'Enter an existing URL.\n{err}\n')
-                else:
-                    try:
-                        file_content = Path(open_filename).read_text()
-                    except (FileNotFoundError, PermissionError) as err:
-                        print(f'Enter name of an existing file.\n{err}\n')
-
-                open_filename = ''
-
-                if file_content:
-                    user_input = user_input.strip() + '\n\n' + file_content
-                else:
-                    continue
-
             if session.message == t_open:
-                open_filename = user_input.strip()
-                session.bottom_toolbar = t_open_toolbar + open_filename
+                open_source = user_input.strip()
+                session.bottom_toolbar = t_open_toolbar + open_source
                 session.message = t_prompt_ml if session.multiline else t_prompt
                 session.completer = None
                 continue
+
+            if open_source:
+                if content := get_content(open_source):
+                    user_input = user_input.strip() + '\n\n' + content
+                else:
+                    continue
 
             print(f'\n{t_response}\n')
             context = generate(argv.model, user_input, context, output, system=system_prompt)
