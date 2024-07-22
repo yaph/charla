@@ -9,10 +9,14 @@ def mock_args():
     return p.parse_args([])
 
 
-# def test_available_models():
-#     models = chat.available_models()
-#     assert len(models)
-#     assert 'name' in models[0]
+def test_get_content_error():
+    assert '' == chat.get_content('https://does-not-exist')
+    assert '' == chat.get_content('does-not-exist.file')
+
+
+def test_get_content_file():
+    content = chat.get_content('./tests/test_chat.py')
+    assert len(content)
 
 
 def test_prompt_session():

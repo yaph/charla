@@ -18,6 +18,7 @@ from prompt_toolkit.key_binding import KeyBindings
 from charla import config
 
 # UI text
+
 t_open = 'OPEN: '
 t_open_toolbar = 'Add to prompt: '
 t_prompt = 'PROMPT: '
@@ -68,10 +69,9 @@ def get_content(source: str) -> str:
     if source.startswith(('http://', 'https://')):
         try:
             resp = httpx.get(source, follow_redirects=True)
-            if 'text/html' == resp.headers['content-type']:
-                content = html2text(resp.text, baseurl=source)
-            else:
-                content = resp.text
+            content = html2text(
+                resp.text, baseurl=source
+            ) if resp.headers['content-type'] == 'text/html' else resp.text
         except httpx.ConnectError as err:
             print(f'Enter an existing URL.\n{err}\n')
     else:
