@@ -56,7 +56,9 @@ release = [
   "hatch publish",
   "git tag -a $(hatch version) -m \"Create version $(hatch version)\"",
   "git push --tags",
-  "git-changelog -o CHANGELOG.md"
+  "git-changelog -o CHANGELOG.md",
+  "git -m 'Update CHANGELOG' CHANGELOG.md",
+  "git push"
 ]
 test_release = [
   "hatch run qa",
