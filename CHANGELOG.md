@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## Unreleased
+
+<small>[Compare with latest](https://github.com/yaph/charla/compare/1.1.0...HEAD)</small>
+
+### Added
+
+- Add info to help. ([428fd77](https://github.com/yaph/charla/commit/428fd7791b77f96c8863931582952157bc411e82) by Ramiro Gómez).
+- Add type info. ([db33e43](https://github.com/yaph/charla/commit/db33e43bed2ede04f43379abe69cdbb34bc92c8a) by Ramiro Gómez).
+- Add support for opening web pages. ([d0f6431](https://github.com/yaph/charla/commit/d0f6431631bcdccc7c5f2d177af7f763bbb1aa2a) by Ramiro Gómez).
+- Add and improve documentation. ([849f4f2](https://github.com/yaph/charla/commit/849f4f2f0e8a08ad5aa4ec75f60ede100b7f2185) by Ramiro Gómez).
+- Add CTRL-O keybinding to load content from a file into prompt. ([0a5bc98](https://github.com/yaph/charla/commit/0a5bc9819ce462991fd40621757187e57c076d87) by Ramiro Gómez).
+
+### Fixed
+
+- Fix linting issues. Add tests. ([485cf49](https://github.com/yaph/charla/commit/485cf497d0451520cf16b2799d8225637d94a24a) by Ramiro Gómez).
+- Fix import and formatting. ([e722f26](https://github.com/yaph/charla/commit/e722f2694864ebab31984dc8868504ee8d5c4e60) by Ramiro Gómez).
+
+<!-- insertion marker -->
 ## [1.1.0](https://github.com/yaph/charla/releases/tag/1.1.0) - 2024-07-11
 
 <small>[Compare with 1.0.0](https://github.com/yaph/charla/compare/1.0.0...1.1.0)</small>
