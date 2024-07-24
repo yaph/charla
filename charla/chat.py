@@ -76,7 +76,7 @@ def get_content(source: str) -> str:
             print(f'Enter an existing URL.\n{err}\n')
     else:
         try:
-            content = Path(source).read_text()
+            content = Path(source).expanduser().read_text()
         except (FileNotFoundError, PermissionError) as err:
             print(f'Enter name of an existing file.\n{err}\n')
 
