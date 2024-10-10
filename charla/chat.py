@@ -15,25 +15,9 @@ from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
+import charla.ui as ui
 from charla import config
-
-# UI text
-
-t_open = 'OPEN: '
-t_open_toolbar = 'Add to prompt: '
-t_prompt = 'PROMPT: '
-t_prompt_ml = 'PROMPT \N{LATIN SUBSCRIPT SMALL LETTER M}\N{LATIN SUBSCRIPT SMALL LETTER L}: '
-t_response = 'RESPONSE:'
-t_help = '''
-Press CTRL-C or CTRL-D to exit chat.
-Press RETURN to send prompt in single line mode.
-Press ALT+M to switch between single and multi line mode.
-Press ALT+RETURN to send prompt in multi line mode.
-Press CTRL-O to open a file or web page and append its content to the prompt.
-Press CTRL-R or CTRL-S to search prompt history.
-Press ↑ and ↓ to navigate previously entered prompts.
-Press → to complete an auto suggested prompt.
-'''
+from charla.ghmodels import generate
 
 
 def available_models() -> None | list[str]:
@@ -44,7 +28,7 @@ def available_models() -> None | list[str]:
     return None
 
 
-def generate(model: str, prompt: str, context: list, output: list, system=None) -> list:
+def generate2(model: str, prompt: str, context: list, output: list, system=None) -> list:
     """Generate and print a response to the prompt and return the context."""
 
     stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True, system=system)
@@ -57,7 +41,7 @@ def generate(model: str, prompt: str, context: list, output: list, system=None) 
             text += chunk['response']
             print(chunk['response'], end='', flush=True)
 
-    output.append(f'{t_response}\n\n{text}\n')
+    output.append(f'{ui.t_response}\n\n{text}\n')
     return chunk['context'] if isinstance(chunk, Mapping) else []
 
 
@@ -86,23 +70,23 @@ def get_content(source: str) -> str:
 def prompt_session(argv: argparse.Namespace) -> PromptSession:
     """Create and return a PromptSession object."""
 
-    session: PromptSession = PromptSession(message=t_prompt_ml if argv.multiline else t_prompt,
+    session: PromptSession = PromptSession(message=ui.t_prompt_ml if argv.multiline else ui.t_prompt,
                             history=FileHistory(argv.prompt_history),
                             auto_suggest=AutoSuggestFromHistory(),
                             multiline=argv.multiline)
 
-    print(t_help)
+    print(ui.t_help)
 
     bindings = KeyBindings()
 
     @bindings.add('escape', 'm')
     def switch_multiline(_event):
         session.multiline = not session.multiline
-        session.message = t_prompt_ml if session.multiline else t_prompt
+        session.message = ui.t_prompt_ml if session.multiline else ui.t_prompt
 
     @bindings.add('c-o')
     def fetch(_event):
-        session.message = t_open
+        session.message = ui.t_open
         session.completer = PathCompleter(only_directories=False, expanduser=True)
 
     session.key_bindings = bindings
@@ -135,10 +119,10 @@ def run(argv: argparse.Namespace) -> None:
 
             output.append(f'{session.message}{user_input}\n')
 
-            if session.message == t_open:
+            if session.message == ui.t_open:
                 open_source = user_input.strip()
-                session.bottom_toolbar = t_open_toolbar + open_source
-                session.message = t_prompt_ml if session.multiline else t_prompt
+                session.bottom_toolbar = ui.t_open_toolbar + open_source
+                session.message = ui.t_prompt_ml if session.multiline else ui.t_prompt
                 session.completer = None
                 continue
 
@@ -148,7 +132,7 @@ def run(argv: argparse.Namespace) -> None:
                 else:
                     continue
 
-            print(f'\n{t_response}\n')
+            print(f'\n{ui.t_response}\n')
             context = generate(argv.model, user_input, context, output, system=system_prompt)
             print('\n')
 
