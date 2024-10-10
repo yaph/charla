@@ -85,7 +85,7 @@ exclude_lines = [
 ]
 
 [tool.ruff.lint]
-ignore = ["T201", "DTZ005"]
+ignore = ["T201", "DTZ005", "FA100"]
 
 [tool.ruff.format]
 quote-style = "preserve"
