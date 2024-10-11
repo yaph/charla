@@ -18,7 +18,7 @@ from prompt_toolkit.key_binding import KeyBindings
 
 import charla.ui as ui
 from charla import config
-from charla._client import AzureClient, OllamaClient
+from charla.client import AzureClient, OllamaClient
 
 
 def available_models() -> None | list[str]:

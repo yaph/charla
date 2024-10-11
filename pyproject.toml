@@ -23,6 +23,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
+  "azure-ai-inference",
   "ollama",
   "html2text",
   "httpx",
@@ -42,7 +43,7 @@ Source = "https://github.com/yaph/charla"
 path = "charla/__about__.py"
 
 [tool.hatch.envs.charla-dev]
-extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0"]
+extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 
 [tool.hatch.envs.charla-dev.scripts]
 type_check = "mypy --install-types --non-interactive {args:charla tests}"

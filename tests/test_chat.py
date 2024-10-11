@@ -1,5 +1,6 @@
 import argparse
 
+import charla.ui as ui
 from charla import chat, config
 
 
@@ -21,4 +22,4 @@ def test_get_content_file():
 
 def test_prompt_session():
     session = chat.prompt_session(mock_args())
-    assert session.message == chat.t_prompt
+    assert session.message == ui.t_prompt
