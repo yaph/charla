@@ -1,6 +1,7 @@
 import os
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Any
 
 import ollama
 from azure.ai.inference import ChatCompletionsClient
@@ -10,15 +11,11 @@ from azure.core.credentials import AzureKeyCredential
 import charla.ui as ui
 
 
-ContextType = list[str | int]
-OutputType = list[str]
-
-
 @dataclass
 class Client(ABC):
     model: str
-    context: ContextType
-    output: OutputType
+    context: Any
+    output: list[str]
     system: str = ''
 
     @abstractmethod
@@ -27,7 +24,7 @@ class Client(ABC):
 
 
 class OllamaClient(Client):
-    def __init__(self, model: str, context: ContextType, output: OutputType, system: str = ''):
+    def __init__(self, model: str, context: list[int], output: list[str], system: str = ''):
         super().__init__(model, context, output, system)
 
         self.client = ollama.Client()
@@ -39,15 +36,15 @@ class OllamaClient(Client):
         # Make sure system message is set only once.
         self.system = ''
 
-        text = response['response']
+        text = response['response'] # type: ignore
         print(text)
 
-        self.context = response['context']
+        self.context = response['context'] # type: ignore
         self.output.append(ui.response(text))
 
 
 class AzureClient(Client):
-    def __init__(self, model: str, context: ContextType, output: OutputType, system: str = ''):
+    def __init__(self, model: str, context: list[str], output: list[str], system: str = ''):
         super().__init__(model, context, output, system)
 
         token = os.environ['GITHUB_TOKEN']

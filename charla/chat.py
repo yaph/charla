@@ -4,6 +4,7 @@ from collections.abc import Mapping
 from datetime import datetime
 from operator import itemgetter
 from pathlib import Path
+from typing import Any
 
 import httpx
 import ollama
@@ -17,7 +18,7 @@ from prompt_toolkit.key_binding import KeyBindings
 
 import charla.ui as ui
 from charla import config
-from charla.client import AzureClient, OllamaClient
+from charla._client import AzureClient, OllamaClient
 
 
 def available_models() -> None | list[str]:
@@ -112,7 +113,7 @@ def run(argv: argparse.Namespace) -> None:
 
     open_source = ''
 
-    client_cls = None
+    client_cls: Any = None
     if argv.provider == 'ollama':
         client_cls = OllamaClient
     elif argv.provider == 'github':
