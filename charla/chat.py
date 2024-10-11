@@ -17,7 +17,7 @@ from prompt_toolkit.key_binding import KeyBindings
 
 import charla.ui as ui
 from charla import config
-from charla.ghmodels import generate
+from charla.client import AzureClient, OllamaClient
 
 
 def available_models() -> None | list[str]:
@@ -112,6 +112,14 @@ def run(argv: argparse.Namespace) -> None:
 
     open_source = ''
 
+    client_cls = None
+    if argv.provider == 'ollama':
+        client_cls = OllamaClient
+    elif argv.provider == 'github':
+        client_cls = AzureClient
+
+    client = client_cls(argv.model, context=context, output=output, system=system_prompt)
+
     while True:
         try:
             if not (user_input := session.prompt()):
@@ -133,10 +141,9 @@ def run(argv: argparse.Namespace) -> None:
                     continue
 
             print(f'\n{ui.t_response}\n')
-            context = generate(argv.model, user_input, context, output, system=system_prompt)
+            client.generate(user_input)
             print('\n')
 
-            system_prompt = ''
             session.bottom_toolbar = None
 
         # Exit program on CTRL-C and CTRL-D

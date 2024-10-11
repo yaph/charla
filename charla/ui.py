@@ -15,3 +15,6 @@ Press CTRL-R or CTRL-S to search prompt history.
 Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
+
+def response(text):
+    return f'{t_response}\n\n{text}\n'

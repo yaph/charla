@@ -34,11 +34,13 @@ def main():
 
     parser = argparse.ArgumentParser(description='Chat with local language models.')
     parser.add_argument('--model', '-m',
-                        metavar='MODEL',
-                        choices=allowed_model_names,
+                        type=str,
+                        #metavar='MODEL',
+                        #choices=allowed_model_names,
                         help='Name of language model to chat with.')
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
+    parser.add_argument('--provider', type=str, help='Name of the provider to use.')
     parser.add_argument('--multiline', action='store_true', help='User multiline mode.')
     parser.add_argument('--system-prompt', '-sp',
                         type=argparse.FileType(),
@@ -58,8 +60,8 @@ def main():
     argv = parser.parse_args()
 
     # Make sure model is installed
-    if argv.model not in allowed_model_names:
-        sys.exit(f'Model {argv.model} is not installed.')
+    # if argv.model not in allowed_model_names:
+    #     sys.exit(f'Model {argv.model} is not installed.')
 
     argv.func(argv)
 

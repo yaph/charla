@@ -36,6 +36,6 @@ def generate(model: str, prompt: str, context: list, output: list, system=None) 
     print(text)
 
     context.append(AssistantMessage(content=text))
-    output.append(f'{ui.t_response}\n\n{text}\n')
+    output.append(ui.response(text))
 
     return context
