@@ -1,3 +1,4 @@
+from collections.abc import Mapping
 import os
 import sys
 from abc import ABC, abstractmethod
@@ -33,18 +34,25 @@ class OllamaClient(Client):
 
     def generate(self, prompt: str):
         try:
-            response = self.client.generate(model=self.model, prompt=prompt, context=self.context, system=self.system)
+            response = self.client.generate(model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
         except Exception as err:
-            print(f'Error: {err}')
-            return
+            sys.exit(f'Error: {err}')
 
         # Make sure system message is set only once.
         self.system = ''
 
-        text = response['response'] # type: ignore
-        print(text)
+        text = ''
+        for chunk in response:
+            if not isinstance(chunk, Mapping):
+                continue
+            if not chunk['done']:
+                content = chunk['response']
+                if content:
+                    text += content
+                    print(content, end='', flush=True)
 
-        self.context = response['context'] # type: ignore
+        if isinstance(chunk, Mapping):
+            self.context = chunk['context']
         self.output.append(ui.response(text))
 
         # FIXME make sure context doesn't get too big.
@@ -70,17 +78,24 @@ class AzureClient(Client):
             self.context.append(SystemMessage(content=system))
 
 
+    def __del__(self):
+        self.client.close()
+
+
     def generate(self, prompt: str):
         self.context.append(UserMessage(content=prompt))
 
         try:
-            response = self.client.complete(messages=self.context)
+            response = self.client.complete(messages=self.context, stream=True)
         except Exception as err:
-            print(f'Error: {err}')
-            return
+            sys.exit(f'Error: {err}')
 
-        text = response.choices[0].message.content
-        print(text)
+        text = ''
+        for chunk in response:
+            content = chunk.choices[0].delta.content
+            if content:
+                text += content
+                print(content, end='', flush=True)
 
         self.context.append(AssistantMessage(content=text))
         self.output.append(ui.response(text))
