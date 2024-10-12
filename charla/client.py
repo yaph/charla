@@ -1,4 +1,5 @@
 import os
+import sys
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
@@ -31,7 +32,11 @@ class OllamaClient(Client):
 
 
     def generate(self, prompt: str):
-        response = self.client.generate(model=self.model, prompt=prompt, context=self.context, system=self.system)
+        try:
+            response = self.client.generate(model=self.model, prompt=prompt, context=self.context, system=self.system)
+        except Exception as err:
+            print(f'Error: {err}')
+            return
 
         # Make sure system message is set only once.
         self.system = ''
@@ -47,7 +52,9 @@ class AzureClient(Client):
     def __init__(self, model: str, context: list[str], output: list[str], system: str = ''):
         super().__init__(model, context, output, system)
 
-        token = os.environ['GITHUB_TOKEN']
+        if not (token := os.getenv('GITHUB_TOKEN')):
+            sys.exit('GITHUB_TOKEN environment variable is not set or empty.')
+
         endpoint = 'https://models.inference.ai.azure.com'
 
         self.client = ChatCompletionsClient(
@@ -63,7 +70,12 @@ class AzureClient(Client):
     def generate(self, prompt: str):
         self.context.append(UserMessage(content=prompt))
 
-        response = self.client.complete(messages=self.context)
+        try:
+            response = self.client.complete(messages=self.context)
+        except Exception as err:
+            print(f'Error: {err}')
+            return
+
         text = response.choices[0].message.content
         print(text)
 
