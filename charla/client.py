@@ -47,6 +47,9 @@ class OllamaClient(Client):
         self.context = response['context'] # type: ignore
         self.output.append(ui.response(text))
 
+        # FIXME make sure context doesn't get too big.
+        # Check len(self.context)
+
 
 class AzureClient(Client):
     def __init__(self, model: str, context: list[str], output: list[str], system: str = ''):
@@ -81,3 +84,6 @@ class AzureClient(Client):
 
         self.context.append(AssistantMessage(content=text))
         self.output.append(ui.response(text))
+
+        # FIXME make sure context doesn't get too big.
+        # Check response.usage
