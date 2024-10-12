@@ -1,8 +1,9 @@
-from collections.abc import Mapping
 import os
 import sys
 from abc import ABC, abstractmethod
+from collections.abc import Mapping
 from dataclasses import dataclass
+from operator import itemgetter
 from typing import Any
 
 import ollama
@@ -57,6 +58,12 @@ class OllamaClient(Client):
 
         # FIXME make sure context doesn't get too big.
         # Check len(self.context)
+
+
+    def model_list(self) -> list | None:
+        if models := self.client.list()['models']:
+            return sorted(models, key=itemgetter('size'))
+        return None
 
 
 class AzureClient(Client):

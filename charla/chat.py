@@ -1,13 +1,10 @@
 import argparse
 import re
-from collections.abc import Mapping
 from datetime import datetime
-from operator import itemgetter
 from pathlib import Path
 from typing import Any
 
 import httpx
-import ollama
 from html2text import html2text
 from prompt_toolkit import HTML, PromptSession
 from prompt_toolkit import print_formatted_text as print_fmt
@@ -19,31 +16,6 @@ from prompt_toolkit.key_binding import KeyBindings
 import charla.ui as ui
 from charla import config
 from charla.client import AzureClient, OllamaClient
-
-
-def available_models() -> None | list[str]:
-    """Return available models sorted by size."""
-
-    if model_list := ollama.list()['models']:
-        return sorted(model_list, key=itemgetter('size'))
-    return None
-
-
-def generate2(model: str, prompt: str, context: list, output: list, system=None) -> list:
-    """Generate and print a response to the prompt and return the context."""
-
-    stream = ollama.generate(model=model, prompt=prompt, context=context, stream=True, system=system)
-
-    text = ''
-    for chunk in stream:
-        if not isinstance(chunk, Mapping):
-            continue
-        if not chunk['done']:
-            text += chunk['response']
-            print(chunk['response'], end='', flush=True)
-
-    output.append(f'{ui.t_response}\n\n{text}\n')
-    return chunk['context'] if isinstance(chunk, Mapping) else []
 
 
 def get_content(source: str) -> str:

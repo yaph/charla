@@ -1,4 +1,4 @@
 # SPDX-FileCopyrightText: 2024-present Ramiro Gómez <code@ramiro.org>
 #
 # SPDX-License-Identifier: MIT
-__version__ = "1.2.0"
+__version__ = "2.0.0"
