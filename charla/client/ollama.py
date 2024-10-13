@@ -21,7 +21,7 @@ class OllamaClient(Client):
         # Make sure model exists or exit program.
         try:
             info = self.client.show(self.model)
-        except Exception as err:
+        except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
         # Save model context length in meta property, that can be expanded if useful.
@@ -33,23 +33,24 @@ class OllamaClient(Client):
 
 
     def generate(self, prompt: str):
-        try:
-            response = self.client.generate(model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
-        except Exception as err:
-            sys.exit(f'Error: {err}')
+        response = self.client.generate(model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
 
         # Make sure system message is set only once.
         self.system = ''
 
         text = ''
-        for chunk in response:
-            if not isinstance(chunk, Mapping):
-                continue
-            if not chunk['done']:
-                content = chunk['response']
-                if content:
-                    text += content
-                    print(content, end='', flush=True)
+        try:
+            for chunk in response:
+                if not isinstance(chunk, Mapping):
+                    continue
+                if not chunk['done']:
+                    content = chunk['response']
+                    if content:
+                        text += content
+                        print(content, end='', flush=True)
+        except ollama.ResponseError as err:
+            sys.exit(f'Error: {err}')
+
 
         if isinstance(chunk, Mapping):
             self.context = chunk['context']
