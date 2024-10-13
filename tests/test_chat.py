@@ -10,8 +10,8 @@ def mock_args():
 
 
 def test_get_content_error():
-    assert '' == chat.get_content('https://does-not-exist')
-    assert '' == chat.get_content('does-not-exist.file')
+    assert chat.get_content('https://does-not-exist') == ''
+    assert chat.get_content('does-not-exist.file') == ''
 
 
 def test_get_content_file():

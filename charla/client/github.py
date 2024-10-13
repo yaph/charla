@@ -2,7 +2,7 @@ import os
 import sys
 
 from azure.ai.inference import ChatCompletionsClient
-from azure.ai.inference.models import SystemMessage, UserMessage, AssistantMessage
+from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
 
 from charla import ui
