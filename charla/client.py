@@ -31,6 +31,10 @@ class OllamaClient(Client):
         super().__init__(model, context, output, system)
 
         self.client = ollama.Client()
+        try:
+            self.client.show(model)
+        except Exception as err:
+            sys.exit(f'Error: {err}')
 
 
     def generate(self, prompt: str):
@@ -108,4 +112,4 @@ class AzureClient(Client):
         self.output.append(ui.response(text))
 
         # FIXME make sure context doesn't get too big.
-        # Check response.usage
+        # Check sum of messages lengths.

@@ -8,6 +8,7 @@ from charla.__about__ import __version__
 def main():
     """Create and execute command line interface."""
 
+    # Settings priority: cli args > user settings > default settings.
     user_settings = config.settings(config.load())
 
     parent = argparse.ArgumentParser(add_help=False)

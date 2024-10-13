@@ -70,28 +70,32 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
 def run(argv: argparse.Namespace) -> None:
     """Run the chat session."""
 
-    context: list[int] = []  # Store conversation history to make the model context aware
-    output = [f'# Chat with: {argv.model}\n']  # List to store output text
+    context: list[int] = []  # Store conversation history to make the model context aware.
+    open_location = ''  # File name or URL to be opened.
+    output = [f'# Chat with: {argv.model}\n']  # List to store output text.
 
-    history = Path(argv.prompt_history)
-    config.mkdir(history.parent, exist_ok=True, parents=True)
-
-    session = prompt_session(argv)
-    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
-
+    # Prompt used to give directions to the model at the beginning of the chat.
     system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
-    if system_prompt:
-        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
-    open_source = ''
-
+    # Determine client class.
     client_cls: Any = None
     if argv.provider == 'ollama':
         client_cls = OllamaClient
     elif argv.provider == 'github':
         client_cls = AzureClient
 
+    # Start model API client before chat REPL in case of model errors.
     client = client_cls(argv.model, context=context, output=output, system=system_prompt)
+
+    # Prompt history used for auto completion.
+    history = Path(argv.prompt_history)
+    config.mkdir(history.parent, exist_ok=True, parents=True)
+
+    # Start the chat REPL.
+    session = prompt_session(argv)
+    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
+    if system_prompt:
+        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
 
     while True:
         try:
@@ -101,14 +105,14 @@ def run(argv: argparse.Namespace) -> None:
             output.append(f'{session.message}{user_input}\n')
 
             if session.message == ui.t_open:
-                open_source = user_input.strip()
-                session.bottom_toolbar = ui.t_open_toolbar + open_source
+                open_location = user_input.strip()
+                session.bottom_toolbar = ui.t_open_toolbar + open_location
                 session.message = ui.t_prompt_ml if session.multiline else ui.t_prompt
                 session.completer = None
                 continue
 
-            if open_source:
-                if content := get_content(open_source):
+            if open_location:
+                if content := get_content(open_location):
                     user_input = user_input.strip() + '\n\n' + content
                 else:
                     continue
