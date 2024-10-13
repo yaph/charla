@@ -15,7 +15,6 @@ from prompt_toolkit.key_binding import KeyBindings
 
 import charla.ui as ui
 from charla import config
-from charla.client import AzureClient, OllamaClient
 
 
 def get_content(source: str) -> str:
@@ -77,11 +76,13 @@ def run(argv: argparse.Namespace) -> None:
     # Prompt used to give directions to the model at the beginning of the chat.
     system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
 
-    # Determine client class.
+    # Determine client class and import corresponding module.
     client_cls: Any = None
     if argv.provider == 'ollama':
+        from charla.client.ollama import OllamaClient
         client_cls = OllamaClient
     elif argv.provider == 'github':
+        from charla.client.github import AzureClient
         client_cls = AzureClient
 
     # Start model API client before chat REPL in case of model errors.
@@ -104,6 +105,7 @@ def run(argv: argparse.Namespace) -> None:
 
             output.append(f'{session.message}{user_input}\n')
 
+            # Handle OPEN command input and continue to next prompt.
             if session.message == ui.t_open:
                 open_location = user_input.strip()
                 session.bottom_toolbar = ui.t_open_toolbar + open_location
@@ -111,9 +113,11 @@ def run(argv: argparse.Namespace) -> None:
                 session.completer = None
                 continue
 
+            # Read content from location and append it to user message.
             if open_location:
                 if content := get_content(open_location):
                     user_input = user_input.strip() + '\n\n' + content
+                    open_location = ''
                 else:
                     continue
 
