@@ -1,6 +1,7 @@
 import os
 import sys
 from abc import ABC, abstractmethod
+from collections import namedtuple
 from collections.abc import Mapping
 from dataclasses import dataclass
 from typing import Any
@@ -11,6 +12,9 @@ from azure.ai.inference.models import SystemMessage, UserMessage, AssistantMessa
 from azure.core.credentials import AzureKeyCredential
 
 import charla.ui as ui
+
+
+ModelInfo = namedtuple('ModelInfo', 'architecture context_length')
 
 
 @dataclass
@@ -30,17 +34,25 @@ class OllamaClient(Client):
         super().__init__(model, context, output, system)
 
         self.client = ollama.Client()
-        # Make sure model is installed and determine context_length
+        self.__set_info()
+
+
+    def _set_info(self):
+        """Request model info from API and set model_info property."""
+
+        # Make sure model exists or exit program.
         try:
-            info = self.client.show(model)
+            info = self.client.show(self.model)
         except Exception as err:
             sys.exit(f'Error: {err}')
 
         # Save model context length in meta property, that can be expanded if useful.
         arch = info['model_info']['general.architecture']
-        self.meta = {
-            'model_context_length': int(info['model_info'][f'{arch}.context_length'])
-        }
+        self.model_info = ModelInfo(
+            architecture=arch,
+            context_length=int(info['model_info'][f'{arch}.context_length'])
+        )
+
 
     def generate(self, prompt: str):
         try:
