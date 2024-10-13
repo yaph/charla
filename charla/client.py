@@ -3,7 +3,6 @@ import sys
 from abc import ABC, abstractmethod
 from collections.abc import Mapping
 from dataclasses import dataclass
-from operator import itemgetter
 from typing import Any
 
 import ollama
@@ -31,11 +30,17 @@ class OllamaClient(Client):
         super().__init__(model, context, output, system)
 
         self.client = ollama.Client()
+        # Make sure model is installed and determine context_length
         try:
-            self.client.show(model)
+            info = self.client.show(model)
         except Exception as err:
             sys.exit(f'Error: {err}')
 
+        # Save model context length in meta property, that can be expanded if useful.
+        arch = info['model_info']['general.architecture']
+        self.meta = {
+            'model_context_length': int(info['model_info'][f'{arch}.context_length'])
+        }
 
     def generate(self, prompt: str):
         try:
@@ -61,13 +66,7 @@ class OllamaClient(Client):
         self.output.append(ui.response(text))
 
         # FIXME make sure context doesn't get too big.
-        # Check len(self.context)
-
-
-    def model_list(self) -> list | None:
-        if models := self.client.list()['models']:
-            return sorted(models, key=itemgetter('size'))
-        return None
+        # Check len(self.context) and meta info
 
 
 class AzureClient(Client):
