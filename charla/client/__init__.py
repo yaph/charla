@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from collections import namedtuple
-
 from dataclasses import dataclass
-from typing import Any
+from typing import Any, NamedTuple
 
 
-ModelInfo = namedtuple('ModelInfo', 'architecture context_length')
+class ModelInfo(NamedTuple):
+    architecture: str
+    context_length: int
 
 
 @dataclass

@@ -1,8 +1,9 @@
 import sys
-import ollama
 from collections.abc import Mapping
 
-import charla.ui as ui
+import ollama
+
+from charla import ui
 from charla.client import Client, ModelInfo
 
 
@@ -54,5 +55,5 @@ class OllamaClient(Client):
             self.context = chunk['context']
         self.output.append(ui.response(text))
 
-        # FIXME make sure context doesn't get too big.
+        # FIXME: make sure context doesn't get too big.
         # Check len(self.context) and meta info

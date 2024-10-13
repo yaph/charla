@@ -5,7 +5,7 @@ from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import SystemMessage, UserMessage, AssistantMessage
 from azure.core.credentials import AzureKeyCredential
 
-import charla.ui as ui
+from charla import ui
 from charla.client import Client
 
 
@@ -50,5 +50,5 @@ class AzureClient(Client):
         self.context.append(AssistantMessage(content=text))
         self.output.append(ui.response(text))
 
-        # FIXME make sure context doesn't get too big.
+        # FIXME: make sure context doesn't get too big.
         # Check sum of messages lengths.

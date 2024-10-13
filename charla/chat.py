@@ -13,8 +13,7 @@ from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
-import charla.ui as ui
-from charla import config
+from charla import config, ui
 
 
 def get_content(source: str) -> str:

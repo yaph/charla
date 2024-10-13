@@ -1,7 +1,6 @@
 import argparse
 
-import charla.ui as ui
-from charla import chat, config
+from charla import chat, config, ui
 
 
 def mock_args():
