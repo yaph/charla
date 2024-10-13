@@ -35,6 +35,8 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 {
     "model": "llama3:latest",
     "chats_path": "./chats",
+    "model": "gpt-4o-mini",
+    "provider": "github",
     "prompt_history": "./prompt-history.txt"
 }
 ```
