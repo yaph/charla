@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass, field
 from typing import Any, NamedTuple
 
 
@@ -8,12 +7,13 @@ class ModelInfo(NamedTuple):
     context_length: int
 
 
-@dataclass
 class Client(ABC):
-    model: str
-    context: Any = field(default_factory=list)
-    message_history: list[dict] = field(default_factory=list)
-    system: str = ''
+    def __init__(self, model: str, system: str = ''):
+        self.model = model
+        self.system = system
+        # For chatting with memory and writing output.
+        self.context: Any = []
+        self.message_history: list[dict] = []
 
     @abstractmethod
     def generate(self, prompt: str):

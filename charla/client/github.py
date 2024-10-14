@@ -53,3 +53,4 @@ class AzureClient(Client):
 
         self.context.append(AssistantMessage(content=text))
         self.add_message(role='assistant', text=text)
+

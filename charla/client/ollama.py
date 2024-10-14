@@ -31,6 +31,8 @@ class OllamaClient(Client):
 
 
     def generate(self, prompt: str):
+        self.add_message(role='user', text=prompt)
+
         response = self.client.generate(
             model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
 

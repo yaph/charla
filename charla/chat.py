@@ -108,9 +108,6 @@ def run(argv: argparse.Namespace) -> None:
             if not (user_input := session.prompt()):
                 continue
 
-            client.add_message(role='user', text=user_input)
-            #output.append(f'{session.message}{user_input}\n')
-
             # Handle OPEN command input and continue to next prompt.
             if session.message == ui.t_open:
                 open_location = user_input.strip()
