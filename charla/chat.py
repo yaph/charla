@@ -16,22 +16,22 @@ from prompt_toolkit.key_binding import KeyBindings
 from charla import client, config, ui
 
 
-def get_content(source: str) -> str:
+def get_content(location: str) -> str:
     """Return content of the given source or empty string."""
 
     content = ''
 
-    if source.startswith(('http://', 'https://')):
+    if location.startswith(('http://', 'https://')):
         try:
-            resp = httpx.get(source, follow_redirects=True)
+            resp = httpx.get(location, follow_redirects=True)
             content = html2text(
-                resp.text, baseurl=source
+                resp.text, baseurl=location
             ) if resp.headers['content-type'] == 'text/html' else resp.text
         except httpx.ConnectError as err:
             print(f'Enter an existing URL.\n{err}\n')
     else:
         try:
-            content = Path(source).expanduser().read_text()
+            content = Path(location).expanduser().read_text()
         except (FileNotFoundError, PermissionError) as err:
             print(f'Enter name of an existing file.\n{err}\n')
 
@@ -41,10 +41,12 @@ def get_content(source: str) -> str:
 def prompt_session(argv: argparse.Namespace) -> PromptSession:
     """Create and return a PromptSession object."""
 
-    session: PromptSession = PromptSession(message=ui.t_prompt_ml if argv.multiline else ui.t_prompt,
-                            history=FileHistory(argv.prompt_history),
-                            auto_suggest=AutoSuggestFromHistory(),
-                            multiline=argv.multiline)
+    session: PromptSession = PromptSession(
+        message=ui.t_prompt_ml if argv.multiline else ui.t_prompt,
+        history=FileHistory(argv.prompt_history),
+        auto_suggest=AutoSuggestFromHistory(),
+        multiline=argv.multiline
+    )
 
     print(ui.t_help)
 
