@@ -5,7 +5,7 @@ from charla import chat, config
 from charla.__about__ import __version__
 
 
-def main():
+def main(args=None) -> None:
     """Create and execute command line interface."""
 
     # Settings priority: cli args > user settings > default settings.
@@ -19,7 +19,7 @@ def main():
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
     parser.add_argument('--provider', type=str, help='Name of the provider to use.')
-    parser.add_argument('--multiline', action='store_true', help='User multiline mode.')
+    parser.add_argument('--multiline', action='store_true', help='Use multiline mode.')
     parser.add_argument('--system-prompt', '-sp',
                         type=argparse.FileType(),
                         help='File that contains system prompt to use.')
@@ -32,7 +32,7 @@ def main():
     parser_settings.add_argument('--location', action='store_true', help='Show location of settings file.')
     parser_settings.set_defaults(func=config.manage)
 
-    argv = parser.parse_args()
+    argv = parser.parse_args(args)
     argv.func(argv)
 
 
