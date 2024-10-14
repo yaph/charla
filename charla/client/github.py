@@ -6,13 +6,12 @@ from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessa
 from azure.core.credentials import AzureKeyCredential
 from azure.core.exceptions import ClientAuthenticationError, HttpResponseError
 
-from charla import ui
 from charla.client import Client
 
 
 class AzureClient(Client):
-    def __init__(self, model: str, context: list[str], output: list[str], system: str = ''):
-        super().__init__(model, context, output, system)
+    def __init__(self, model: str, system: str = ''):
+        super().__init__(model, system)
 
         if not (token := os.getenv('GITHUB_TOKEN')):
             sys.exit('GITHUB_TOKEN environment variable is not set or empty.')
@@ -27,6 +26,7 @@ class AzureClient(Client):
 
         if system:
             self.context.append(SystemMessage(content=system))
+            self.add_message(role='system', text=system)
 
 
     def __del__(self):
@@ -35,7 +35,10 @@ class AzureClient(Client):
 
     def generate(self, prompt: str):
         self.context.append(UserMessage(content=prompt))
+        self.add_message(role='user', text=prompt)
 
+        # TODO: make sure context doesn't get too big.
+        # Check sum of messages lengths.
         try:
             response = self.client.complete(messages=self.context, stream=True)
         except (ClientAuthenticationError, HttpResponseError) as err:
@@ -49,7 +52,4 @@ class AzureClient(Client):
                 print(content, end='', flush=True)
 
         self.context.append(AssistantMessage(content=text))
-        self.output.append(ui.response(text))
-
-        # FIXME: make sure context doesn't get too big.
-        # Check sum of messages lengths.
+        self.add_message(role='assistant', text=text)

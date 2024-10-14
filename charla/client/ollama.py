@@ -3,13 +3,12 @@ from collections.abc import Mapping
 
 import ollama
 
-from charla import ui
 from charla.client import Client, ModelInfo
 
 
 class OllamaClient(Client):
-    def __init__(self, model: str, context: list[int], output: list[str], system: str = ''):
-        super().__init__(model, context, output, system)
+    def __init__(self, model: str, system: str = ''):
+        super().__init__(model, system)
 
         self.client = ollama.Client()
 
@@ -32,7 +31,8 @@ class OllamaClient(Client):
 
 
     def generate(self, prompt: str):
-        response = self.client.generate(model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
+        response = self.client.generate(
+            model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
 
         # Make sure system message is set only once.
         self.system = ''
@@ -50,10 +50,7 @@ class OllamaClient(Client):
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
-
         if isinstance(chunk, Mapping):
             self.context = chunk['context']
-        self.output.append(ui.response(text))
 
-        # FIXME: make sure context doesn't get too big.
-        # Check len(self.context) and meta info
+        self.add_message(role='assistant', text=text)

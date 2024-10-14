@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any, NamedTuple
 
 
@@ -11,8 +11,8 @@ class ModelInfo(NamedTuple):
 @dataclass
 class Client(ABC):
     model: str
-    context: Any
-    output: list[str]
+    context: Any = field(default_factory=list)
+    message_history: list[dict] = field(default_factory=list)
     system: str = ''
 
     @abstractmethod
@@ -21,3 +21,6 @@ class Client(ABC):
 
     def set_info(self):
         pass
+
+    def add_message(self, role, text):
+        self.message_history.append({'role': role, 'text': text})

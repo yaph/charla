@@ -13,7 +13,7 @@ from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.history import FileHistory
 from prompt_toolkit.key_binding import KeyBindings
 
-from charla import config, ui
+from charla import client, config, ui
 
 
 def get_content(source: str) -> str:
@@ -68,9 +68,7 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
 def run(argv: argparse.Namespace) -> None:
     """Run the chat session."""
 
-    context: list[int] = []  # Store conversation history to make the model context aware.
     open_location = ''  # File name or URL to be opened.
-    output = [f'# Chat with: {argv.model}\n']  # List to store output text.
 
     # Prompt used to give directions to the model at the beginning of the chat.
     system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
@@ -85,12 +83,19 @@ def run(argv: argparse.Namespace) -> None:
         client_cls = AzureClient
 
     # Start model API client before chat REPL in case of model errors.
-    client = client_cls(argv.model, context=context, output=output, system=system_prompt)
+    client = client_cls(argv.model, system=system_prompt)
     client.set_info()
 
     # Prompt history used for auto completion.
     history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
+
+    # Location to store chat as markdown file.
+    chats_path = Path(argv.chats_path)
+    config.mkdir(chats_path, exist_ok=True, parents=True)
+    now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
+    slug = re.sub(r'\W', '-', client.model)
+    chats_file = chats_path / f'{now}-{slug}.md'
 
     # Start the chat REPL.
     session = prompt_session(argv)
@@ -103,7 +108,8 @@ def run(argv: argparse.Namespace) -> None:
             if not (user_input := session.prompt()):
                 continue
 
-            output.append(f'{session.message}{user_input}\n')
+            client.add_message(role='user', text=user_input)
+            #output.append(f'{session.message}{user_input}\n')
 
             # Handle OPEN command input and continue to next prompt.
             if session.message == ui.t_open:
@@ -118,6 +124,7 @@ def run(argv: argparse.Namespace) -> None:
                 if content := get_content(open_location):
                     user_input = user_input.strip() + '\n\n' + content
                     open_location = ''
+                    session.bottom_toolbar = None
                 else:
                     continue
 
@@ -125,25 +132,26 @@ def run(argv: argparse.Namespace) -> None:
             client.generate(user_input)
             print('\n')
 
-            session.bottom_toolbar = None
+            save(chats_file, client)
 
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
 
-    chats_path = Path(argv.chats_path)
-    config.mkdir(chats_path, exist_ok=True, parents=True)
-    save(chats_path, output, argv.model)
+    print(f'Saving chat in: {chats_file}')
+    save(chats_file, client)
     print_fmt(HTML('<b>Exiting program.</b>'))
 
 
-def save(chats_path: Path, output: list[str], model_name: str) -> None:
+def save(chats_file: Path, client: client.Client) -> None:
     """Save the chat as a markdown file."""
 
-    if len(output) > 1:
-        now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
-        slug = re.sub(r'\W', '-', model_name)
-        file = chats_path / f'{now}-{slug}.md'
+    output = f'# Chat with: {client.model}\n\n'
 
-        print(f'Saving chat in: {file}')
-        file.write_text('\n'.join(output))
+    for msg in client.message_history:
+        if msg['role'] == 'user':
+            output += f"{ui.t_prompt}{msg['text']}\n\n"
+        elif msg['role'] == 'assistant':
+            output += f"{ui.t_response}\n\n{msg['text']}\n\n"
+
+    chats_file.write_text(output)

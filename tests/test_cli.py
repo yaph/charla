@@ -1,10 +1,10 @@
+from contextlib import suppress
+
 from charla.cli import main
 
 
 def test_cli_help(capsys):
-    try:
+    with suppress(SystemExit):
         main(['-h'])
-    except SystemExit:
-        pass
     output = capsys.readouterr().out
     assert 'language model' in output
