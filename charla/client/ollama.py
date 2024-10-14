@@ -12,10 +12,9 @@ class OllamaClient(Client):
         super().__init__(model, context, output, system)
 
         self.client = ollama.Client()
-        self._set_info()
 
 
-    def _set_info(self):
+    def set_info(self):
         """Request model info from API and set model_info property."""
 
         # Make sure model exists or exit program.

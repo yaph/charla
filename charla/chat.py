@@ -86,6 +86,7 @@ def run(argv: argparse.Namespace) -> None:
 
     # Start model API client before chat REPL in case of model errors.
     client = client_cls(argv.model, context=context, output=output, system=system_prompt)
+    client.set_info()
 
     # Prompt history used for auto completion.
     history = Path(argv.prompt_history)

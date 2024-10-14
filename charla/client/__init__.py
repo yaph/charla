@@ -18,3 +18,6 @@ class Client(ABC):
     @abstractmethod
     def generate(self, prompt: str):
         pass
+
+    def set_info(self):
+        pass
