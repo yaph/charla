@@ -14,7 +14,7 @@ quote = '```'
 f = io.StringIO()
 with (redirect_stdout(f), suppress(SystemExit)):
     cli.main(['-h'])
-help_text = f.getvalue()
+help_text = f.getvalue().replace('add_help_to_readme.py', 'charla')
 
 readme_file = Path('README.md')
 readme_content = readme_file.read_text()
