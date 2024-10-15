@@ -3,23 +3,9 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
 
-**Charla** is a terminal based application for chatting with language models. Charla integrates with [Ollama](https://ollama.com/) and [GitHub Models](https://github.com/marketplace/models) for exchanging messages with model services.
-
-To use Charla with models on your computer, you need a running installation of the `ollama` server and at least one supported language model must be installed. For GitHub Models you need access to the service and a GitHub token. Please refer to the documentation of the service provider you want to use for installation and setup instructions.
+**Charla** is a terminal based application for chatting with language models. Charla integrates with Ollama and GitHub Models for exchanging messages with model services.
 
 ![preview](https://geeksta.net/img/tools/charla-chat-demo.gif)
-
-## Installation
-
-Install Charla using `pipx`:
-
-```console
-pipx install charla
-```
-
-## Usage
-
-Launch the chat console by typing `charla` in your terminal.
 
 ## Features
 
@@ -31,6 +17,24 @@ Launch the chat console by typing `charla` in your terminal.
 * Store default user preferences in a settings file.
 * Provide a system prompt for a chat session.
 * Load content from local files and web pages to append to prompts.
+
+## Installation
+
+To use Charla with models on your computer, you need a running installation of the [Ollama server](https://ollama.com/download) and at least one supported language model must be installed. For [GitHub Models](https://github.com/marketplace/models) you need access to the service and a GitHub token. Please refer to the documentation of the service provider you want to use for installation and setup instructions.
+
+Install Charla using `pipx`:
+
+```console
+pipx install charla
+```
+
+For GitHub models, set the environment variable GITHUB_TOKEN to your token. In Bash enter:
+
+```console
+export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
+```
+
+After successful installation and setup you can launch the chat console by typing `charla` in your terminal.
 
 ## Configuration
 
