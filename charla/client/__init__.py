@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from typing import Any, NamedTuple
+from typing import NamedTuple
 
 
 class ModelInfo(NamedTuple):
@@ -8,12 +8,10 @@ class ModelInfo(NamedTuple):
 
 
 class Client(ABC):
-    def __init__(self, model: str, system: str = ''):
+    def __init__(self, model: str, system: str = '', **kwargs):
         self.model = model
         self.system = system
-        # For chatting with memory and writing output.
-        self.context: Any = []
-        self.message_history: list[dict] = []
+        self.message_history: list[dict] = [] # For saving chat.
 
     @abstractmethod
     def generate(self, prompt: str):

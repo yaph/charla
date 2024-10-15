@@ -5,11 +5,11 @@ build-backend = "hatchling.build"
 [project]
 name = "charla"
 dynamic = ["version"]
-description = 'A terminal based chat application that works with local language models.'
+description = 'A terminal based chat application that works with language models.'
 readme = "README.md"
 requires-python = ">=3.10"
 license = "MIT"
-keywords = ["chat-client", "cli", "llm", "chatbot", "ollama", "terminal"]
+keywords = ["chat-client", "cli", "llm", "chatbot", "github models", "ollama", "terminal"]
 authors = [
   { name = "Ramiro Gómez", email = "code@ramiro.org" },
 ]

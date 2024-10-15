@@ -85,7 +85,7 @@ def run(argv: argparse.Namespace) -> None:
         client_cls = AzureClient
 
     # Start model API client before chat REPL in case of model errors.
-    client = client_cls(argv.model, system=system_prompt)
+    client = client_cls(argv.model, system=system_prompt, message_limit=argv.message_limit)
     client.set_info()
 
     # Prompt history used for auto completion.

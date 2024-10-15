@@ -1,5 +1,7 @@
 import os
 import sys
+from collections import deque
+from typing import Any
 
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessage
@@ -10,8 +12,11 @@ from charla.client import Client
 
 
 class AzureClient(Client):
-    def __init__(self, model: str, system: str = ''):
+    def __init__(self, model: str, system: str = '', **kwargs):
         super().__init__(model, system)
+
+        # For chatting with memory.
+        self.context: Any = deque([], maxlen=kwargs.get('message_limit'))
 
         if not (token := os.getenv('GITHUB_TOKEN')):
             sys.exit('GITHUB_TOKEN environment variable is not set or empty.')
@@ -37,10 +42,8 @@ class AzureClient(Client):
         self.context.append(UserMessage(content=prompt))
         self.add_message(role='user', text=prompt)
 
-        # TODO: make sure context doesn't get too big.
-        # Check sum of messages lengths.
         try:
-            response = self.client.complete(messages=self.context, stream=True)
+            response = self.client.complete(messages=list(self.context), stream=True)
         except (ClientAuthenticationError, HttpResponseError) as err:
             sys.exit(f'Error: {err}')
 

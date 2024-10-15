@@ -7,8 +7,11 @@ from charla.client import Client, ModelInfo
 
 
 class OllamaClient(Client):
-    def __init__(self, model: str, system: str = ''):
+    def __init__(self, model: str, system: str = '', **kwargs):
         super().__init__(model, system)
+
+        # For chatting with memory.
+        self.context: list[int] = []
 
         self.client = ollama.Client()
 

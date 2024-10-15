@@ -9,11 +9,12 @@ NAME = 'charla'
 PROVIDER_NAMES = ['ollama', 'github']
 
 default_settings: dict = {
-    'model': '',
     'chats_path': user_documents_dir() + f'/{NAME}/chats',
+    'message_limit': 20,
+    'model': '',
+    'multiline': False,
     'prompt_history': user_cache_dir(appname=NAME) + '/prompt-history.txt',
     'provider': PROVIDER_NAMES[0],
-    'multiline': False
 }
 path_settings = user_config_path(NAME).joinpath('settings.json')
 
