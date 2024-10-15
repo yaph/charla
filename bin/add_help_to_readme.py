@@ -1,11 +1,9 @@
 #!/usr/bin/env python
 import io
-
 from contextlib import redirect_stdout, suppress
 from pathlib import Path
 
 from charla import cli
-
 
 start = '<!-- START: DO NOT EDIT -->'
 end = '<!-- END: DO NOT EDIT -->'
@@ -21,6 +19,6 @@ readme_content = readme_file.read_text()
 
 p_start = readme_content.partition(start)[:2]
 p_end = readme_content.partition(end)[1:]
-p_all = p_start + (f'\n{quote}text\n{help_text}\n{quote}\n',) + p_end
+p_all = (*p_start, f'\n{quote}text\n{help_text}\n{quote}\n', *p_end)
 
 readme_file.write_text(''.join(p_all))
