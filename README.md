@@ -48,6 +48,35 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 ## CLI Help
 
 <!-- START: DO NOT EDIT -->
+```
+usage: charla [-h] [--model MODEL] [--chats-path CHATS_PATH] [--prompt-history PROMPT_HISTORY]
+                             [--provider PROVIDER] [--message-limit MESSAGE_LIMIT] [--multiline] [--system-prompt SYSTEM_PROMPT]
+                             [--version]
+                             {settings} ...
+
+Chat with language models.
+
+positional arguments:
+  {settings}            Sub Commands
+    settings            Show current settings.
+
+options:
+  -h, --help            show this help message and exit
+  --model MODEL, -m MODEL
+                        Name of language model to chat with.
+  --chats-path CHATS_PATH
+                        Directory to store chats.
+  --prompt-history PROMPT_HISTORY
+                        File to store prompt history.
+  --provider PROVIDER   Name of the provider to use.
+  --message-limit MESSAGE_LIMIT
+                        Maximum number of messages to send to GitHub Models service.
+  --multiline           Use multiline mode.
+  --system-prompt SYSTEM_PROMPT, -sp SYSTEM_PROMPT
+                        File that contains system prompt to use.
+  --version             show program's version number and exit
+
+```
 <!-- END: DO NOT EDIT -->
 
 ## Development
