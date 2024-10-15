@@ -19,7 +19,7 @@ pipx install charla
 
 ## Usage
 
-Launch the chat console by typing `charla` in your terminal, or view all available command line options with `charla -h`.
+Launch the chat console by typing `charla` in your terminal.
 
 ## Features
 
@@ -47,8 +47,10 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 
 ## CLI Help
 
+Output of `charla -h` with information on all available command line options.
+
 <!-- START: DO NOT EDIT -->
-```
+```text
 usage: charla [-h] [--model MODEL] [--chats-path CHATS_PATH] [--prompt-history PROMPT_HISTORY]
                              [--provider PROVIDER] [--message-limit MESSAGE_LIMIT] [--multiline] [--system-prompt SYSTEM_PROMPT]
                              [--version]
