@@ -13,7 +13,7 @@ from charla.client import Client
 
 class AzureClient(Client):
     def __init__(self, model: str, system: str = '', **kwargs):
-        super().__init__(model, system)
+        super().__init__(model, system, **kwargs)
 
         # For chatting with memory.
         self.context: Any = deque([], maxlen=kwargs.get('message_limit'))
