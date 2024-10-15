@@ -3,7 +3,9 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
 
-**Charla** is a terminal based chat application that integrates with [Ollama](https://ollama.com/), a backend designed to serve language models. To use Charla, ensure that the `ollama` server is running and at least one language model is installed.
+**Charla** is a terminal based application for chatting with language models. Charla integrates with [Ollama](https://ollama.com/) and [GitHub Models](https://github.com/marketplace/models) for exchanging messages with model services.
+
+To use Charla with models on your computer, you need a running installation of the `ollama` server and at least one supported language model must be installed. For GitHub Models you need access to the service and a GitHub token. Please refer to the documentation of the service provider you want to use for installation and setup instructions.
 
 ![preview](https://geeksta.net/img/tools/charla-chat-demo.gif)
 
@@ -21,7 +23,8 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 
 ## Features
 
-* Terminal-based chat system that supports context aware conversations using local language models.
+* Terminal-based chat system that supports context aware conversations with language models.
+* Support for local models via Ollama and remote models via GitHub Models.
 * Chat sessions are saved as markdown files in the user's documents directory when ending a chat.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Switch between single-line and multi-line input modes without interrupting the chat session.
@@ -33,13 +36,19 @@ Launch the chat console by typing `charla` in your terminal, or view all availab
 
 ```json
 {
-    "model": "llama3:latest",
+    "model": "phi3",
     "chats_path": "./chats",
-    "model": "gpt-4o-mini",
+    "prompt_history": "./prompt-history.txt",
     "provider": "github",
-    "prompt_history": "./prompt-history.txt"
+    "message_limit": 20,
+    "multiline": false
 }
 ```
+
+## CLI Help
+
+<!-- START: DO NOT EDIT -->
+<!-- END: DO NOT EDIT -->
 
 ## Development
 
