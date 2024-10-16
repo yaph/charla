@@ -38,12 +38,8 @@ jobs:
     - name: Run static analysis
       run: hatch fmt --linter
 
-    - name: Run tests non-Windows
-      if: runner.os != 'Windows'
-      run: hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1
+    - name: Set env
+      run: export GITHUB_TOKEN=MY_GITHUB_TOKEN
 
-    - name: Run tests Windows
-      if: runner.os == 'Windows'
-      shell: powershell
-      run: |
-        python -c "import os; os.system('hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1')"
+    - name: Run tests
+      run: hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1
