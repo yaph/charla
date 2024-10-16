@@ -34,13 +34,37 @@ For GitHub models, set the environment variable GITHUB_TOKEN to your token. In B
 export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 ```
 
-After successful installation and setup you can launch the chat console by typing `charla` in your terminal.
+## Usage
+
+After successful installation and setup you can launch the chat console with the `charla` command in your terminal.
+
+If you use Charla with Ollama, the default provider, you only need to specify the model to use, e.g.:
+
+```console
+charla -m phi3
+```
+
+If you want to use GitHub Models, you have to set the provider:
+
+```console
+charla -m gpt-4o --provider github
+```
+
+You can set a default model and change the default provider in your user settings file.
 
 ## Settings
 
+Settings can be specified as command line arguments and in the settings file. Command line arguments have the highest priority. The location of your settings file depends on your operating system. Use the following command to show the location:
+
+```console
+charla settings --location
+```
+
+Example settings for using OpenAI's GPT-4o model and the GitHub Models service by default.
+
 ```json
 {
-    "model": "phi3",
+    "model": "gpt-4o",
     "chats_path": "./chats",
     "prompt_history": "./prompt-history.txt",
     "provider": "github",
