@@ -94,7 +94,7 @@ def run(argv: argparse.Namespace) -> None:
     config.mkdir(chats_path, exist_ok=True, parents=True)
     now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
     slug = re.sub(r'\W', '-', client.model)
-    chats_file = chats_path / f'{now}-{slug}.md'
+    chat_file = chats_path / f'{now}-{slug}.md'
 
     # Start the chat REPL.
     session = prompt_session(argv)
@@ -128,7 +128,7 @@ def run(argv: argparse.Namespace) -> None:
             client.generate(user_input)
             print('\n')
 
-            save(chats_file, client)
+            save(chat_file, client)
 
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
@@ -136,13 +136,13 @@ def run(argv: argparse.Namespace) -> None:
 
     # Save chat if there is at least one response.
     if any(m['role'] == 'assistant' for m in client.message_history):
-        print(f'Saving chat in: {chats_file}')
-        save(chats_file, client)
+        print(f'Saving chat in: {chat_file}')
+        save(chat_file, client)
 
     print_fmt(HTML('<b>Exiting program.</b>'))
 
 
-def save(chats_file: Path, client: client.Client) -> None:
+def save(chat_file: Path, client: client.Client) -> None:
     """Save the chat as a markdown file."""
 
     output = f'# Chat with: {client.model}\n\n'
@@ -154,4 +154,4 @@ def save(chats_file: Path, client: client.Client) -> None:
         elif msg['role'] == 'assistant':
             output += f"{ui.t_response}\n\n{msg['text']}\n\n"
 
-    chats_file.write_text(output)
+    chat_file.write_text(output)
