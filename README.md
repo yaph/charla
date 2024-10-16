@@ -36,7 +36,7 @@ export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
 
 After successful installation and setup you can launch the chat console by typing `charla` in your terminal.
 
-## Configuration
+## Settings
 
 ```json
 {
