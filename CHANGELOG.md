@@ -6,6 +6,36 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [2.0.0](https://github.com/yaph/charla/releases/tag/2.0.0) - 2024-10-16
+
+<small>[Compare with 1.2.0](https://github.com/yaph/charla/compare/1.2.0...2.0.0)</small>
+
+### Added
+
+- Add CLI help text. ([42cdd55](https://github.com/yaph/charla/commit/42cdd55d395a1cd67c0b8d4786222a59fb2b89b9) by Ramiro Gómez).
+- Add message_limit setting to limit number of messages sent to GitHub Models service. Add kwargs to Client constructors. Use deque for automatically managing context (number of messages) for GitHub Models. Update project info. ([818b07f](https://github.com/yaph/charla/commit/818b07f80aa070f296fd20b96b3443543e0af815) by Ramiro Gómez).
+- Add CLI test. ([c48ec68](https://github.com/yaph/charla/commit/c48ec686c53b57e77c5b49b9a01c9308ed1dd3e1) by Ramiro Gómez).
+- Add tests for client classes. ([05be788](https://github.com/yaph/charla/commit/05be788ef644e94ed2fabf7b9ad4b840f16b42e7) by Ramiro Gómez).
+- Add todos. ([5e65e47](https://github.com/yaph/charla/commit/5e65e4799325d00a13e2c0edd48f0f6d1d77fce4) by Ramiro Gómez).
+- Add support for Github models. Add provider setting. Add client module with clients for ollama and azure. ([d7b7359](https://github.com/yaph/charla/commit/d7b73593f584aefe299df5f91cc7c05a84193cd7) by Ramiro Gómez).
+
+### Fixed
+
+- Fix linting issues. ([05f147b](https://github.com/yaph/charla/commit/05f147b826f846f2a8fe5890a42b3589a72b3082) by Ramiro Gómez).
+- Fix import and test. Add dependencies. ([95d2375](https://github.com/yaph/charla/commit/95d2375ea54b42f234b697df5d361b3fc1d1bcae) by Ramiro Gómez).
+- Fix git command. ([d0ea71c](https://github.com/yaph/charla/commit/d0ea71c580d87d6314b2beccbc77f6c1ec2face5) by Ramiro Gómez).
+
+### Changed
+
+- Change Configuration to Settings. ([37a6cdc](https://github.com/yaph/charla/commit/37a6cdc7c59669418a248d3842447ff864787cd0) by Ramiro Gómez).
+- Change sample config. ([7eb589c](https://github.com/yaph/charla/commit/7eb589c5698223d0bb98d07a780f1688039ca315) by Ramiro Gómez).
+
+### Removed
+
+- Remove dataclass and write __init__ method. Only call add_message in Client classes. ([4ac0d3b](https://github.com/yaph/charla/commit/4ac0d3bd95817887cf8df611e209721fc202e147) by Ramiro Gómez).
+- Remove obsolete file. ([45a91c1](https://github.com/yaph/charla/commit/45a91c1d40c05a1a4d6151dfd0161d107d25f6f1) by Ramiro Gómez).
+- Remove models sub command, model_list and available_models functions. Remove check for available models and unused code. Bump version. ([531b125](https://github.com/yaph/charla/commit/531b1258b074b86d3cf72855410ad9101b36adf4) by Ramiro Gómez).
+
 ## [1.2.0](https://github.com/yaph/charla/releases/tag/1.2.0) - 2024-07-24
 
 <small>[Compare with 1.1.0](https://github.com/yaph/charla/compare/1.1.0...1.2.0)</small>
