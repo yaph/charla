@@ -10,7 +10,7 @@ end = '<!-- END: DO NOT EDIT -->'
 quote = '```'
 
 f = io.StringIO()
-with (redirect_stdout(f), suppress(SystemExit)):
+with redirect_stdout(f), suppress(SystemExit):
     cli.main(['-h'])
 help_text = f.getvalue().replace('add_help_to_readme.py', 'charla')
 

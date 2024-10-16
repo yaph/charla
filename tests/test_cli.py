@@ -8,4 +8,3 @@ def test_cli_help(capsys):
         main(['-h'])
     output = capsys.readouterr().out
     assert 'language model' in output
-

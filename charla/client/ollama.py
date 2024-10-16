@@ -37,7 +37,8 @@ class OllamaClient(Client):
         self.add_message(role='user', text=prompt)
 
         response = self.client.generate(
-            model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system)
+            model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system
+        )
 
         # Make sure system message is set only once.
         self.system = ''
