@@ -137,8 +137,11 @@ def run(argv: argparse.Namespace) -> None:
         except (KeyboardInterrupt, EOFError):
             break
 
-    print(f'Saving chat in: {chats_file}')
-    save(chats_file, client)
+    # Save chat if there is at least one response.
+    if any(m['role'] == 'assistant' for m in client.message_history):
+        print(f'Saving chat in: {chats_file}')
+        save(chats_file, client)
+
     print_fmt(HTML('<b>Exiting program.</b>'))
 
 
@@ -147,6 +150,7 @@ def save(chats_file: Path, client: client.Client) -> None:
 
     output = f'# Chat with: {client.model}\n\n'
 
+    # Add user and assistant messages to output.
     for msg in client.message_history:
         if msg['role'] == 'user':
             output += f"{ui.t_prompt}{msg['text']}\n\n"
