@@ -39,7 +39,7 @@ jobs:
       run: hatch fmt --linter
 
     - name: Set env
-      run: export GITHUB_TOKEN=MY_GITHUB_TOKEN
+      run: echo "GITHUB_TOKEN=MY_GITHUB_TOKEN" >> "$GITHUB_TOKEN"
 
     - name: Run tests
       run: hatch test --python ${{ matrix.python-version }} --cover --randomize --parallel --retries 2 --retry-delay 1
