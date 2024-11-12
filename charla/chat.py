@@ -78,7 +78,7 @@ def run(argv: argparse.Namespace) -> None:
     if argv.provider == 'ollama':
         from charla.client.ollama import OllamaClient as ApiClient
     elif argv.provider == 'github':
-        from charla.client.github import AzureClient as ApiClient
+        from charla.client.github import AzureClient as ApiClient  # type: ignore
 
     # Start model API client before chat REPL in case of model errors.
     client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit)
