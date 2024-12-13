@@ -1,5 +1,4 @@
 import sys
-from collections.abc import Mapping
 
 import ollama
 
