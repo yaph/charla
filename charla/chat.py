@@ -69,7 +69,8 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
 def run(argv: argparse.Namespace) -> None:
     """Run the chat session."""
 
-    open_location = ''  # File name or URL to be opened.
+    # File name or URL to be opened.
+    open_location = ''
 
     # Prompt used to give directions to the model at the beginning of the chat.
     system_prompt = argv.system_prompt.read() if argv.system_prompt else ''

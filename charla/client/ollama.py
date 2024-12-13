@@ -26,16 +26,15 @@ class OllamaClient(Client):
             sys.exit(f'Error: {err}')
 
         # Save model context length in meta property, that can be expanded if useful.
-        arch = info['model_info']['general.architecture']
+        arch = info.modelinfo['general.architecture']
         self.model_info = ModelInfo(
             architecture=arch,
-            context_length=int(info['model_info'][f'{arch}.context_length'])
+            context_length=int(info.modelinfo[f'{arch}.context_length'])
         )
 
 
     def generate(self, prompt: str):
         self.add_message(role='user', text=prompt)
-
         response = self.client.generate(
             model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system
         )
@@ -46,7 +45,7 @@ class OllamaClient(Client):
         text = ''
         try:
             for chunk in response:
-                if not isinstance(chunk, Mapping):
+                if 'response' not in chunk:
                     continue
                 if not chunk['done']:
                     content = chunk['response']
