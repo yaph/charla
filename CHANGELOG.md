@@ -6,6 +6,19 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [2.1.0](https://github.com/yaph/charla/releases/tag/2.1.0) - 2024-12-13
+
+<small>[Compare with 2.0.0](https://github.com/yaph/charla/compare/2.0.0...2.1.0)</small>
+
+### Added
+
+- Add support for local settings file. ([87e8387](https://github.com/yaph/charla/commit/87e8387f424e5008575cd8a06a10cdea7fc2b2bf) by Ramiro Gómez).
+
+### Removed
+
+- Remove unused import. ([35b6ba5](https://github.com/yaph/charla/commit/35b6ba506bd5e7ccf6225ccf37e151b49ff9c17c) by Ramiro Gómez).
+- Remove isinstance checks to prevent errors resulting from type changes. ([65a0005](https://github.com/yaph/charla/commit/65a0005ffccf2c869e333913b5b451bdb78408d2) by Ramiro Gómez).
+
 ## [2.0.0](https://github.com/yaph/charla/releases/tag/2.0.0) - 2024-10-16
 
 <small>[Compare with 1.2.0](https://github.com/yaph/charla/compare/1.2.0...2.0.0)</small>
