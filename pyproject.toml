@@ -100,4 +100,3 @@ ignore = ["T201", "DTZ005", "FA100"]
 
 [tool.ruff.format]
 quote-style = "preserve"
-skip-magic-trailing-comma = true
