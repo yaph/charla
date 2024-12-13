@@ -14,7 +14,7 @@
 * Chat sessions are saved as markdown files in the user's documents directory when ending a chat.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Switch between single-line and multi-line input modes without interrupting the chat session.
-* Store default user preferences in a settings file.
+* Store user preferences in user config or current directory settings files.
 * Provide a system prompt for a chat session.
 * Load content from local files and web pages to append to prompts.
 
@@ -54,11 +54,13 @@ You can set a default model and change the default provider in your user setting
 
 ## Settings
 
-Settings can be specified as command line arguments and in the settings file. Command line arguments have the highest priority. The location of your settings file depends on your operating system. Use the following command to show the location:
+Settings can be specified as command line arguments and in the settings files. Command line arguments have the highest priority. The location of your user config settings file depends on your operating system. Use the following command to show the location:
 
 ```console
 charla settings --location
 ```
+
+You can also store settings in the current working directory in a file named `.charla.json`. The settings in this local override the user config settings.
 
 Example settings for using OpenAI's GPT-4o model and the GitHub Models service by default.
 
