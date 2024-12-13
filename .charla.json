@@ -1,0 +1,6 @@
+{
+    "chats_path": "./tests/data/chats/",
+    "model": "phi3",
+    "prompt_history": "./tests/data/chats/prompt-history.txt",
+    "provider": "ollama"
+}

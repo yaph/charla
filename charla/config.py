@@ -19,15 +19,24 @@ default_settings: dict = {
 path_settings = user_config_path(NAME).joinpath('settings.json')
 
 
-def load() -> dict:
-    """Return settings from settings file, if it exists."""
-
-    if path_settings.exists():
+def load_settings(file: Path) -> dict:
+    """Load settings from given JSON file and return them as a dict."""
+    if file.exists():
         try:
-            return json.loads(path_settings.read_text())
+            return json.loads(file.read_text())
         except json.decoder.JSONDecodeError as err:
             print(f'Settings could not be read. {err}')
     return {}
+
+
+def manage(argv: argparse.Namespace) -> None:
+    """Handler for settings subcommand."""
+
+    if argv.location:
+        print(path_settings)
+    else:
+        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
+        print(json.dumps(user_settings, indent=4))
 
 
 def mkdir(path: Path, **kwds):
@@ -46,11 +55,10 @@ def settings(user_settings: dict) -> dict:
     return default_settings
 
 
-def manage(argv: argparse.Namespace) -> None:
-    """Handler for settings subcommand."""
+def user_settings() -> dict:
+    """Return settings from user config and current directory settings files, if they exist."""
 
-    if argv.location:
-        print(path_settings)
-    else:
-        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
-        print(json.dumps(user_settings, indent=4))
+    settings = load_settings(path_settings)
+    settings.update(load_settings(Path('.charla.json')))
+    return settings
+
