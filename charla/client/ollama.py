@@ -45,8 +45,6 @@ class OllamaClient(Client):
         text = ''
         try:
             for chunk in response:
-                if 'response' not in chunk:
-                    continue
                 if not chunk['done']:
                     content = chunk['response']
                     if content:
@@ -55,7 +53,5 @@ class OllamaClient(Client):
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
-        if isinstance(chunk, Mapping):
-            self.context = chunk['context']
-
+        self.context = chunk['context']
         self.add_message(role='assistant', text=text)
