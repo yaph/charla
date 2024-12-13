@@ -61,4 +61,3 @@ def user_settings() -> dict:
     settings = load_settings(path_settings)
     settings.update(load_settings(Path('.charla.json')))
     return settings
-

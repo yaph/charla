@@ -23,20 +23,14 @@ class AzureClient(Client):
 
         endpoint = 'https://models.inference.ai.azure.com'
 
-        self.client = ChatCompletionsClient(
-            endpoint=endpoint,
-            credential=AzureKeyCredential(token),
-            model=model
-        )
+        self.client = ChatCompletionsClient(endpoint=endpoint, credential=AzureKeyCredential(token), model=model)
 
         if system:
             self.context.append(SystemMessage(content=system))
             self.add_message(role='system', text=system)
 
-
     def __del__(self):
         self.client.close()
-
 
     def generate(self, prompt: str):
         self.context.append(UserMessage(content=prompt))
@@ -56,4 +50,3 @@ class AzureClient(Client):
 
         self.context.append(AssistantMessage(content=text))
         self.add_message(role='assistant', text=text)
-

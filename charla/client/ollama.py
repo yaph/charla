@@ -14,7 +14,6 @@ class OllamaClient(Client):
 
         self.client = ollama.Client()
 
-
     def set_info(self):
         """Request model info from API and set model_info property."""
 
@@ -26,11 +25,7 @@ class OllamaClient(Client):
 
         # Save model context length in meta property, that can be expanded if useful.
         arch = info.modelinfo['general.architecture']
-        self.model_info = ModelInfo(
-            architecture=arch,
-            context_length=int(info.modelinfo[f'{arch}.context_length'])
-        )
-
+        self.model_info = ModelInfo(architecture=arch, context_length=int(info.modelinfo[f'{arch}.context_length']))
 
     def generate(self, prompt: str):
         self.add_message(role='user', text=prompt)

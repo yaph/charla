@@ -11,7 +11,7 @@ class Client(ABC):
     def __init__(self, model: str, system: str = '', **kwargs):
         self.model = model
         self.system = system
-        self.message_history: list[dict] = [] # For saving chat.
+        self.message_history: list[dict] = []  # For saving chat.
         self.message_length: int | None = kwargs.get('message_length')
 
     @abstractmethod

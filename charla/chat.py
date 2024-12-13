@@ -23,9 +23,9 @@ def get_content(location: str) -> str:
     if location.startswith(('http://', 'https://')):
         try:
             resp = httpx.get(location, follow_redirects=True)
-            content = html2text(
-                resp.text, baseurl=location
-            ) if resp.headers['content-type'] == 'text/html' else resp.text
+            content = (
+                html2text(resp.text, baseurl=location) if resp.headers['content-type'] == 'text/html' else resp.text
+            )
         except httpx.ConnectError as err:
             print(f'Enter an existing URL.\n{err}\n')
     else:
@@ -44,7 +44,7 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
         message=ui.t_prompt_ml if argv.multiline else ui.t_prompt,
         history=FileHistory(argv.prompt_history),
         auto_suggest=AutoSuggestFromHistory(),
-        multiline=argv.multiline
+        multiline=argv.multiline,
     )
 
     print(ui.t_help)
