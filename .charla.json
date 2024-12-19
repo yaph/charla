@@ -1,5 +1,5 @@
 {
-    "model": "phi3",
+    "model": "llama3.2",
     "chats_path": "./tests/data/chats/",
     "prompt_history": "./tests/data/chats/prompt-history.txt",
     "provider": "ollama",
