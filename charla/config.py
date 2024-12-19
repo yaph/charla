@@ -36,7 +36,13 @@ def manage(argv: argparse.Namespace) -> None:
         print(path_settings)
     else:
         user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
-        print(json.dumps(user_settings, indent=4))
+        out = json.dumps(user_settings, indent=4)
+        if argv.save:
+            filename = '.charla.json'
+            Path(filename).write_text(out)
+            print(f'Saved settings in {filename}.')
+        else:
+            print(out)
 
 
 def mkdir(path: Path, **kwds):

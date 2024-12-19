@@ -1,6 +1,8 @@
 {
-    "chats_path": "./tests/data/chats/",
     "model": "phi3",
+    "chats_path": "./tests/data/chats/",
     "prompt_history": "./tests/data/chats/prompt-history.txt",
-    "provider": "ollama"
+    "provider": "ollama",
+    "message_limit": 50,
+    "multiline": false
 }
