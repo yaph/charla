@@ -16,7 +16,11 @@ from charla import client, config, ui
 
 
 def get_content(location: str) -> str:
-    """Return content of the given source or empty string."""
+    """Return content of the given source or empty string.
+
+    Args:
+        location (str): The URL or file path to fetch content from.
+    """
 
     content = ''
 
