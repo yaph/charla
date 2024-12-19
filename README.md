@@ -62,6 +62,12 @@ charla settings --location
 
 You can also store settings in the current working directory in a file named `.charla.json`. The settings in this local override the user config settings.
 
+To save the current settings to a `.charla.json` file in the current directory, use the `--save` argument:
+
+```console
+charla settings --save
+```
+
 Example settings for using OpenAI's GPT-4o model and the GitHub Models service by default.
 
 ```json
@@ -124,7 +130,7 @@ python -m charla.cli
 Installed models:
 
 ```console
-curl http://localhost:11434/api/tags
+curl http://localhost:11434/api/tags | python -m json.tool
 ```
 
 Model info:
