@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [2.2.0](https://github.com/yaph/charla/releases/tag/2.2.0) - 2025-01-16
+
+<small>[Compare with 2.1.0](https://github.com/yaph/charla/compare/2.1.0...2.2.0)</small>
+
+### Added
+
+- Add save argument to settings subcommand. ([f00bf60](https://github.com/yaph/charla/commit/f00bf6061791c46ddb34137b6af3bc12777f93ad) by Ramiro Gómez).
+
+### Removed
+
+- Remove .charla.json from git ([6e7a39f](https://github.com/yaph/charla/commit/6e7a39fe4413781f8811224f0798e0a75f3f05ec) by Ramiro Gómez).
+
 ## [2.1.0](https://github.com/yaph/charla/releases/tag/2.1.0) - 2024-12-13
 
 <small>[Compare with 2.0.0](https://github.com/yaph/charla/compare/2.0.0...2.1.0)</small>
