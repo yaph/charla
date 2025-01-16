@@ -1,5 +1,6 @@
 .charla.json
 chat-history/
+data/
 experimental/
 tests/data/
 
