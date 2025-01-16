@@ -77,7 +77,7 @@ def run(argv: argparse.Namespace) -> None:
     open_location = ''
 
     # Prompt used to give directions to the model at the beginning of the chat.
-    system_prompt = argv.system_prompt.read() if argv.system_prompt else ''
+    system_prompt = Path(argv.system_prompt).read_text() if argv.system_prompt else ''
 
     # Determine which Client class to import.
     if argv.provider == 'ollama':
@@ -104,7 +104,7 @@ def run(argv: argparse.Namespace) -> None:
     session = prompt_session(argv)
     print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
     if system_prompt:
-        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt.name}</ansigreen>'), '\n')
+        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt}</ansigreen>'), '\n')
 
     while True:
         try:

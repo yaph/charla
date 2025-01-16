@@ -35,8 +35,8 @@ def manage(argv: argparse.Namespace) -> None:
     if argv.location:
         print(path_settings)
     else:
-        user_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
-        out = json.dumps(user_settings, indent=4)
+        current_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
+        out = json.dumps(current_settings, indent=4)
         if argv.save:
             filename = '.charla.json'
             Path(filename).write_text(out)
@@ -54,10 +54,10 @@ def mkdir(path: Path, **kwds):
         sys.exit(str(err))
 
 
-def settings(user_settings: dict) -> dict:
+def settings(current_settings: dict) -> dict:
     """Return settings based on user input."""
 
-    default_settings.update(user_settings)
+    default_settings.update(current_settings)
     return default_settings
 
 
