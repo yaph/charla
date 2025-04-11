@@ -43,10 +43,10 @@ class AzureClient(Client):
 
         text = ''
         for chunk in response:
-            content = chunk.choices[0].delta.content
-            if content:
-                text += content
-                print(content, end='', flush=True)
+            if choices := chunk.choices:
+                if content := choices[0].delta.content:
+                    text += content
+                    print(content, end='', flush=True)
 
         self.context.append(AssistantMessage(content=text))
         self.add_message(role='assistant', text=text)
