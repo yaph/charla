@@ -42,11 +42,14 @@ class AzureClient(Client):
             sys.exit(f'Error: {err}')
 
         text = ''
-        for chunk in response:
-            if choices := chunk.choices:
-                if content := choices[0].delta.content:
-                    text += content
-                    print(content, end='', flush=True)
-
-        self.context.append(AssistantMessage(content=text))
-        self.add_message(role='assistant', text=text)
+        try:
+            for chunk in response:
+                if choices := chunk.choices:
+                    if content := choices[0].delta.content:
+                        text += content
+                        print(content, end='', flush=True)
+        except UnicodeDecodeError:
+            print('\nError: Received non-text response from the model.\n')
+        else:
+            self.context.append(AssistantMessage(content=text))
+            self.add_message(role='assistant', text=text)
