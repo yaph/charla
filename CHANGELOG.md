@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [2.2.1](https://github.com/yaph/charla/releases/tag/2.2.1) - 2025-08-05
+
+<small>[Compare with 2.2.0](https://github.com/yaph/charla/compare/2.2.0...2.2.1)</small>
+
 ## [2.2.0](https://github.com/yaph/charla/releases/tag/2.2.0) - 2025-01-16
 
 <small>[Compare with 2.1.0](https://github.com/yaph/charla/compare/2.1.0...2.2.0)</small>
