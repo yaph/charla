@@ -8,11 +8,14 @@ from charla.client import Client, ModelInfo
 class OllamaClient(Client):
     def __init__(self, model: str, system: str = '', **kwargs):
         super().__init__(model, system, **kwargs)
-
-        # For chatting with memory.
-        self.context: list[int] = []
-
         self.client = ollama.Client()
+
+        if system:
+            self.add_message(role='system', text=system)
+
+    def add_message(self, role, text):
+        super().add_message(role, text)
+        self.context.append({'role': role, 'content': text})
 
     def set_info(self):
         """Request model info from API and set model_info property."""
@@ -29,22 +32,16 @@ class OllamaClient(Client):
 
     def generate(self, prompt: str):
         self.add_message(role='user', text=prompt)
-        response = self.client.generate(
-            model=self.model, prompt=prompt, context=self.context, stream=True, system=self.system
-        )
-
-        # Make sure system message is set only once.
-        self.system = ''
+        response = self.client.chat(model=self.model, messages=list(self.context), stream=True, think=False)
 
         text = ''
         try:
             for chunk in response:
                 if not chunk['done']:
-                    if content := chunk.get('response'):
+                    if content := chunk.message.content:
                         text += content
                         print(content, end='', flush=True)
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
-        self.context = chunk.get('context', [])
         self.add_message(role='assistant', text=text)
