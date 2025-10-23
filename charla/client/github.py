@@ -1,7 +1,6 @@
 import os
 import sys
 
-
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
@@ -18,9 +17,8 @@ class AzureClient(Client):
             sys.exit('GITHUB_TOKEN environment variable is not set or empty.')
 
         self.client = ChatCompletionsClient(
-            endpoint='https://models.inference.ai.azure.com',
-            credential=AzureKeyCredential(token),
-            model=model)
+            endpoint='https://models.inference.ai.azure.com', credential=AzureKeyCredential(token), model=model
+        )
 
         if system:
             self.add_message(role='system', text=system)
@@ -41,10 +39,9 @@ class AzureClient(Client):
         text = ''
         try:
             for chunk in response:
-                if choices := chunk.choices:
-                    if content := choices[0].delta.content:
-                        text += content
-                        print(content, end='', flush=True)
+                if (choices := chunk.choices) and (content := choices[0].delta.content):
+                    text += content
+                    print(content, end='', flush=True)
         except UnicodeDecodeError:
             print('\nError: Received non-text response from the model.\n')
         else:

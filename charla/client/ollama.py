@@ -37,10 +37,9 @@ class OllamaClient(Client):
         text = ''
         try:
             for chunk in response:
-                if not chunk['done']:
-                    if content := chunk.message.content:
-                        text += content
-                        print(content, end='', flush=True)
+                if not chunk['done'] and (content := chunk.message.content):
+                    text += content
+                    print(content, end='', flush=True)
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 

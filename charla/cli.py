@@ -23,9 +23,7 @@ def main(args=None) -> None:
         '--message-limit', type=int, help='Maximum number of messages to send to GitHub Models service.'
     )
     parser.add_argument('--multiline', action='store_true', help='Use multiline mode.')
-    parser.add_argument(
-        '--system-prompt', '-sp', type=str, help='File that contains system prompt to use.'
-    )
+    parser.add_argument('--system-prompt', '-sp', type=str, help='File that contains system prompt to use.')
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.set_defaults(**user_settings, func=chat.run)
 
