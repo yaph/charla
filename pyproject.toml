@@ -34,7 +34,7 @@ classifiers = [
 ]
 dependencies = [
   "azure-ai-inference",
-  "ollama>=0.4",
+  "ollama>=0.6",
   "html2text",
   "httpx",
   "platformdirs",

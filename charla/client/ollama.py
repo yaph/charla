@@ -40,12 +40,11 @@ class OllamaClient(Client):
         try:
             for chunk in response:
                 if not chunk['done']:
-                    content = chunk['response']
-                    if content:
+                    if content := chunk.get('response'):
                         text += content
                         print(content, end='', flush=True)
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
-        self.context = chunk['context']
+        self.context = chunk.get('context', [])
         self.add_message(role='assistant', text=text)
