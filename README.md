@@ -89,7 +89,7 @@ Output of `charla -h` with information on all available command line options.
 ```text
 usage: charla [-h] [--model MODEL] [--chats-path CHATS_PATH] [--prompt-history PROMPT_HISTORY]
                              [--provider PROVIDER] [--message-limit MESSAGE_LIMIT] [--multiline] [--system-prompt SYSTEM_PROMPT]
-                             [--version]
+                             [--think {true,false,low,medium,high}] [--version]
                              {settings} ...
 
 Chat with language models.
@@ -108,10 +108,12 @@ options:
                         File to store prompt history.
   --provider PROVIDER   Name of the provider to use.
   --message-limit MESSAGE_LIMIT
-                        Maximum number of messages to send to GitHub Models service.
+                        Maximum number of messages to use for context.
   --multiline           Use multiline mode.
   --system-prompt SYSTEM_PROMPT, -sp SYSTEM_PROMPT
                         File that contains system prompt to use.
+  --think {true,false,low,medium,high}
+                        Enable thinking for Ollama models that support it.
   --version             show program's version number and exit
 
 ```
