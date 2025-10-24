@@ -86,7 +86,7 @@ def run(argv: argparse.Namespace) -> None:
         from charla.client.github import AzureClient as ApiClient  # type: ignore
 
     # Start model API client before chat REPL in case of model errors.
-    client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit)
+    client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)
     client.set_info()
 
     # Prompt history used for auto completion.

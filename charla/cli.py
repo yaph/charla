@@ -22,6 +22,12 @@ def main(args=None) -> None:
     parser.add_argument('--message-limit', type=int, help='Maximum number of messages to use for context.')
     parser.add_argument('--multiline', action='store_true', help='Use multiline mode.')
     parser.add_argument('--system-prompt', '-sp', type=str, help='File that contains system prompt to use.')
+    parser.add_argument(
+        '--think',
+        type=str,
+        choices=['true', 'false', 'low', 'medium', 'high'],
+        help='Enable thinking for Ollama models that support it.',
+    )
     parser.add_argument('--version', action='version', version=f'%(prog)s {__version__}')
     parser.set_defaults(**user_settings, func=chat.run)
 
@@ -33,6 +39,18 @@ def main(args=None) -> None:
     parser_settings.set_defaults(func=config.manage)
 
     argv = parser.parse_args(args)
+
+    # Handle type conversion of optional think argument.
+    if think := argv.think:
+        think = think.strip().lower()
+        match think:
+            case 'true':
+                argv.think = True
+            case 'false':
+                argv.think = False
+            case _:
+                argv.think = think
+
     argv.func(argv)
 
 

@@ -20,6 +20,9 @@ class Client(ABC):
         self.message_length: int | None = kwargs.get('message_length')
         self.context: Any = deque([], maxlen=kwargs.get('message_limit'))
 
+        # For enabling thinking mode.
+        self.think: bool | str | None = kwargs.get('think')
+
     @abstractmethod
     def generate(self, prompt: str):
         pass

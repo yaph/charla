@@ -32,7 +32,7 @@ class OllamaClient(Client):
 
     def generate(self, prompt: str):
         self.add_message(role='user', text=prompt)
-        response = self.client.chat(model=self.model, messages=list(self.context), stream=True, think=False)
+        response = self.client.chat(model=self.model, messages=list(self.context), stream=True, think=self.think)
 
         text = ''
         try:
