@@ -18,5 +18,5 @@ def test_client_ollama_init():
 
 
 def test_client_azure():
-    client = AzureClient(model='gpt-4o', message_length=10)
+    client = AzureClient(model='gpt-4o', message_limit=10)
     assert hasattr(client.client, 'close')

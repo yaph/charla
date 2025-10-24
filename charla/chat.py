@@ -1,5 +1,6 @@
 import argparse
 import re
+import sys
 from datetime import datetime
 from pathlib import Path
 
@@ -51,6 +52,12 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
         multiline=argv.multiline,
     )
 
+    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'))
+    if sp := getattr(argv, 'system_prompt', None):
+        print_fmt('System prompt:', HTML(f'<ansigreen>{sp}</ansigreen>'))
+    if think := getattr(argv, 'think', None):
+        print_fmt('Thinking mode:', HTML(f'<ansigreen>{str(think).lower()}</ansigreen>'))
+
     print(ui.t_help)
 
     bindings = KeyBindings()
@@ -76,8 +83,12 @@ def run(argv: argparse.Namespace) -> None:
     # File name or URL to be opened.
     open_location = ''
 
-    # Prompt used to give directions to the model at the beginning of the chat.
-    system_prompt = Path(argv.system_prompt).read_text() if argv.system_prompt else ''
+    # System prompt with directions for the model at the beginning of the chat.
+    system_prompt = ''
+    if argv.system_prompt and (p_system := Path(argv.system_prompt)):
+        if not p_system.exists() or not p_system.is_file():
+            sys.exit(f'Error: System prompt file does not exist: {p_system}')
+        system_prompt = p_system.read_text()
 
     # Determine which Client class to import.
     if argv.provider == 'ollama':
@@ -102,10 +113,6 @@ def run(argv: argparse.Namespace) -> None:
 
     # Start the chat REPL.
     session = prompt_session(argv)
-    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'), '\n')
-    if system_prompt:
-        print_fmt('Using system prompt:', HTML(f'<ansigreen>{argv.system_prompt}</ansigreen>'), '\n')
-
     while True:
         try:
             if not (user_input := session.prompt()):

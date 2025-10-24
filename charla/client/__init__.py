@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 from collections import deque
-from typing import Any, NamedTuple
+from typing import Any, Literal, NamedTuple
 
 
 class ModelInfo(NamedTuple):
@@ -17,11 +17,10 @@ class Client(ABC):
         self.message_history: list[dict] = []
 
         # For chatting with memory.
-        self.message_length: int | None = kwargs.get('message_length')
         self.context: Any = deque([], maxlen=kwargs.get('message_limit'))
 
         # For enabling thinking mode.
-        self.think: bool | str | None = kwargs.get('think')
+        self.think: Literal['low', 'medium', 'high'] | bool | None = kwargs.get('think')
 
     @abstractmethod
     def generate(self, prompt: str):
