@@ -6,6 +6,21 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## Unreleased
+
+<small>[Compare with latest](https://github.com/yaph/charla/compare/2.2.1...HEAD)</small>
+
+### Added
+
+- Add think argument/setting for Ollama models that support it. ([e058c3d](https://github.com/yaph/charla/commit/e058c3d66cc4a0e97c5891400209c900b3b50db7) by Ramiro Gómez).
+- Add support for Ollama cloud models. Use deque for context and chat API in Ollama client. ([300bd0a](https://github.com/yaph/charla/commit/300bd0adad09ec9b38952ce3696ef6559260027f) by Ramiro Gómez).
+- Add api example ([9d1db19](https://github.com/yaph/charla/commit/9d1db195d68186c8ca593a52251825989f18e505) by Ramiro Gómez).
+
+### Fixed
+
+- Fix KeyError: context is None when using Ollama cloud models. ([cb065f4](https://github.com/yaph/charla/commit/cb065f417c973e6b3bbda54df13847ffb23bc277) by Ramiro Gómez).
+
+<!-- insertion marker -->
 ## [2.2.1](https://github.com/yaph/charla/releases/tag/2.2.1) - 2025-08-05
 
 <small>[Compare with 2.2.0](https://github.com/yaph/charla/compare/2.2.0...2.2.1)</small>
