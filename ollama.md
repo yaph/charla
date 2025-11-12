@@ -1,3 +1,9 @@
+# Ollama Info and Usage Examples
+
+* models disk location: /usr/share/ollama/.ollama/models/
+
+## API Examples
+
 curl http://localhost:11434/api/chat -d '{
   "model": "phi4-mini",
   "messages": [
