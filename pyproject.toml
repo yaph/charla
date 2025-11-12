@@ -55,6 +55,9 @@ path = "charla/__about__.py"
 [tool.hatch.envs.charla-dev]
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 
+[tool.hatch.envs.charla-dev.env-vars]
+PYTHONBREAKPOINT = "ipdb.set_trace"
+
 [tool.hatch.envs.charla-dev.scripts]
 type_check = "mypy --install-types --non-interactive {args:charla tests}"
 qa = [
