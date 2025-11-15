@@ -13,8 +13,8 @@ class OllamaClient(Client):
         if system:
             self.add_message(role='system', text=system)
 
-    def add_message(self, role, text):
-        super().add_message(role, text)
+    def add_message(self, *, role: str, text: str):
+        super().add_message(role=role, text=text)
         self.context.append({'role': role, 'content': text})
 
     def set_info(self):

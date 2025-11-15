@@ -17,6 +17,7 @@ def main(args=None) -> None:
     parser = argparse.ArgumentParser(description='Chat with language models.')
     parser.add_argument('--model', '-m', type=str, help='Name of language model to chat with.')
     parser.add_argument('--chats-path', type=str, help='Directory to store chats.')
+    parser.add_argument('--continue-chat', '-c', type=str, help='File that contains chat to continue.')
     parser.add_argument('--prompt-history', type=str, help='File to store prompt history.')
     parser.add_argument('--provider', type=str, help='Name of the provider to use.')
     parser.add_argument('--message-limit', type=int, help='Maximum number of messages to use for context.')

@@ -107,11 +107,16 @@ def run(argv: argparse.Namespace) -> None:
     config.mkdir(history.parent, exist_ok=True, parents=True)
 
     # Location to store chat as markdown file.
-    chats_path = Path(argv.chats_path)
-    config.mkdir(chats_path, exist_ok=True, parents=True)
-    now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
-    slug = re.sub(r'\W', '-', client.model)
-    chat_file = chats_path / f'{now}-{slug}.json'
+    if chat_file := Path(argv.continue_chat):
+        chat = json.loads(chat_file.read_text())
+        for msg in chat['messages']:
+            client.add_message(**msg)
+    else:
+        chats_path = Path(argv.chats_path)
+        config.mkdir(chats_path, exist_ok=True, parents=True)
+        now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
+        slug = re.sub(r'\W', '-', client.model)
+        chat_file = chats_path / f'{now}-{slug}.json'
 
     # Start the chat REPL.
     session = prompt_session(argv)

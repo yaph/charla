@@ -22,14 +22,24 @@ class AzureClient(Client):
 
         if system:
             self.add_message(role='system', text=system)
-            self.context.append(SystemMessage(content=system))
 
     def __del__(self):
         self.client.close()
 
+    def add_message(self, *, role: str, text: str):
+        super().add_message(role=role, text=text)
+        context = None
+        match role:
+            case 'system':
+                context = SystemMessage(content=text)
+            case 'user':
+                context = UserMessage(content=text)
+            case 'assistant':
+                context = AssistantMessage(content=text)
+        self.context.append(context)
+
     def generate(self, prompt: str) -> str:
         self.add_message(role='user', text=prompt)
-        self.context.append(UserMessage(content=prompt))
 
         try:
             response = self.client.complete(messages=list(self.context))
@@ -38,9 +48,8 @@ class AzureClient(Client):
 
         try:
             text = response['choices'][0].message.content
-            self.context.append(AssistantMessage(content=text))
+            self.add_message(role='assistant', text=text)
         except UnicodeDecodeError:
             print('\nError: Received non-text response from the model.\n')
 
-        self.add_message(role='assistant', text=text)
         return text
