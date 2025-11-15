@@ -23,12 +23,16 @@ class Client(ABC):
         self.think: Literal['low', 'medium', 'high'] | bool | None = kwargs.get('think')
 
     @abstractmethod
-    def add_message(self, *, role: str, text: str):
-        self.message_history.append({'role': role, 'text': text})
+    def add_context(self, *, role: str, text: str):
+        pass
 
     @abstractmethod
     def generate(self, prompt: str) -> str:
         pass
+
+    def add_message(self, *, role: str, text: str):
+        self.message_history.append({'role': role, 'text': text})
+        self.add_context(role=role, text=text)
 
     def set_info(self):
         pass

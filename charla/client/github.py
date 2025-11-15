@@ -26,8 +26,7 @@ class AzureClient(Client):
     def __del__(self):
         self.client.close()
 
-    def add_message(self, *, role: str, text: str):
-        super().add_message(role=role, text=text)
+    def add_context(self, *, role: str, text: str):
         context = None
         match role:
             case 'system':
