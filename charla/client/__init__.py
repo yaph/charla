@@ -2,6 +2,9 @@ from abc import ABC, abstractmethod
 from collections import deque
 from typing import Any, Literal, NamedTuple
 
+from markdown import markdown
+from prompt_toolkit import HTML, print_formatted_text
+
 
 class ModelInfo(NamedTuple):
     architecture: str
@@ -23,7 +26,7 @@ class Client(ABC):
         self.think: Literal['low', 'medium', 'high'] | bool | None = kwargs.get('think')
 
     @abstractmethod
-    def generate(self, prompt: str):
+    def generate(self, prompt: str) -> str:
         pass
 
     def set_info(self):
@@ -31,3 +34,6 @@ class Client(ABC):
 
     def add_message(self, role, text):
         self.message_history.append({'role': role, 'text': text})
+
+    def render_response(self, text_md: str) -> str:
+        print_formatted_text(HTML(markdown(text_md, extensions=['extra'])))

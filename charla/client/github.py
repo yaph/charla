@@ -27,23 +27,20 @@ class AzureClient(Client):
     def __del__(self):
         self.client.close()
 
-    def generate(self, prompt: str):
+    def generate(self, prompt: str) -> str:
         self.add_message(role='user', text=prompt)
         self.context.append(UserMessage(content=prompt))
 
         try:
-            response = self.client.complete(messages=list(self.context), stream=True)
+            response = self.client.complete(messages=list(self.context))
         except (ClientAuthenticationError, HttpResponseError) as err:
             sys.exit(f'Error: {err}')
 
-        text = ''
         try:
-            for chunk in response:
-                if (choices := chunk.choices) and (content := choices[0].delta.content):
-                    text += content
-                    print(content, end='', flush=True)
+            text = response['choices'][0].message.content
+            self.context.append(AssistantMessage(content=text))
         except UnicodeDecodeError:
             print('\nError: Received non-text response from the model.\n')
-        else:
-            self.add_message(role='assistant', text=text)
-            self.context.append(AssistantMessage(content=text))
+
+        self.add_message(role='assistant', text=text)
+        return text

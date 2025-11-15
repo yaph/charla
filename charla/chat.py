@@ -1,4 +1,5 @@
 import argparse
+import json
 import re
 import sys
 from datetime import datetime
@@ -6,6 +7,7 @@ from pathlib import Path
 
 import httpx
 from html2text import html2text
+from markdown import markdown
 from prompt_toolkit import HTML, PromptSession
 from prompt_toolkit import print_formatted_text as print_fmt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
@@ -109,7 +111,7 @@ def run(argv: argparse.Namespace) -> None:
     config.mkdir(chats_path, exist_ok=True, parents=True)
     now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
     slug = re.sub(r'\W', '-', client.model)
-    chat_file = chats_path / f'{now}-{slug}.md'
+    chat_file = chats_path / f'{now}-{slug}.json'
 
     # Start the chat REPL.
     session = prompt_session(argv)
@@ -136,8 +138,7 @@ def run(argv: argparse.Namespace) -> None:
                     continue
 
             print(f'\n{ui.t_response}\n')
-            client.generate(user_input)
-            print('\n')
+            print_fmt(HTML(markdown(client.generate(user_input), extensions=['extra'])))
 
             save(chat_file, client)
 
@@ -154,6 +155,13 @@ def run(argv: argparse.Namespace) -> None:
 
 
 def save(chat_file: Path, client: client.Client) -> None:
+    chat_file.write_text(json.dumps({
+        'model': client.model,
+        'messages': client.message_history
+    }))
+
+@DeprecationWarning
+def save_md(chat_file: Path, client: client.Client) -> None:
     """Save the chat as a markdown file."""
 
     output = f'# Chat with: {client.model}\n\n'

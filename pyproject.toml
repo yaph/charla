@@ -37,6 +37,7 @@ dependencies = [
   "ollama>=0.6",
   "html2text",
   "httpx",
+  "markdown",
   "platformdirs",
   "prompt_toolkit"
 ]

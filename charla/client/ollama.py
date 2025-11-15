@@ -30,17 +30,14 @@ class OllamaClient(Client):
         arch = info.modelinfo['general.architecture']
         self.model_info = ModelInfo(architecture=arch, context_length=int(info.modelinfo[f'{arch}.context_length']))
 
-    def generate(self, prompt: str):
+    def generate(self, prompt: str) -> str:
         self.add_message(role='user', text=prompt)
-        response = self.client.chat(model=self.model, messages=list(self.context), stream=True, think=self.think)
+        response = self.client.chat(model=self.model, messages=self.context, think=self.think)
 
-        text = ''
         try:
-            for chunk in response:
-                if not chunk['done'] and (content := chunk.message.content):
-                    text += content
-                    print(content, end='', flush=True)
+            text = response.message.content
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 
         self.add_message(role='assistant', text=text)
+        return text
