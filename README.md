@@ -10,13 +10,15 @@
 ## Features
 
 * Terminal-based chat system that supports context aware conversations with language models.
-* Support for local models via Ollama and remote models via GitHub Models.
-* Chat sessions are saved as markdown files in the user's documents directory when ending a chat.
+* Support for local and cloud models via Ollama and GitHub Models.
+* Chat messages are automatically saved during and at the end of chat sessions.
+* Saved chat sessions can be continued.
 * Prompt history is saved and previously entered prompts are auto-suggested.
 * Switch between single-line and multi-line input modes without interrupting the chat session.
 * Store user preferences in user config or current directory settings files.
 * Provide a system prompt for a chat session.
 * Load content from local files and web pages to append to prompts.
+* Markdown in assistant responses and system prompts is rendered in the terminal.
 
 ## Installation
 
@@ -125,20 +127,6 @@ Run the command-line interface directly from the project source without installi
 
 ```console
 python -m charla.cli
-```
-
-### ollama API
-
-Installed models:
-
-```console
-curl http://localhost:11434/api/tags | python -m json.tool
-```
-
-Model info:
-
-```console
-curl http://localhost:11434/api/show -d '{"name": "phi3"}'
 ```
 
 ## License

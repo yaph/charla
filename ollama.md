@@ -4,6 +4,9 @@
 
 ## API Examples
 
+Chat request:
+
+```console
 curl http://localhost:11434/api/chat -d '{
   "model": "phi4-mini",
   "messages": [
@@ -26,3 +29,16 @@ curl http://localhost:11434/api/chat -d '{
   "stream": false,
   "think": false
 }'
+```
+
+Installed models:
+
+```console
+curl http://localhost:11434/api/tags | python -m json.tool
+```
+
+Model info:
+
+```console
+curl http://localhost:11434/api/show -d '{"name": "phi3"}'
+```

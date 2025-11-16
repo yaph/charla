@@ -114,6 +114,10 @@ def run(argv: argparse.Namespace) -> None:
             sys.exit(f'Error: System prompt file does not exist: {p_system}')
         system_prompt = p_system.read_text()
 
+    # Make sure model and provider are set.
+    if not all((argv.model, argv.provider)) :
+        sys.exit('Error: model or provider are not specified.')
+
     # Determine which Client class to import.
     if argv.provider == 'ollama':
         from charla.client.ollama import OllamaClient as ApiClient
