@@ -9,7 +9,6 @@ class ModelInfo(NamedTuple):
 
 
 class Client(ABC):
-
     provider: str
 
     def __init__(self, model: str, system: str = '', **kwargs):

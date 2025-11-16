@@ -63,7 +63,8 @@ PYTHONBREAKPOINT = "ipdb.set_trace"
 type_check = "mypy --install-types --non-interactive {args:charla tests}"
 qa = [
   "hatch run type_check",
-  "hatch test"
+  "hatch test",
+  "hatch fmt"
 ]
 release = [
   "hatch run qa",

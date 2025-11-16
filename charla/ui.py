@@ -20,7 +20,8 @@ Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
 
-def highlight(text: str) -> str:
+
+def highlight(text: str) -> HTML:
     return HTML(f'<ansigreen>{text}</ansigreen>')
 
 

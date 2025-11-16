@@ -115,7 +115,7 @@ def run(argv: argparse.Namespace) -> None:
         system_prompt = p_system.read_text()
 
     # Make sure model and provider are set.
-    if not all((argv.model, argv.provider)) :
+    if not all((argv.model, argv.provider)):
         sys.exit('Error: model or provider are not specified.')
 
     # Determine which Client class to import.
