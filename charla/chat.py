@@ -8,7 +8,6 @@ from pathlib import Path
 import httpx
 from html2text import html2text
 from prompt_toolkit import PromptSession
-from prompt_toolkit import print_formatted_text as print_fmt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import PathCompleter
 from prompt_toolkit.history import FileHistory
@@ -66,9 +65,9 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
         multiline=argv.multiline,
     )
 
-    print_fmt('Chat with:', ui.highlight(argv.model))
+    ui.print_html(f'Chat with: <ansigreen>{argv.model}</ansigreen>')
     if think := getattr(argv, 'think', None):
-        print_fmt('Thinking mode:', ui.highlight(str(think).lower()))
+        ui.print_html(f'Thinking mode: <ansigreen>{str(think).lower()}</ansigreen>')
     print(ui.t_help)
 
     bindings = KeyBindings()
@@ -183,7 +182,7 @@ def run(argv: argparse.Namespace) -> None:
         print(f'Saving chat in: {chat_file}')
         save(chat_file, client)
 
-    print_fmt(ui.highlight('Exiting program.'))
+    ui.print_html('<ansired>Exiting program.</ansired>')
 
 
 def save(chat_file: Path, client: client.Client) -> None:

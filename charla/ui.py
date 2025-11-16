@@ -21,8 +21,8 @@ Press → to complete an auto suggested prompt.
 '''
 
 
-def highlight(text: str) -> HTML:
-    return HTML(f'<ansigreen>{text}</ansigreen>')
+def print_html(text: str) -> None:
+    print_fmt(HTML(text))
 
 
 def print_md(text: str) -> None:
