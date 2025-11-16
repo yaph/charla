@@ -18,6 +18,19 @@ from prompt_toolkit.key_binding import KeyBindings
 from charla import client, config, ui
 
 
+def get_chat_path(argv: argparse.Namespace) -> Path:
+    """Get path to store chat file."""
+
+    if argv.continue_chat:
+        return Path(argv.continue_chat)
+
+    chats_path = Path(argv.chats_path)
+    config.mkdir(chats_path, exist_ok=True, parents=True)
+    now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
+    slug = re.sub(r'\W', '-', argv.model)
+    return chats_path / f'{now}-{slug}.json'
+
+
 def get_content(location: str) -> str:
     """Return content of the given source or empty string.
 
@@ -82,12 +95,25 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
 def run(argv: argparse.Namespace) -> None:
     """Run the chat session."""
 
+    # Location to store chat as markdown file.
+    chat_file = get_chat_path(argv)
+
     # File name or URL to be opened.
     open_location = ''
 
     # System prompt with directions for the model at the beginning of the chat.
     system_prompt = ''
-    if argv.system_prompt and (p_system := Path(argv.system_prompt)):
+
+    # Previous chat data from JSON file.
+    previous_chat = None
+
+    # Override settings when continuing chats.
+    if argv.continue_chat:
+        previous_chat = json.loads(chat_file.read_text())
+        argv.model = previous_chat.get('model', argv.model)
+        argv.provider = previous_chat.get('provider', argv.provider)
+    # Only set system prompt for new chats.
+    elif argv.system_prompt and (p_system := Path(argv.system_prompt)):
         if not p_system.exists() or not p_system.is_file():
             sys.exit(f'Error: System prompt file does not exist: {p_system}')
         system_prompt = p_system.read_text()
@@ -107,20 +133,24 @@ def run(argv: argparse.Namespace) -> None:
     history = Path(argv.prompt_history)
     config.mkdir(history.parent, exist_ok=True, parents=True)
 
-    # Location to store chat as markdown file.
-    if chat_file := Path(argv.continue_chat):
-        chat = json.loads(chat_file.read_text())
-        for msg in chat['messages']:
-            client.add_message(**msg)
-    else:
-        chats_path = Path(argv.chats_path)
-        config.mkdir(chats_path, exist_ok=True, parents=True)
-        now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
-        slug = re.sub(r'\W', '-', client.model)
-        chat_file = chats_path / f'{now}-{slug}.json'
-
     # Start the chat REPL.
     session = prompt_session(argv)
+
+    # Output and set chat history.
+    if previous_chat:
+        for msg in previous_chat['messages']:
+            text = msg['text']
+            role = msg['role']
+
+            if role == 'user':
+                print(f'PROMPT: {text}\n')
+            else:
+                print(f'{role.upper()}:')
+                print_fmt(HTML(markdown(text, extensions=['extra'])))
+                print()
+
+            client.add_message(text=text, role=role)
+
     while True:
         try:
             if not (user_input := session.prompt()):
