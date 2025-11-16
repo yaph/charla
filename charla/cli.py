@@ -34,6 +34,7 @@ def main(args=None) -> None:
 
     subparsers = parser.add_subparsers(help='Sub Commands')
 
+    # Settings command
     parser_settings = subparsers.add_parser('settings', help='Show current settings.')
     parser_settings.add_argument('--location', action='store_true', help='Show location of settings file.')
     parser_settings.add_argument('--save', action='store_true', help='Save settings in ".charla.json" file.')

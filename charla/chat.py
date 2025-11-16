@@ -139,17 +139,22 @@ def run(argv: argparse.Namespace) -> None:
     # Output and set chat history.
     if previous_chat:
         for msg in previous_chat['messages']:
-            text = msg['text']
-            role = msg['role']
-
-            if role == 'user':
-                print(f'PROMPT: {text}\n')
-            else:
-                print(f'{role.upper()}:')
-                print_fmt(HTML(markdown(text, extensions=['extra'])))
-                print()
-
-            client.add_message(text=text, role=role)
+            role, text = msg['role'], msg['text']
+            match role:
+                case 'user':
+                    print(f'{ui.t_prompt}{text}\n')
+                case 'assistant':
+                    print(f'{ui.t_response}\n')
+                    ui.print_md(text)
+                case 'system':
+                    print(f'{ui.t_system}\n')
+                    ui.print_md(text)
+            client.add_message(role=role, text=text)
+        print()
+    # Print system prompt for new chats if set.
+    elif system_prompt:
+        print(f'{ui.t_system}\n')
+        ui.print_md(system_prompt)
 
     while True:
         try:
@@ -174,7 +179,8 @@ def run(argv: argparse.Namespace) -> None:
                     continue
 
             print(f'\n{ui.t_response}\n')
-            print_fmt(HTML(markdown(client.generate(user_input), extensions=['extra'])))
+            ui.print_md(client.generate(user_input))
+            print()
             save(chat_file, client)
 
         # Exit program on CTRL-C and CTRL-D

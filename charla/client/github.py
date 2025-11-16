@@ -51,4 +51,4 @@ class AzureClient(Client):
         except UnicodeDecodeError:
             print('\nError: Received non-text response from the model.\n')
 
-        return text
+        return text.strip()

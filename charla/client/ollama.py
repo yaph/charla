@@ -39,4 +39,4 @@ class OllamaClient(Client):
             sys.exit(f'Error: {err}')
 
         self.add_message(role='assistant', text=text)
-        return text
+        return text.strip()
