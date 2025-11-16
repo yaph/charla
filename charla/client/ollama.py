@@ -34,7 +34,7 @@ class OllamaClient(Client):
         response = self.client.chat(model=self.model, messages=self.context, think=self.think)
 
         try:
-            text = response.message.content
+            text = response.message.content or ''
         except ollama.ResponseError as err:
             sys.exit(f'Error: {err}')
 

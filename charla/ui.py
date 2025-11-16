@@ -20,6 +20,9 @@ Press ↑ and ↓ to navigate previously entered prompts.
 Press → to complete an auto suggested prompt.
 '''
 
+def highlight(text: str) -> str:
+    return HTML(f'<ansigreen>{text}</ansigreen>')
+
 
 def print_md(text: str) -> None:
     print_fmt(HTML(markdown(text, extensions=['extra'])))

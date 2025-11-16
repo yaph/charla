@@ -9,6 +9,9 @@ class ModelInfo(NamedTuple):
 
 
 class Client(ABC):
+
+    provider: str
+
     def __init__(self, model: str, system: str = '', **kwargs):
         self.model = model
         self.system = system
@@ -36,4 +39,3 @@ class Client(ABC):
 
     def set_info(self):
         pass
-

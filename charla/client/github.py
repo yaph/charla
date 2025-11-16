@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import Any
 
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessage
@@ -27,7 +28,7 @@ class AzureClient(Client):
         self.client.close()
 
     def add_context(self, *, role: str, text: str):
-        context = None
+        context: Any = None
         match role:
             case 'system':
                 context = SystemMessage(content=text)

@@ -7,8 +7,7 @@ from pathlib import Path
 
 import httpx
 from html2text import html2text
-from markdown import markdown
-from prompt_toolkit import HTML, PromptSession
+from prompt_toolkit import PromptSession
 from prompt_toolkit import print_formatted_text as print_fmt
 from prompt_toolkit.auto_suggest import AutoSuggestFromHistory
 from prompt_toolkit.completion import PathCompleter
@@ -67,11 +66,9 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
         multiline=argv.multiline,
     )
 
-    print_fmt('Chat with:', HTML(f'<ansigreen>{argv.model}</ansigreen>'))
-    if sp := getattr(argv, 'system_prompt', None):
-        print_fmt('System prompt:', HTML(f'<ansigreen>{sp}</ansigreen>'))
+    print_fmt('Chat with:', ui.highlight(argv.model))
     if think := getattr(argv, 'think', None):
-        print_fmt('Thinking mode:', HTML(f'<ansigreen>{str(think).lower()}</ansigreen>'))
+        print_fmt('Thinking mode:', ui.highlight(str(think).lower()))
 
     print(ui.t_help)
 
@@ -192,15 +189,14 @@ def run(argv: argparse.Namespace) -> None:
         print(f'Saving chat in: {chat_file}')
         save(chat_file, client)
 
-    print_fmt(HTML('<b>Exiting program.</b>'))
+    print_fmt(ui.highlight('Exiting program.'))
 
 
 def save(chat_file: Path, client: client.Client) -> None:
-    chat_file.write_text(json.dumps({
-        'model': client.model,
-        'provider': client.provider,
-        'messages': client.message_history
-    }))
+    chat_file.write_text(
+        json.dumps({'model': client.model, 'provider': client.provider, 'messages': client.message_history})
+    )
+
 
 @DeprecationWarning
 def save_md(chat_file: Path, client: client.Client) -> None:
