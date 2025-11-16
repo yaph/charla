@@ -43,7 +43,14 @@ After successful installation and setup you can launch the chat console with the
 If you use Charla with Ollama, the default provider, you only need to specify the model to use, e.g.:
 
 ```console
-charla -m phi3
+charla -m gpt-oss
+```
+
+To use Ollama cloud models, you need to run them once with the `ollama` command and then you can use them, e.g.:
+
+```console
+ollama run gpt-oss:cloud
+charla -m gpt-oss:cloud
 ```
 
 If you want to use GitHub Models, you have to set the provider:
