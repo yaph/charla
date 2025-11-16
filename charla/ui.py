@@ -26,3 +26,15 @@ def highlight(text: str) -> str:
 
 def print_md(text: str) -> None:
     print_fmt(HTML(markdown(text, extensions=['extra'])))
+
+
+def print_message(role: str, text: str) -> None:
+    match role:
+        case 'user':
+            print(f'{t_prompt}{text}\n')
+        case 'assistant':
+            print(f'{t_response}\n')
+            print_md(text)
+        case 'system':
+            print(f'{t_system}\n')
+            print_md(text)

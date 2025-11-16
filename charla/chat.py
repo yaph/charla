@@ -69,7 +69,6 @@ def prompt_session(argv: argparse.Namespace) -> PromptSession:
     print_fmt('Chat with:', ui.highlight(argv.model))
     if think := getattr(argv, 'think', None):
         print_fmt('Thinking mode:', ui.highlight(str(think).lower()))
-
     print(ui.t_help)
 
     bindings = KeyBindings()
@@ -136,17 +135,8 @@ def run(argv: argparse.Namespace) -> None:
     # Output and set chat history.
     if previous_chat:
         for msg in previous_chat['messages']:
-            role, text = msg['role'], msg['text']
-            match role:
-                case 'user':
-                    print(f'{ui.t_prompt}{text}\n')
-                case 'assistant':
-                    print(f'{ui.t_response}\n')
-                    ui.print_md(text)
-                case 'system':
-                    print(f'{ui.t_system}\n')
-                    ui.print_md(text)
-            client.add_message(role=role, text=text)
+            ui.print_message(role=msg['role'], text=msg['text'])
+            client.add_message(role=msg['role'], text=msg['text'])
         print()
     # Print system prompt for new chats if set.
     elif system_prompt:
