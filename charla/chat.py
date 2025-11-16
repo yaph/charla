@@ -101,6 +101,7 @@ def run(argv: argparse.Namespace) -> None:
     # Start model API client before chat REPL in case of model errors.
     client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)
     client.set_info()
+    client.provider = argv.provider
 
     # Prompt history used for auto completion.
     history = Path(argv.prompt_history)
@@ -144,7 +145,6 @@ def run(argv: argparse.Namespace) -> None:
 
             print(f'\n{ui.t_response}\n')
             print_fmt(HTML(markdown(client.generate(user_input), extensions=['extra'])))
-
             save(chat_file, client)
 
         # Exit program on CTRL-C and CTRL-D
@@ -162,6 +162,7 @@ def run(argv: argparse.Namespace) -> None:
 def save(chat_file: Path, client: client.Client) -> None:
     chat_file.write_text(json.dumps({
         'model': client.model,
+        'provider': client.provider,
         'messages': client.message_history
     }))
 
