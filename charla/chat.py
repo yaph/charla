@@ -185,23 +185,21 @@ def run(argv: argparse.Namespace) -> None:
     ui.print_html('<ansired>Exiting program.</ansired>')
 
 
+def convert(argv: argparse.Namespace) -> None:
+    """Convert chat file to markdown."""
+
+    data = json.loads(Path(argv.chatfile).read_text())
+    for msg in data['messages']:
+        text = msg['text']
+        match msg['role']:
+            case 'user':
+                print(f'{ui.t_prompt}{text}\n')
+            case 'assistant':
+                print(f'{ui.t_response}\n\n{text}\n')
+            case 'system':
+                print(f'{ui.t_system}\n\n{text}')
+
 def save(chat_file: Path, client: client.Client) -> None:
     chat_file.write_text(
         json.dumps({'model': client.model, 'provider': client.provider, 'messages': client.message_history})
     )
-
-
-@DeprecationWarning
-def save_md(chat_file: Path, client: client.Client) -> None:
-    """Save the chat as a markdown file."""
-
-    output = f'# Chat with: {client.model}\n\n'
-
-    # Add user and assistant messages to output.
-    for msg in client.message_history:
-        if msg['role'] == 'user':
-            output += f"{ui.t_prompt}{msg['text']}\n\n"
-        elif msg['role'] == 'assistant':
-            output += f"{ui.t_response}\n\n{msg['text']}\n\n"
-
-    chat_file.write_text(output)

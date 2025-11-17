@@ -34,6 +34,11 @@ def main(args=None) -> None:
 
     subparsers = parser.add_subparsers(help='Sub Commands')
 
+    # Convert command
+    parser_convert = subparsers.add_parser('convert', help='Convert chat file to markdown.')
+    parser_convert.add_argument('chatfile', type=str, help='JSON File with chat.')
+    parser_convert.set_defaults(func=chat.convert)
+
     # Settings command
     parser_settings = subparsers.add_parser('settings', help='Show current settings.')
     parser_settings.add_argument('--location', action='store_true', help='Show location of settings file.')
