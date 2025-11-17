@@ -6,11 +6,13 @@ from charla.client import Client, ModelInfo
 
 
 class OllamaClient(Client):
-    def __init__(self, model: str, system: str = '', **kwargs):
-        super().__init__(model, system, **kwargs)
+    provider: str = 'ollama'
+
+    def __init__(self, model: str, **kwargs):
+        super().__init__(model, **kwargs)
         self.client = ollama.Client()
 
-        if system:
+        if system := kwargs.get('system'):
             self.add_message(role='system', text=system)
 
     def add_context(self, *, role: str, text: str):

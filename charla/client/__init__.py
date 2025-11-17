@@ -9,11 +9,18 @@ class ModelInfo(NamedTuple):
 
 
 class Client(ABC):
-    provider: str
+    provider: str | None = None
 
-    def __init__(self, model: str, system: str = '', **kwargs):
+    def __init_subclass__(cls, **kwargs):
+        """Enforce non-empty provider attribute in subclasses."""
+        super().__init_subclass__(**kwargs)
+        if not getattr(cls, 'provider', None):
+            msg = f'{cls.__name__} must set a non-empty "provider" class attribute'
+            raise TypeError(msg)
+
+    def __init__(self, model: str, **kwargs):
         self.model = model
-        self.system = system
+        self.system = kwargs.get('system')
 
         # For saving chat.
         self.message_history: list[dict] = []

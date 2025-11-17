@@ -10,9 +10,11 @@ from azure.core.exceptions import ClientAuthenticationError, HttpResponseError
 from charla.client import Client
 
 
-class AzureClient(Client):
-    def __init__(self, model: str, system: str = '', **kwargs):
-        super().__init__(model, system, **kwargs)
+class GithubClient(Client):
+    provider: str = 'github'
+
+    def __init__(self, model: str, **kwargs):
+        super().__init__(model, **kwargs)
 
         if not (token := os.getenv('GITHUB_TOKEN')):
             sys.exit('GITHUB_TOKEN environment variable is not set or empty.')
@@ -21,7 +23,7 @@ class AzureClient(Client):
             endpoint='https://models.inference.ai.azure.com', credential=AzureKeyCredential(token), model=model
         )
 
-        if system:
+        if system := kwargs.get('system'):
             self.add_message(role='system', text=system)
 
     def __del__(self):

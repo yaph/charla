@@ -1,7 +1,7 @@
 import pytest
 
 from charla.client import Client
-from charla.client.github import AzureClient
+from charla.client.github import GithubClient
 from charla.client.ollama import OllamaClient
 
 
@@ -18,5 +18,5 @@ def test_client_ollama_init():
 
 
 def test_client_azure():
-    client = AzureClient(model='gpt-4o', message_limit=10)
+    client = GithubClient(model='gpt-4o', provider='github', message_limit=10)
     assert hasattr(client.client, 'close')

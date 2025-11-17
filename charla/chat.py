@@ -121,12 +121,11 @@ def run(argv: argparse.Namespace) -> None:
     if argv.provider == 'ollama':
         from charla.client.ollama import OllamaClient as ApiClient
     elif argv.provider == 'github':
-        from charla.client.github import AzureClient as ApiClient  # type: ignore
+        from charla.client.github import GithubClient as ApiClient  # type: ignore
 
     # Start model API client before chat REPL in case of model errors.
     client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)
     client.set_info()
-    client.provider = argv.provider
 
     # Prompt history used for auto completion.
     history = Path(argv.prompt_history)
@@ -198,6 +197,7 @@ def convert(argv: argparse.Namespace) -> None:
                 print(f'{ui.t_response}\n\n{text}\n')
             case 'system':
                 print(f'{ui.t_system}\n\n{text}')
+
 
 def save(chat_file: Path, client: client.Client) -> None:
     chat_file.write_text(
