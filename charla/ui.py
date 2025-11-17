@@ -26,7 +26,7 @@ def print_html(text: str) -> None:
 
 
 def print_md(text: str) -> None:
-    print_fmt(HTML(markdown(text, extensions=['extra'])))
+    print_html(markdown(text, extensions=['extra']))
 
 
 def print_message(role: str, text: str) -> None:
