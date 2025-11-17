@@ -17,6 +17,6 @@ def test_client_ollama_init():
     assert hasattr(client, 'context')
 
 
-def test_client_azure():
-    client = GithubClient(model='gpt-4o', provider='github', message_limit=10)
+def test_client_github():
+    client = GithubClient(model='gpt-4o', message_limit=10)
     assert hasattr(client.client, 'close')
