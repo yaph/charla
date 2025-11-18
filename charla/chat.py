@@ -168,7 +168,11 @@ def run(argv: argparse.Namespace) -> None:
                     continue
 
             print(f'\n{ui.t_response}\n')
-            ui.print_md(client.generate(user_input))
+            response = client.generate(user_input)
+            try:
+                ui.print_md(response)
+            except AttributeError:
+                print(response)
             print()
             save(chat_file, client)
 
