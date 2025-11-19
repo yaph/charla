@@ -15,6 +15,8 @@ default_settings: dict = {
     'multiline': False,
     'prompt_history': user_cache_dir(appname=NAME) + '/prompt-history.txt',
     'provider': PROVIDER_NAMES[0],
+    'system_prompt': '',
+    'think': None,
 }
 path_settings = user_config_path(NAME).joinpath('settings.json')
 
@@ -35,14 +37,13 @@ def manage(argv: argparse.Namespace) -> None:
     if argv.location:
         print(path_settings)
     else:
-        current_settings = {k: v for k, v in vars(argv).items() if k in default_settings}
+        current_settings = {k: v for k, v in vars(argv).items() if (k in default_settings) and (v not in (None, ''))}
         out = json.dumps(current_settings, indent=4)
+        print(out)
         if argv.save:
             filename = '.charla.json'
             Path(filename).write_text(out)
-            print(f'Saved settings in {filename}.')
-        else:
-            print(out)
+            print(f'\nSaved settings in {filename}.')
 
 
 def mkdir(path: Path, **kwds):

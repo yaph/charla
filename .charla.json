@@ -1,6 +1,9 @@
 {
-    "model": "phi4-mini",
-    "chats_path": "./tests/data/chats/",
-    "prompt_history": "./tests/data/chats/prompt-history.txt",
-    "provider": "ollama"
+    "model": "gpt-4o",
+    "chats_path": "/home/rg/repos/ai/chats/charla",
+    "prompt_history": "/home/rg/repos/ai/chats/charla/prompt-history.txt",
+    "provider": "github",
+    "message_limit": 20,
+    "multiline": false,
+    "system_prompt": "/home/rg/repos/ai/llm-prompts/roles/accurate-concise.md"
 }
