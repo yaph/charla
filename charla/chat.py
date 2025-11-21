@@ -24,7 +24,7 @@ def get_chat_path(argv: argparse.Namespace) -> Path:
 
     chats_path = Path(argv.chats_path)
     config.mkdir(chats_path, exist_ok=True, parents=True)
-    now = datetime.now().isoformat(sep=' ', timespec='seconds')
+    now = datetime.strftime(datetime.now(), '%Y-%m-%d-%H-%M-%S')
     slug = re.sub(r'\W', '-', argv.model)
     return chats_path / f'{now}-{slug}.json'
 
