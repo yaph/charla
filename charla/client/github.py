@@ -5,7 +5,7 @@ from typing import Any
 from azure.ai.inference import ChatCompletionsClient
 from azure.ai.inference.models import AssistantMessage, SystemMessage, UserMessage
 from azure.core.credentials import AzureKeyCredential
-from azure.core.exceptions import ClientAuthenticationError, HttpResponseError
+from azure.core.exceptions import ClientAuthenticationError, HttpResponseError, ServiceRequestError
 
 from charla.client import Client
 
@@ -45,7 +45,7 @@ class GithubClient(Client):
 
         try:
             response = self.client.complete(messages=list(self.context))
-        except (ClientAuthenticationError, HttpResponseError) as err:
+        except (ClientAuthenticationError, HttpResponseError, ServiceRequestError) as err:
             sys.exit(f'Error: {err}')
 
         try:

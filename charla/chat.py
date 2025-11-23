@@ -4,6 +4,7 @@ import re
 import sys
 from datetime import datetime
 from pathlib import Path
+from xml.parsers.expat import ExpatError
 
 import httpx
 from html2text import html2text
@@ -171,7 +172,8 @@ def run(argv: argparse.Namespace) -> None:
             response = client.generate(user_input)
             try:
                 ui.print_md(response)
-            except AttributeError:
+            except (AttributeError, ExpatError):
+                ui.print_html('<ansired>Raw response:</ansired>')
                 print(response)
             print()
             save(chat_file, client)

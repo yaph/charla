@@ -11,6 +11,7 @@ def main(args=None) -> None:
     # Settings priority: cli args > user settings > default settings.
     user_settings = config.settings(config.user_settings())
 
+    # FIXME charla: error: unrecognized arguments: -v
     parent = argparse.ArgumentParser(add_help=False)
     parent.add_argument('--verbose', '-v', action='store_true', help='Verbose program output.')
 
