@@ -1,4 +1,5 @@
 import argparse
+import html
 import json
 import re
 import sys
@@ -125,8 +126,8 @@ def run(argv: argparse.Namespace) -> None:
         from charla.client.github import GithubClient as ApiClient  # type: ignore  # noqa: PLC0415
 
     # Start model API client before chat REPL in case of model errors.
-    client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)
-    client.set_info()
+    api_client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)
+    api_client.set_info()
 
     # Prompt history used for auto completion.
     history = Path(argv.prompt_history)
@@ -139,7 +140,7 @@ def run(argv: argparse.Namespace) -> None:
     if previous_chat:
         for msg in previous_chat['messages']:
             ui.print_message(role=msg['role'], text=msg['text'])
-            client.add_message(role=msg['role'], text=msg['text'])
+            api_client.add_message(role=msg['role'], text=msg['text'])
         print()
     # Print system prompt for new chats if set.
     elif system_prompt:
@@ -169,23 +170,30 @@ def run(argv: argparse.Namespace) -> None:
                     continue
 
             print(f'\n{ui.t_response}\n')
-            response = client.generate(user_input)
+
+            try:
+                response = api_client.generate(user_input)
+            except client.ClientError as err:
+                ui.print_html(f'<ansired>{html.escape(str(err))}</ansired>')
+                print('Please check your connection to the model server and try again.')
+                continue
+
             try:
                 ui.print_md(response)
             except (AttributeError, ExpatError):
                 ui.print_html('<ansired>Raw response:</ansired>')
                 print(response)
             print()
-            save(chat_file, client)
+            save(chat_file, api_client)
 
         # Exit program on CTRL-C and CTRL-D
         except (KeyboardInterrupt, EOFError):
             break
 
     # Save chat if there is at least one response.
-    if any(m['role'] == 'assistant' for m in client.message_history):
+    if any(m['role'] == 'assistant' for m in api_client.message_history):
         print(f'Saving chat in: {chat_file}')
-        save(chat_file, client)
+        save(chat_file, api_client)
 
     ui.print_html('<ansired>Exiting program.</ansired>')
 
@@ -205,7 +213,7 @@ def convert(argv: argparse.Namespace) -> None:
                 print(f'{ui.t_system}\n\n{text}')
 
 
-def save(chat_file: Path, client: client.Client) -> None:
+def save(chat_file: Path, api_client: client.Client) -> None:
     chat_file.write_text(
-        json.dumps({'model': client.model, 'provider': client.provider, 'messages': client.message_history})
+        json.dumps({'model': api_client.model, 'provider': api_client.provider, 'messages': api_client.message_history})
     )

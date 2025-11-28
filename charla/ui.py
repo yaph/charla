@@ -1,4 +1,5 @@
 # UI texts and functions
+import html
 from markdown import markdown
 from prompt_toolkit import HTML
 from prompt_toolkit import print_formatted_text as print_fmt
@@ -26,7 +27,8 @@ def print_html(text: str) -> None:
 
 
 def print_md(text: str) -> None:
-    print_html(markdown(text, extensions=['extra']))
+    # Escape characters like < and > in text to prevent HTML parser errors
+    print_html(markdown(html.escape(text), extensions=['extra']))
 
 
 def print_message(role: str, text: str) -> None:

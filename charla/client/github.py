@@ -12,7 +12,7 @@ from azure.core.exceptions import (
     ServiceResponseError,
 )
 
-from charla.client import Client
+from charla.client import Client, ClientError
 
 
 class GithubClient(Client):
@@ -50,13 +50,15 @@ class GithubClient(Client):
 
         try:
             response = self.client.complete(messages=list(self.context))
-        except (ClientAuthenticationError, HttpResponseError, ServiceRequestError, ServiceResponseError) as err:
+        except ClientAuthenticationError as err:
             sys.exit(f'Error: {err}')
+        except (HttpResponseError, ServiceRequestError, ServiceResponseError) as err:
+            raise ClientError(err)
 
         try:
             text = response['choices'][0].message.content
             self.add_message(role='assistant', text=text)
         except UnicodeDecodeError as err:
-            sys.exit(f'Error: {err}')
+            raise ClientError(err)
 
         return text.strip()

@@ -3,6 +3,12 @@ from collections import deque
 from typing import Any, Literal, NamedTuple
 
 
+class ClientError(Exception):
+    def __init__(self, message):
+        self.message = message
+        super().__init__(message)
+
+
 class ModelInfo(NamedTuple):
     architecture: str
     context_length: int
