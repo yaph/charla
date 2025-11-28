@@ -2,8 +2,7 @@ import sys
 
 import ollama
 
-from charla.client import Client, ModelInfo
-
+from charla.client import Client, ClientError, ModelInfo
 
 class OllamaClient(Client):
     provider: str = 'ollama'
@@ -38,7 +37,7 @@ class OllamaClient(Client):
         try:
             text = response.message.content or ''
         except ollama.ResponseError as err:
-            sys.exit(f'Error: {err}')
+            raise ClientError(err)
 
         self.add_message(role='assistant', text=text)
         return text.strip()
