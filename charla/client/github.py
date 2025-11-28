@@ -56,7 +56,7 @@ class GithubClient(Client):
         try:
             text = response['choices'][0].message.content
             self.add_message(role='assistant', text=text)
-        except UnicodeDecodeError:
-            print('\nError: Received non-text response from the model.\n')
+        except UnicodeDecodeError as err:
+            sys.exit(f'Error: {err}')
 
         return text.strip()
