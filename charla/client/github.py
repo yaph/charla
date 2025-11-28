@@ -53,12 +53,12 @@ class GithubClient(Client):
         except ClientAuthenticationError as err:
             sys.exit(f'Error: {err}')
         except (HttpResponseError, ServiceRequestError, ServiceResponseError) as err:
-            raise ClientError(err)
+            raise ClientError(err) from err
 
         try:
             text = response['choices'][0].message.content
             self.add_message(role='assistant', text=text)
         except UnicodeDecodeError as err:
-            raise ClientError(err)
+            raise ClientError(err) from err
 
         return text.strip()

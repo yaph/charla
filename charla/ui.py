@@ -1,5 +1,6 @@
 # UI texts and functions
 import html
+
 from markdown import markdown
 from prompt_toolkit import HTML
 from prompt_toolkit import print_formatted_text as print_fmt
