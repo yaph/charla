@@ -53,7 +53,7 @@ class GithubClient(Client):
         except ClientAuthenticationError as err:
             sys.exit(f'Error: {err}')
         except (HttpResponseError, ServiceRequestError, ServiceResponseError) as err:
-            raise ClientError(err) from err
+            raise ClientError(err, label='network') from err
 
         try:
             text = response['choices'][0].message.content

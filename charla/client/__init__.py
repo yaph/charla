@@ -4,8 +4,8 @@ from typing import Any, Literal, NamedTuple
 
 
 class ClientError(Exception):
-    def __init__(self, message):
-        self.message = message
+    def __init__(self, message, label: str | None = None):
+        self.label = label
         super().__init__(message)
 
 

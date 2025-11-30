@@ -21,10 +21,10 @@ class OllamaClient(Client):
     def set_info(self):
         """Request model info from API and set model_info property."""
 
-        # Make sure model exists or exit program.
+        # Make sure the model exists and is accessible.
         try:
             info = self.client.show(self.model)
-        except ollama.ResponseError as err:
+        except (ConnectionError, ollama.ResponseError) as err:
             sys.exit(f'Error: {err}')
 
         # Save model context length in meta property, that can be expanded if useful.

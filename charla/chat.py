@@ -110,7 +110,7 @@ def run(argv: argparse.Namespace) -> None:
         argv.model = previous_chat.get('model', argv.model)
         argv.provider = previous_chat.get('provider', argv.provider)
     # Only set system prompt for new chats.
-    elif argv.system_prompt and (p_system := Path(argv.system_prompt)):
+    elif argv.system_prompt and (p_system := Path(argv.system_prompt).expanduser()):
         if not p_system.exists() or not p_system.is_file():
             sys.exit(f'Error: System prompt file does not exist: {p_system}')
         system_prompt = p_system.read_text()
@@ -175,7 +175,8 @@ def run(argv: argparse.Namespace) -> None:
                 response = api_client.generate(user_input)
             except client.ClientError as err:
                 ui.print_html(f'<ansired>{html.escape(str(err))}</ansired>')
-                print('Please check your connection to the model server and try again.')
+                if err.label == 'network':
+                    print('Please check your connection to the model server and try again.')
                 continue
 
             try:
