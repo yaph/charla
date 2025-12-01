@@ -215,6 +215,8 @@ def convert(argv: argparse.Namespace) -> None:
 
 
 def save(chat_file: Path, api_client: client.Client) -> None:
+    """Save chat as JSON file."""
+
     chat_file.write_text(
         json.dumps({'model': api_client.model, 'provider': api_client.provider, 'messages': api_client.message_history})
     )
