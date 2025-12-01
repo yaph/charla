@@ -174,10 +174,13 @@ def run(argv: argparse.Namespace) -> None:
             try:
                 response = api_client.generate(user_input)
             except client.ClientError as err:
-                ui.print_html(f'<ansired>{html.escape(str(err))}</ansired>')
-                if err.label == 'network':
+                ui.print_error(str(err))
+                if err.label == 'service':
                     print('Please check your connection to the model server and try again.')
                 continue
+            except client.TerminateError as err:
+                ui.print_error(str(err))
+                terminate(chat_file, api_client)
 
             try:
                 ui.print_md(response)
@@ -191,12 +194,7 @@ def run(argv: argparse.Namespace) -> None:
         except (KeyboardInterrupt, EOFError):
             break
 
-    # Save chat if there is at least one response.
-    if any(m['role'] == 'assistant' for m in api_client.message_history):
-        print(f'Saving chat in: {chat_file}')
-        save(chat_file, api_client)
-
-    ui.print_html('<ansired>Exiting program.</ansired>')
+    terminate(chat_file, api_client)
 
 
 def convert(argv: argparse.Namespace) -> None:
@@ -220,3 +218,14 @@ def save(chat_file: Path, api_client: client.Client) -> None:
     chat_file.write_text(
         json.dumps({'model': api_client.model, 'provider': api_client.provider, 'messages': api_client.message_history})
     )
+
+
+def terminate(chat_file: Path, api_client: client.Client) -> None:
+    """Save chat if there is at least one response and exit program."""
+
+    if any(m['role'] == 'assistant' for m in api_client.message_history):
+        print(f'Saving chat in: {chat_file}')
+        save(chat_file, api_client)
+
+    ui.print_html('<ansigreen>Exiting program.</ansigreen>')
+    sys.exit()

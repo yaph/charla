@@ -12,7 +12,7 @@ from azure.core.exceptions import (
     ServiceResponseError,
 )
 
-from charla.client import Client, ClientError
+from charla.client import Client, ClientError, TerminateError
 
 
 class GithubClient(Client):
@@ -50,10 +50,10 @@ class GithubClient(Client):
 
         try:
             response = self.client.complete(messages=list(self.context))
-        except ClientAuthenticationError as err:
-            sys.exit(f'Error: {err}')
-        except (HttpResponseError, ServiceRequestError, ServiceResponseError) as err:
-            raise ClientError(err, label='network') from err
+        except (ClientAuthenticationError, HttpResponseError) as err:
+            raise TerminateError(err) from err
+        except (ServiceRequestError, ServiceResponseError) as err:
+            raise ClientError(err, label='service') from err
 
         try:
             text = response['choices'][0].message.content

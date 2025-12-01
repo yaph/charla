@@ -9,6 +9,10 @@ class ClientError(Exception):
         super().__init__(message)
 
 
+class TerminateError(Exception):
+    pass
+
+
 class ModelInfo(NamedTuple):
     architecture: str
     context_length: int

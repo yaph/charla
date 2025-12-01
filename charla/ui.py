@@ -23,13 +23,16 @@ Press → to complete an auto suggested prompt.
 '''
 
 
+def print_error(text: str) -> None:
+    print_html(f'<ansired>{html.escape(str(text))}</ansired>')
+
+
 def print_html(text: str) -> None:
     print_fmt(HTML(text))
 
 
 def print_md(text: str) -> None:
-    # Escape characters like < and > in text to prevent HTML parser errors
-    print_html(markdown(html.escape(text), extensions=['extra']))
+    print_html(markdown(text, extensions=['extra']))
 
 
 def print_message(role: str, text: str) -> None:
