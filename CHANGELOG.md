@@ -6,6 +6,27 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [3.0.0](https://github.com/yaph/charla/releases/tag/3.0.0) - 2025-12-01
+
+<small>[Compare with 2.3.0](https://github.com/yaph/charla/compare/2.3.0...3.0.0)</small>
+
+### Added
+
+- Add explicit exception chaining with 'raise ... from err' ([ebaa1c1](https://github.com/yaph/charla/commit/ebaa1c14a0c77c3df75949d46929b409c33994cd) by Ramiro Gómez).
+- Add default settings for system_prompt and think. ([c0cd1b8](https://github.com/yaph/charla/commit/c0cd1b8eb6bbaf34a973f3a132c133b808a54cae) by Ramiro Gómez).
+- Add convert command to convert chat files from JSON to Markdown. ([51787e0](https://github.com/yaph/charla/commit/51787e08b72193b52470849f35f482956431c7db) by Ramiro Gómez).
+- Add example command. ([6c6ba96](https://github.com/yaph/charla/commit/6c6ba968215cfe109aa1cea866b0e67f822f5de4) by Ramiro Gómez).
+- Add and edit features listed in README. Move ollama examples to ollama.md. Make sure model and provider are set. ([949e3b1](https://github.com/yaph/charla/commit/949e3b19da563e1c3d273bac0f8525ee9311296a) by Ramiro Gómez).
+- Add and use ui.print_message function. ([de95eda](https://github.com/yaph/charla/commit/de95eda48d6d1e1822cdfc23ccf77e60d1328e2b) by Ramiro Gómez).
+- Add and use ui.highlight function. Fix typing issues and code formatting. ([0b47514](https://github.com/yaph/charla/commit/0b475149d4dc5ad2db5a961cc5ff5424e57bc260) by Ramiro Gómez).
+- Add abstract add_context method and make add_message not abstract. ([17cdd18](https://github.com/yaph/charla/commit/17cdd18a30e175963c8d5b5c8fbf5416cabda15e) by Ramiro Gómez).
+- Add --continue-chat option to continue a previous chat. ([4ed9bc6](https://github.com/yaph/charla/commit/4ed9bc6a724e4f76b57ba8152036f554b30afef5) by Ramiro Gómez).
+
+### Changed
+
+- Change paths ([bb46199](https://github.com/yaph/charla/commit/bb46199d70627fe01e28c42db5eb2dcd88a9bbdb) by Ramiro Gómez).
+- Change default chat file format to JSON. Change API chat requests to not stream and render Markdown in responses. Return response text in generate method. ([baeff0e](https://github.com/yaph/charla/commit/baeff0ec0c8175368bc443d642408eaca54eeef9) by Ramiro Gómez).
+
 ## [2.3.0](https://github.com/yaph/charla/releases/tag/2.3.0) - 2025-10-24
 
 <small>[Compare with 2.2.1](https://github.com/yaph/charla/compare/2.2.1...2.3.0)</small>
