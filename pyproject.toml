@@ -54,6 +54,7 @@ Source = "https://github.com/yaph/charla"
 path = "charla/__about__.py"
 
 [tool.hatch.envs.charla-dev]
+builder = true
 extra-dependencies = ["flake8", "ipdb", "mypy>=1.0.0", "pytest"]
 
 [tool.hatch.envs.charla-dev.env-vars]
@@ -67,6 +68,8 @@ qa = [
   "hatch fmt"
 ]
 release = [
+  "bin/add_help_to_readme.py",
+  "git diff",
   "hatch run qa",
   "hatch build --clean",
   "hatch publish",

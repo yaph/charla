@@ -96,15 +96,16 @@ Output of `charla -h` with information on all available command line options.
 
 <!-- START: DO NOT EDIT -->
 ```text
-usage: charla [-h] [--model MODEL] [--chats-path CHATS_PATH] [--prompt-history PROMPT_HISTORY]
-                             [--provider PROVIDER] [--message-limit MESSAGE_LIMIT] [--multiline] [--system-prompt SYSTEM_PROMPT]
-                             [--think {true,false,low,medium,high}] [--version]
-                             {settings} ...
+usage: charla [-h] [--model MODEL] [--chats-path CHATS_PATH] [--continue-chat CONTINUE_CHAT]
+                             [--prompt-history PROMPT_HISTORY] [--provider PROVIDER] [--message-limit MESSAGE_LIMIT]
+                             [--multiline] [--system-prompt SYSTEM_PROMPT] [--think {true,false,low,medium,high}] [--version]
+                             {convert,settings} ...
 
 Chat with language models.
 
 positional arguments:
-  {settings}            Sub Commands
+  {convert,settings}    Sub Commands
+    convert             Convert chat file to markdown.
     settings            Show current settings.
 
 options:
@@ -113,6 +114,8 @@ options:
                         Name of language model to chat with.
   --chats-path CHATS_PATH
                         Directory to store chats.
+  --continue-chat CONTINUE_CHAT, -c CONTINUE_CHAT
+                        File that contains chat to continue.
   --prompt-history PROMPT_HISTORY
                         File to store prompt history.
   --provider PROVIDER   Name of the provider to use.
