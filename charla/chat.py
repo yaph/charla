@@ -121,8 +121,6 @@ def run(argv: argparse.Namespace) -> None:
     # Determine which Client class to import.
     if argv.provider == 'ollama':
         from charla.client.ollama import OllamaClient as ApiClient  # noqa: PLC0415
-    elif argv.provider == 'github':
-        from charla.client.github import GithubClient as ApiClient  # type: ignore  # noqa: PLC0415
 
     # Start model API client before chat REPL in case of model errors.
     api_client = ApiClient(argv.model, system=system_prompt, message_limit=argv.message_limit, think=argv.think)

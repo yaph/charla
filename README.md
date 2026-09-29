@@ -3,14 +3,14 @@
 [![PyPI - Version](https://img.shields.io/pypi/v/charla.svg)](https://pypi.org/project/charla)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/charla.svg)](https://pypi.org/project/charla)
 
-**Charla** is a terminal based application for chatting with language models. Charla integrates with Ollama and GitHub Models for exchanging messages with model services.
+**Charla** is a terminal based application for chatting with language models. Charla integrates with Ollama for exchanging messages with model services.
 
 ![preview](https://geeksta.net/img/tools/charla-chat-demo.gif)
 
 ## Features
 
 * Terminal-based chat system that supports context aware conversations with language models.
-* Support for local and cloud models via Ollama and GitHub Models.
+* Support for local and cloud models via Ollama.
 * Chat messages are automatically saved during and at the end of chat sessions.
 * Saved chat sessions can be continued.
 * Prompt history is saved and previously entered prompts are auto-suggested.
@@ -22,20 +22,13 @@
 
 ## Installation
 
-To use Charla with models on your computer, you need a running installation of the [Ollama server](https://ollama.com/download) and at least one supported language model must be installed. For [GitHub Models](https://github.com/marketplace/models) you need access to the service and a GitHub token. Please refer to the documentation of the service provider you want to use for installation and setup instructions.
+To use Charla with models on your computer, you need a running installation of the [Ollama server](https://ollama.com/download) and at least one supported language model must be installed.
 
 Install Charla using `pipx`:
 
 ```console
 pipx install charla
 ```
-
-For GitHub models, set the environment variable GITHUB_TOKEN to your token. In Bash enter:
-
-```console
-export GITHUB_TOKEN=YOUR_GITHUB_TOKEN
-```
-
 ## Usage
 
 After successful installation and setup you can launch the chat console with the `charla` command in your terminal.
@@ -53,13 +46,7 @@ ollama run gpt-oss:cloud
 charla -m gpt-oss:cloud
 ```
 
-If you want to use GitHub Models, you have to set the provider:
-
-```console
-charla -m gpt-4o --provider github
-```
-
-You can set a default model and change the default provider in your user settings file.
+You can set a default model in your user settings file.
 
 ## Settings
 
@@ -77,14 +64,14 @@ To save the current settings to a `.charla.json` file in the current directory, 
 charla settings --save
 ```
 
-Example settings for using OpenAI's GPT-4o model and the GitHub Models service by default.
+Example settings for using OpenAI's GPT OSS model by default.
 
 ```json
 {
-    "model": "gpt-4o",
+    "model": "gpt-oss:20b-cloud",
     "chats_path": "./chats",
     "prompt_history": "./prompt-history.txt",
-    "provider": "github",
+    "provider": "ollama",
     "message_limit": 20,
     "multiline": false
 }

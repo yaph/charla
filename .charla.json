@@ -1,8 +1,8 @@
 {
-    "model": "gpt-4o",
+    "model": "gpt-oss:20b-cloud",
     "chats_path": "./tests/data/chats",
     "prompt_history": "./tests/data/chats/prompt-history.txt",
-    "provider": "github",
+    "provider": "ollama",
     "message_limit": 20,
     "multiline": false,
     "system_prompt": "~/repos/ai/llm-prompts/roles/accurate-concise.md"

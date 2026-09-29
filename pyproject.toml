@@ -14,7 +14,6 @@ keywords = [
   'chatbot',
   'chatgpt',
   'cli',
-  'github models',
   'llama',
   'llm',
   'ollama',
@@ -33,7 +32,6 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: PyPy",
 ]
 dependencies = [
-  "azure-ai-inference",
   "ollama>=0.6",
   "html2text",
   "httpx",

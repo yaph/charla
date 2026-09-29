@@ -6,7 +6,7 @@ from pathlib import Path
 from platformdirs import user_cache_dir, user_config_path, user_documents_dir
 
 NAME = 'charla'
-PROVIDER_NAMES = ['ollama', 'github']
+PROVIDER_NAMES = ['ollama']
 
 default_settings: dict = {
     'chats_path': user_documents_dir() + f'/{NAME}/chats',
