@@ -6,6 +6,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 <!-- insertion marker -->
+## [3.1.0](https://github.com/yaph/charla/releases/tag/3.1.0) - 2026-10-01
+
+<small>[Compare with 3.0.0](https://github.com/yaph/charla/compare/3.0.0...3.1.0)</small>
+
+### Removed
+
+- Remove github models support ([a6b5787](https://github.com/yaph/charla/commit/a6b578715447120d954449698d8291cd85fa4826) by Ramiro Gómez).
+
 ## [3.0.0](https://github.com/yaph/charla/releases/tag/3.0.0) - 2025-12-01
 
 <small>[Compare with 2.3.0](https://github.com/yaph/charla/compare/2.3.0...3.0.0)</small>
@@ -27,7 +35,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Change paths ([bb46199](https://github.com/yaph/charla/commit/bb46199d70627fe01e28c42db5eb2dcd88a9bbdb) by Ramiro Gómez).
 - Change default chat file format to JSON. Change API chat requests to not stream and render Markdown in responses. Return response text in generate method. ([baeff0e](https://github.com/yaph/charla/commit/baeff0ec0c8175368bc443d642408eaca54eeef9) by Ramiro Gómez).
 
-## [2.3.0](https://github.com/yaph/charla/releases/tag/2.3.0) - 2025-10-24
+## [2.3.0](https://github.com/yaph/charla/releases/tag/2.3.0) - 2025-10-25
 
 <small>[Compare with 2.2.1](https://github.com/yaph/charla/compare/2.2.1...2.3.0)</small>
 
@@ -118,7 +126,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Fix linting issues. Add tests. ([485cf49](https://github.com/yaph/charla/commit/485cf497d0451520cf16b2799d8225637d94a24a) by Ramiro Gómez).
 - Fix import and formatting. ([e722f26](https://github.com/yaph/charla/commit/e722f2694864ebab31984dc8868504ee8d5c4e60) by Ramiro Gómez).
 
-## [1.1.0](https://github.com/yaph/charla/releases/tag/1.1.0) - 2024-07-11
+## [1.1.0](https://github.com/yaph/charla/releases/tag/1.1.0) - 2024-07-12
 
 <small>[Compare with 1.0.0](https://github.com/yaph/charla/compare/1.0.0...1.1.0)</small>
 
@@ -141,7 +149,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Remove todo and add more info ([9aec9ff](https://github.com/yaph/charla/commit/9aec9fff0595af7e84afa41304b689caf19fbae3) by Ramiro Gómez).
 - Remove __name__ attribute Improve code ([4c78ae9](https://github.com/yaph/charla/commit/4c78ae93e11b7c715acc649b7a31c064e5fc0295) by Ramiro Gómez).
 
-## [1.0.0](https://github.com/yaph/charla/releases/tag/1.0.0) - 2024-06-27
+## [1.0.0](https://github.com/yaph/charla/releases/tag/1.0.0) - 2024-06-28
 
 <small>[Compare with first commit](https://github.com/yaph/charla/compare/b7f1493840aab4b017d49cb55749fe4b50156275...1.0.0)</small>
 
